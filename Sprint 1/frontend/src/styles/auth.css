@@ -1,0 +1,254 @@
+/* ============================================================
+   Shared styling for the Login and Register pages.
+   Both components import this same file so the "look" (colors,
+   spacing, card shape) stays identical between the two screens —
+   only the form fields inside differ.
+   ============================================================ */
+
+/* CSS custom properties (variables) — change these to re-theme
+   the entire auth UI from one place instead of hunting through
+   every rule below. */
+:root {
+  --auth-primary: #2563eb;        /* main blue — buttons, active tab, links */
+  --auth-primary-hover: #1d4ed8;  /* darker blue for hover states */
+  --auth-primary-light: #eff6ff;  /* very light blue — page background */
+  --auth-border: #e2e8f0;         /* neutral border color for inputs/cards */
+  --auth-text: #0f172a;           /* near-black for headings */
+  --auth-text-muted: #64748b;     /* gray for subtitles/help text */
+  --auth-radius: 10px;            /* corner rounding used everywhere */
+}
+
+/* Full-page container: centers the card both horizontally and
+   vertically, and gives the page its pale blue background
+   (matches the light, airy feel of the screenshot). */
+.auth-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--auth-primary-light);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  padding: 24px; /* keeps the card off the screen edges on mobile */
+}
+
+/* The white card itself. */
+.auth-card {
+  width: 100%;
+  max-width: 360px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08); /* soft drop shadow */
+  padding: 32px;
+}
+
+/* The little rounded icon square at the top of the card. */
+.auth-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 20px auto; /* centers it, adds space below */
+  border-radius: 12px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe); /* light blue gradient */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* The dot inside the icon square (stand-in for a logo/avatar). */
+.auth-icon-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--auth-primary);
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--auth-text);
+  margin: 0 0 6px 0;
+}
+
+.auth-subtitle {
+  text-align: center;
+  font-size: 14px;
+  color: var(--auth-text-muted);
+  margin: 0 0 24px 0;
+}
+
+/* The "Sign up / Log in" pill-shaped tab switcher. */
+.auth-tabs {
+  display: flex;
+  background: #f1f5f9;       /* light gray track behind the pills */
+  border-radius: var(--auth-radius);
+  padding: 4px;
+  margin-bottom: 24px;
+}
+
+/* Each tab is a <Link>, styled to look like a button, not a hyperlink. */
+.auth-tab {
+  flex: 1;
+  text-align: center;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--auth-text-muted);
+  text-decoration: none; /* removes the default underline from <Link> */
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+/* The currently active tab (the page you're actually on) gets a
+   white background so it "pops" out of the gray track — this class
+   is applied conditionally in the JSX based on which page we're on. */
+.auth-tab.active {
+  background: #ffffff;
+  color: var(--auth-text);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
+}
+
+.auth-field {
+  margin-bottom: 16px;
+}
+
+.auth-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--auth-text);
+  margin-bottom: 6px;
+}
+
+.auth-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-size: 14px;
+  border: 1px solid var(--auth-border);
+  border-radius: 8px;
+  outline: none;
+  box-sizing: border-box; /* so padding doesn't push the input wider than its container */
+  transition: border-color 0.15s ease;
+}
+
+.auth-input:focus {
+  border-color: var(--auth-primary); /* blue outline on focus instead of the default browser glow */
+}
+
+/* Wraps the password input + the show/hide eye button so the
+   button can be positioned inside the input's right edge. */
+.auth-password-wrapper {
+  position: relative;
+}
+
+.auth-password-wrapper .auth-input {
+  padding-right: 40px; /* leaves room so typed text doesn't run under the eye icon */
+}
+
+.auth-eye-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--auth-text-muted);
+  font-size: 16px;
+  padding: 0;
+  line-height: 1;
+}
+
+/* Row holding "Remember me" checkbox + "Forgot password" link
+   (only shown on the Login page, not Register). */
+.auth-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+.auth-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--auth-text);
+}
+
+.auth-forgot-link {
+  color: var(--auth-primary);
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 13px;
+}
+
+/* The main colored submit button (Sign in / Sign up). */
+.auth-submit-btn {
+  width: 100%;
+  padding: 11px 0;
+  background: var(--auth-primary);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.auth-submit-btn:hover:not(:disabled) {
+  background: var(--auth-primary-hover);
+}
+
+.auth-submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* The secondary "Sign in with Google" outline button. */
+.auth-google-btn {
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 10px;
+  background: #ffffff;
+  color: var(--auth-text);
+  border: 1px solid var(--auth-border);
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.auth-google-btn:hover {
+  background: #f8fafc;
+}
+
+.auth-bottom-text {
+  text-align: center;
+  font-size: 13px;
+  color: var(--auth-text-muted);
+  margin-top: 20px;
+}
+
+.auth-bottom-text a {
+  color: var(--auth-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-error {
+  background: #fef2f2;
+  color: #dc2626;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 13px;
+  margin-bottom: 16px;
+}
