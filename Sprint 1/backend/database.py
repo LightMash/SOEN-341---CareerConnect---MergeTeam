@@ -17,10 +17,10 @@ if not SQLALCHEMY_DATABASE_URL:
     )
 
 #Error handler (Bad PostgreSQL connection)
-if not SQLALCHEMY_DATABASE_URL.startswith(("postgresql://", "postgresql+psycopg2://")):
+if not SQLALCHEMY_DATABASE_URL.startswith("postgresql+pg8000://"):
     raise RuntimeError(
         "DATABASE_URL must be a PostgreSQL connection string "
-        "(postgresql://user:password@host:port/dbname). "
+        "(postgresql+pg8000://user:password@host:port/dbname). "
         f"Got: {SQLALCHEMY_DATABASE_URL!r}"
     )
 #Builds connection manager to Supabase

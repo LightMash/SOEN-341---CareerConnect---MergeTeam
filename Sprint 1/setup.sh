@@ -19,21 +19,21 @@ cd "$BACKEND_DIR"
 
 if [ ! -d "venv" ]; then
   echo "Creating virtual environment..."
-  python3 -m venv venv
+  if command -v python >/dev/null 2>&1; then
+       python -m venv venv
+     else
+       python3 -m venv venv
+     fi
+   fi
+
+if [ -f "venv/bin/activate" ]; then
+  source venv/bin/activate
+else
+  source venv/Scripts/activate
 fi
 
-source venv/bin/activate
 pip install --upgrade pip > /dev/null
 pip install -r requirements.txt
-
-if [ ! -f ".env" ]; then
-  echo ""
-  echo "No .env file found — copying .env.example to .env"
-  cp .env.example .env
-  echo "IMPORTANT: open backend/.env and fill in the real DATABASE_URL"
-  echo "(ask a teammate for the shared Supabase connection string)."
-  echo ""
-fi
 
 deactivate
 

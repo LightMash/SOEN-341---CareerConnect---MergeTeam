@@ -26,7 +26,11 @@ trap cleanup INT TERM
 
 echo "=== Starting backend (http://localhost:5000) ==="
 cd "$BACKEND_DIR"
-source venv/bin/activate
+if [ -f "venv/bin/activate" ]; then
+  source venv/bin/activate
+else
+  source venv/Scripts/activate
+fi
 uvicorn app:app --reload --port 5000 &
 BACKEND_PID=$!
 deactivate
