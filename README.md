@@ -73,8 +73,8 @@ This is an active work-in-progress software engineering class project. The five 
 
 ## Team
 
-Essam Amiri
-Mamadou Camara
-Ismail Cherfaoui
-Diego Chidiac
+Essam Amiri,
+Mamadou Camara,
+Ismail Cherfaoui,
+Diego Chidiac,
 Ethan Fadlon
