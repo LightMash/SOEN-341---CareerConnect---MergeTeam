@@ -1,4 +1,5 @@
 import type { User } from "../api";
+import ResumeSection from "./ResumeSection";
 
 interface DashboardProps {
   user: User;
@@ -27,6 +28,7 @@ export default function Dashboard({ user, onLogout }: DashboardProps) {
       >
         Log out
       </button>
+      <ResumeSection />
     </div>
   );
 }
