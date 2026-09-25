@@ -76,3 +76,86 @@ export function getProfile(token: string): Promise<User> {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+// --- Resume upload feature -------------------------------------------
+
+// Matches schemas/resume.py's ResumeOut
+export interface Resume {
+  id: number;
+  user_id: number;
+  filename: string;
+  uploaded_at: string; // ISO date string over JSON — not a real Date object
+}
+
+// Matches schemas/resume.py's ResumeUploadResponse
+export interface ResumeUploadResponse {
+  message: string;
+  resume: Resume;
+}
+
+// A second request helper, specifically for file uploads. We deliberately
+// do NOT set "Content-Type" here — the browser sets it automatically
+// (including the multipart boundary) when the body is a FormData object,
+// and setting it manually ourselves would actually break the upload.
+async function requestForm<T>(path: string, formData: FormData, token: string): Promise<T> {
+  const res = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: { Authorization: `Bearer ${token}` },
+    body: formData,
+  });
+
+  const data = await res.json();
+
+  if (!res.ok) {
+    throw new Error(data.error || data.detail || "Something went wrong");
+  }
+
+  return data as T;
+}
+
+export function uploadResume(file: File, token: string): Promise<ResumeUploadResponse> {
+  // FormData is the browser's built-in way to build a multipart request —
+  // this is what actually carries the real file bytes to the server.
+  const formData = new FormData();
+  formData.append("file", file); // "file" must match the backend's UploadFile param name
+
+  return requestForm<ResumeUploadResponse>("/resume/upload", formData, token);
+}
+
+export function listMyResumes(token: string): Promise<Resume[]> {
+  return request<Resume[]>("/resume/mine", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export function deleteResume(id: number, token: string): Promise<{ message: string }> {
+  return request<{ message: string }>(`/resume/${id}`, {
+    method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// Downloads aren't JSON, so this bypasses request<T>() entirely. It fetches
+// the raw file bytes as a Blob, then uses a throwaway <a> tag to trigger the
+// browser's normal "Save As" behavior — done manually (instead of just
+// linking to the URL) because this request needs an Authorization header.
+export async function downloadResume(id: number, filename: string, token: string): Promise<void> {
+  const res = await fetch(`${API_BASE}/resume/${id}/download`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    throw new Error(data.detail || "Download failed");
+  }
+
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename; // suggests the original filename in the save dialog
+  link.click();
+
+  URL.revokeObjectURL(url); // release the memory now that the download's kicked off
+}

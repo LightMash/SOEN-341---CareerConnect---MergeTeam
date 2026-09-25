@@ -12,9 +12,10 @@ class ResumeOut(BaseModel):
     user_id: int
     filename: str
     uploaded_at: datetime.datetime
+    # filepath left out on purpose — frontend doesn't need our server path.
 
     class Config:
-        from_attributes = True
+        from_attributes = True # lets this build from SQLAlchemy object
 
 
 class ResumeUploadResponse(BaseModel):
