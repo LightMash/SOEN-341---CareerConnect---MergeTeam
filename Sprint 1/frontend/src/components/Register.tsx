@@ -164,7 +164,7 @@ export default function Register({ onSuccess }: RegisterProps) {
         </form>
 
         <button type="button" className="auth-google-btn">
-          Sign up with Google
+          Sign in with Google (To be implemented)
         </button>
 
         <p className="auth-bottom-text">
