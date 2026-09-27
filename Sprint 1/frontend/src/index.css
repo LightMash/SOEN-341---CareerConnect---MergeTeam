@@ -362,6 +362,14 @@ code {
   color: var(--cc-ink);
 }
 
+/* Shown while addFile() is awaiting the backend's response to an upload —
+   mirrors .cc-upload-btn:disabled's dimmed look so both "busy" states read
+   the same way to the user. */
+.cc-drop.is-uploading {
+  opacity: 0.6;
+  cursor: progress;
+}
+
 .cc-link {
   padding: 0;
   background: none;
@@ -484,6 +492,20 @@ code {
   margin: 2px 0 0;
   color: var(--cc-muted);
   font-size: 13px;
+}
+
+/* Download/Delete links shown under each resume card. */
+.cc-card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* Same base look as .cc-link, but in the "danger" color so Delete visually
+   stands out from Download before the user clicks it. */
+.cc-link-danger {
+  color: var(--cc-danger);
 }
 
 .cc-add {

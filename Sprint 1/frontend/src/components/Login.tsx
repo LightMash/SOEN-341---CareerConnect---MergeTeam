@@ -158,7 +158,7 @@ export default function Login({ onSuccess }: LoginProps) {
         </form>
 
         <button type="button" className="auth-google-btn">
-          Sign in with Google
+          Sign in with Google (To be implemented)
         </button>
 
         <p className="auth-bottom-text">
