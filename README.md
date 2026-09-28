@@ -79,3 +79,7 @@ Rupert automatically writes a tailored cover letter for each job application, us
 
 ## GitHub repository
 https://github.com/LightMash/SOEN-341---CareerConnect---MergeTeam
+
+## Work plan
+https://docs.google.com/spreadsheets/d/1NvdVNPcXiwHXQwLHTXiUjov4u6uQEXXQDxeHuQ1j4xc/edit?usp=sharing
+
