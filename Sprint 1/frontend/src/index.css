@@ -109,3 +109,501 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+
+
+/* CareerConnect dashboard */
+
+.cc-dashboard {
+  /* light mode */
+  --cc-side: #2742d6;
+  --cc-side-2: #3a55e6;
+  --cc-side-ink: #ffffff;
+  --cc-side-soft: rgba(255, 255, 255, 0.8);
+  --cc-side-faint: rgba(255, 255, 255, 0.68);
+  --cc-side-line: rgba(255, 255, 255, 0.25);
+  --cc-side-dash: rgba(255, 255, 255, 0.45);
+  --cc-side-focus: #ffffff;
+  --cc-brand-first: #ffffff;
+  --cc-brand-second: #ffd166;
+  --cc-bg: #ffffff;
+  --cc-ink: #141a2e;
+  --cc-muted: #6b7289;
+  --cc-line: #e3e6ee;
+  --cc-accent: #2742d6;
+  --cc-accent-ink: #ffffff;
+  --cc-soft: #f6f8ff;
+  --cc-dash: #c9d0f5;
+  --cc-paper: #ffffff;
+  --cc-sketch: #e6e9f2;
+  --cc-sketch-ink: #141a2e;
+  --cc-danger: #c62828;
+  --cc-font: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
+
+  flex: 1;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  min-height: 100svh;
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+  font: 15px/1.5 var(--cc-font);
+  letter-spacing: 0;
+  text-align: left;
+}
+
+/* dark mode */
+@media (prefers-color-scheme: dark) {
+  .cc-dashboard {
+    --cc-side: #0a1416;
+    --cc-side-2: #10201f;
+    --cc-side-ink: #e6eeee;
+    --cc-side-soft: #c9c1ff;
+    --cc-side-faint: #7d9395;
+    --cc-side-line: #1f3033;
+    --cc-side-dash: #2f4649;
+    --cc-side-focus: #9b8cff;
+    --cc-brand-first: #e6eeee;
+    --cc-brand-second: #9b8cff;
+    --cc-bg: #0d1a1c;
+    --cc-ink: #e6eeee;
+    --cc-muted: #7d9395;
+    --cc-line: #1f3033;
+    --cc-accent: #9b8cff;
+    --cc-accent-ink: #15112e;
+    --cc-soft: #10201f;
+    --cc-dash: #2f4649;
+    --cc-paper: #10201f;
+    --cc-sketch: #1f3033;
+    --cc-sketch-ink: #c9c1ff;
+    --cc-danger: #ff8a80;
+  }
+
+  .cc-sidebar {
+    border-right: 1px solid var(--cc-line);
+  }
+}
+
+.cc-dashboard *,
+.cc-dashboard *::before,
+.cc-dashboard *::after {
+  box-sizing: border-box;
+}
+
+.cc-dashboard button:focus-visible {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-sidebar button:focus-visible {
+  outline-color: var(--cc-side-focus);
+}
+
+/* ---------- Sidebar ---------- */
+
+.cc-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 22px;
+  background: var(--cc-side);
+  color: var(--cc-side-ink);
+}
+
+.cc-brand {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+.cc-brand-first {
+  color: var(--cc-brand-first);
+}
+
+.cc-brand-second {
+  color: var(--cc-brand-second);
+}
+
+.cc-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 28px 0 18px;
+  display: grid;
+  place-items: center;
+  background: var(--cc-side-2);
+  color: var(--cc-side-soft);
+  border: 1.5px dashed var(--cc-side-dash);
+  border-radius: 20px;
+  font-size: 64px;
+  font-weight: 600;
+}
+
+.cc-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.cc-role {
+  margin: 4px 0 0;
+  color: var(--cc-side-soft);
+  font-size: 14px;
+}
+
+.cc-email {
+  margin: 12px 0 0;
+  color: var(--cc-side-faint);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.cc-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.cc-nav-item {
+  width: 100%;
+  padding: 11px 0;
+  background: none;
+  color: var(--cc-side-faint);
+  border: 0;
+  border-top: 1px solid var(--cc-side-line);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cc-nav-item:hover,
+.cc-nav-item.is-active {
+  color: var(--cc-side-ink);
+}
+
+.cc-nav-item.is-active {
+  font-weight: 600;
+}
+
+/* ---------- Main area ---------- */
+
+.cc-main {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+  padding: 44px 44px 56px;
+}
+
+.cc-main-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cc-title {
+  margin: 0;
+  color: var(--cc-ink);
+  font-family: var(--cc-font);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.8px;
+}
+
+.cc-subtitle {
+  margin: 8px 0 0;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-upload-btn {
+  padding: 12px 20px;
+  background: var(--cc-accent);
+  color: var(--cc-accent-ink);
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.cc-upload-btn:hover {
+  transform: translateY(-1px);
+}
+
+.cc-upload-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+  transform: none;
+}
+
+/* ---------- Drop zone ---------- */
+
+.cc-drop {
+  padding: 20px;
+  background: var(--cc-soft);
+  color: var(--cc-muted);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 16px;
+  text-align: center;
+  font-size: 14px;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cc-drop.is-dragging {
+  border-color: var(--cc-accent);
+  background: color-mix(in srgb, var(--cc-accent) 10%, var(--cc-bg));
+  color: var(--cc-ink);
+}
+
+/* Shown while addFile() is awaiting the backend's response to an upload —
+   mirrors .cc-upload-btn:disabled's dimmed look so both "busy" states read
+   the same way to the user. */
+.cc-drop.is-uploading {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cc-link {
+  padding: 0;
+  background: none;
+  color: var(--cc-accent);
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cc-error {
+  margin: -8px 0 0;
+  color: var(--cc-danger);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cc-muted {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Resume cards ---------- */
+
+.cc-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 22px;
+}
+
+.cc-card {
+  min-width: 0;
+}
+
+.cc-thumb {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.cc-card:hover .cc-thumb {
+  transform: translateY(-3px);
+  border-color: var(--cc-dash);
+}
+
+.cc-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.cc-sketch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+}
+
+.cc-sketch span {
+  display: block;
+  height: 5px;
+  background: var(--cc-sketch);
+  border-radius: 3px;
+}
+
+.cc-sketch .cc-sketch-name {
+  width: 55%;
+  height: 10px;
+  background: var(--cc-sketch-ink);
+}
+
+.cc-sketch .cc-sketch-role {
+  width: 35%;
+  margin-bottom: 10px;
+  background: var(--cc-accent);
+}
+
+.cc-sketch .is-short {
+  width: 80%;
+}
+
+.cc-sketch .is-gap {
+  margin-top: 8px;
+}
+
+.cc-sketch .is-shorter {
+  width: 60%;
+}
+
+.cc-card-name {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cc-card-meta {
+  margin: 2px 0 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* Download/Delete links shown under each resume card. */
+.cc-card-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* Same base look as .cc-link, but in the "danger" color so Delete visually
+   stands out from Download before the user clicks it. */
+.cc-link-danger {
+  color: var(--cc-danger);
+}
+
+.cc-add {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 12px;
+  font: inherit;
+  font-size: 36px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cc-add:hover {
+  border-color: var(--cc-accent);
+  background: var(--cc-soft);
+}
+
+.cc-add:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* ---------- Recruiter placeholder ---------- */
+
+.cc-soon {
+  padding: 32px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-section-title {
+  margin: 0 0 6px;
+  color: var(--cc-ink);
+  font-family: var(--cc-font);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.cc-soon p {
+  margin: 0;
+  color: var(--cc-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-dashboard * {
+    transition: none !important;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 760px) {
+  .cc-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-sidebar {
+    padding: 20px 18px;
+  }
+
+  .cc-brand {
+    font-size: 22px;
+  }
+
+  .cc-photo {
+    width: 96px;
+    margin: 18px 0 12px;
+    border-radius: 16px;
+    font-size: 36px;
+  }
+
+  .cc-nav {
+    margin-top: 18px;
+  }
+
+  .cc-main {
+    padding: 28px 18px 40px;
+  }
+
+  .cc-main-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cc-title {
+    font-size: 32px;
+  }
+
+  .cc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}

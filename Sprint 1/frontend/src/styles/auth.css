@@ -3,39 +3,76 @@
    Both components import this same file so the "look" (colors,
    spacing, card shape) stays identical between the two screens —
    only the form fields inside differ.
+
+   Palette below is intentionally matched to the dashboard's own
+   theme (Dashboard.tsx / index.css's .cc-dashboard variables) —
+   same blue accent, same ink/muted/border/danger colors, same
+   font stack, and the same light/dark switch — so a user doesn't
+   see one color scheme on the login page and a different one the
+   moment they land on the dashboard.
    ============================================================ */
 
 /* CSS custom properties (variables) — change these to re-theme
    the entire auth UI from one place instead of hunting through
-   every rule below. */
+   every rule below. Values mirror the .cc-dashboard light-mode
+   variables in index.css 1:1 (--cc-accent, --cc-ink, --cc-muted,
+   --cc-line, --cc-soft, --cc-danger). */
 :root {
-  --auth-primary: #2563eb;        /* main blue — buttons, active tab, links */
-  --auth-primary-hover: #1d4ed8;  /* darker blue for hover states */
-  --auth-primary-light: #eff6ff;  /* very light blue — page background */
-  --auth-border: #e2e8f0;         /* neutral border color for inputs/cards */
-  --auth-text: #0f172a;           /* near-black for headings */
-  --auth-text-muted: #64748b;     /* gray for subtitles/help text */
-  --auth-radius: 10px;            /* corner rounding used everywhere */
+  --auth-primary: #2742d6;         /* = --cc-accent: main blue — buttons, active tab, links */
+  --auth-primary-hover: #1f37b3;   /* darker blue for hover states */
+  --auth-primary-light: #f6f8ff;   /* = --cc-soft: very light blue — page background */
+  --auth-border: #e3e6ee;          /* = --cc-line: neutral border color for inputs/cards */
+  --auth-text: #141a2e;            /* = --cc-ink: near-black for headings */
+  --auth-text-muted: #6b7289;      /* = --cc-muted: gray for subtitles/help text */
+  --auth-danger: #c62828;          /* = --cc-danger: error text/border color */
+  --auth-danger-bg: rgba(198, 40, 40, 0.08);
+  --auth-danger-border: rgba(198, 40, 40, 0.3);
+  --auth-card-bg: #ffffff;         /* = --cc-paper: card / tab-track "active" surface */
+  --auth-tab-track: #eef1fb;       /* the gray-blue track behind the Sign up/Log in pills */
+  --auth-surface-hover: #f8fafc;   /* subtle hover shade for the Google button */
+  --auth-font: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif; /* = --cc-font */
+  --auth-radius: 10px;             /* corner rounding used everywhere */
+}
+
+/* Dark-mode palette — mirrors .cc-dashboard's own dark-mode block in
+   index.css (same media query, same variable values), so the login/
+   register pages switch themes in step with the dashboard instead of
+   staying stuck in light mode after the rest of the app goes dark. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --auth-primary: #9b8cff;         /* = --cc-accent (dark) */
+    --auth-primary-hover: #8574f0;
+    --auth-primary-light: #0d1a1c;   /* = --cc-bg (dark) — page background */
+    --auth-border: #1f3033;          /* = --cc-line (dark) */
+    --auth-text: #e6eeee;            /* = --cc-ink (dark) */
+    --auth-text-muted: #7d9395;      /* = --cc-muted (dark) */
+    --auth-danger: #ff8a80;          /* = --cc-danger (dark) */
+    --auth-danger-bg: rgba(255, 138, 128, 0.12);
+    --auth-danger-border: rgba(255, 138, 128, 0.35);
+    --auth-card-bg: #10201f;         /* = --cc-paper (dark) */
+    --auth-tab-track: #0f1f21;
+    --auth-surface-hover: #16232a;
+  }
 }
 
 /* Full-page container: centers the card both horizontally and
-   vertically, and gives the page its pale blue background
-   (matches the light, airy feel of the screenshot). */
+   vertically, and gives the page its soft blue (or, in dark mode,
+   dark teal) background — matching .cc-dashboard's own bg color. */
 .auth-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   background-color: var(--auth-primary-light);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-family: var(--auth-font);
   padding: 24px; /* keeps the card off the screen edges on mobile */
 }
 
-/* The white card itself. */
+/* The card itself. */
 .auth-card {
   width: 100%;
   max-width: 360px;
-  background: #ffffff;
+  background: var(--auth-card-bg);
   border-radius: 16px;
   box-shadow: 0 4px 24px rgba(15, 23, 42, 0.08); /* soft drop shadow */
   padding: 32px;
@@ -47,7 +84,9 @@
   height: 48px;
   margin: 0 auto 20px auto; /* centers it, adds space below */
   border-radius: 12px;
-  background: linear-gradient(135deg, #dbeafe, #bfdbfe); /* light blue gradient */
+  /* light tint of the dashboard's own blue accent, instead of an
+     unrelated blue picked independently of the rest of the palette */
+  background: linear-gradient(135deg, #e3e9ff, #c6d1fb);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -79,7 +118,7 @@
 /* The "Sign up / Log in" pill-shaped tab switcher. */
 .auth-tabs {
   display: flex;
-  background: #f1f5f9;       /* light gray track behind the pills */
+  background: var(--auth-tab-track); /* gray-blue track behind the pills */
   border-radius: var(--auth-radius);
   padding: 4px;
   margin-bottom: 24px;
@@ -98,12 +137,16 @@
   transition: background 0.15s ease, color 0.15s ease;
 }
 
-/* The currently active tab (the page you're actually on) gets a
-   white background so it "pops" out of the gray track — this class
-   is applied conditionally in the JSX based on which page we're on. */
+/* The currently active tab (the page you're actually on) — kept
+   explicitly white regardless of light/dark mode (rather than
+   following --auth-card-bg, which goes dark in dark mode), so the
+   active pill always "pops" out of the tab track the same way.
+   Text is hardcoded black (not var(--auth-text)) for the same
+   reason: --auth-text turns near-white in dark mode, which would be
+   invisible against this pill's fixed white background. */
 .auth-tab.active {
   background: #ffffff;
-  color: var(--auth-text);
+  color: #000000;
   box-shadow: 0 1px 3px rgba(15, 23, 42, 0.1);
 }
 
@@ -114,7 +157,7 @@
 /* Inline validation message shown under a field (e.g. invalid email format). */
 .auth-field-error {
   font-size: 12px;
-  color: #dc2626;
+  color: var(--auth-danger);
   margin-top: 4px;
 }
 
@@ -132,15 +175,19 @@
   font-size: 14px;
   border: 1px solid var(--auth-border);
   border-radius: 8px;
-  background: #ffffff; /* explicit white background for the input fields */
-  color: #000000; /* typed text is black, regardless of browser/OS defaults */
+  /* Kept explicitly white-on-black regardless of light/dark theme (an
+     earlier, deliberate request) — same idea as the dashboard's own
+     .cc-thumb/"paper" surfaces staying light even in dark mode, so
+     typed text keeps maximum contrast. */
+  background: #ffffff;
+  color: #000000;
   outline: none;
   box-sizing: border-box; /* so padding doesn't push the input wider than its container */
   transition: border-color 0.15s ease;
 }
 
 .auth-input:focus {
-  border-color: var(--auth-primary); /* blue outline on focus instead of the default browser glow */
+  border-color: var(--auth-primary); /* accent-colored outline on focus instead of the default browser glow */
 }
 
 /* Wraps the password input + the show/hide eye button so the
@@ -194,7 +241,8 @@
   font-size: 13px;
 }
 
-/* The main colored submit button (Sign in / Sign up). */
+/* The main colored submit button (Sign in / Sign up) — same accent
+   blue/purple as the dashboard's own .cc-upload-btn. */
 .auth-submit-btn {
   width: 100%;
   padding: 11px 0;
@@ -222,7 +270,7 @@
   width: 100%;
   padding: 10px 0;
   margin-top: 10px;
-  background: #ffffff;
+  background: var(--auth-card-bg);
   color: var(--auth-text);
   border: 1px solid var(--auth-border);
   border-radius: 8px;
@@ -236,7 +284,7 @@
 }
 
 .auth-google-btn:hover {
-  background: #f8fafc;
+  background: var(--auth-surface-hover);
 }
 
 .auth-bottom-text {
@@ -253,9 +301,9 @@
 }
 
 .auth-error {
-  background: #fef2f2;
-  color: #dc2626;
-  border: 1px solid #fecaca;
+  background: var(--auth-danger-bg);
+  color: var(--auth-danger);
+  border: 1px solid var(--auth-danger-border);
   border-radius: 8px;
   padding: 10px 12px;
   font-size: 13px;
