@@ -57,13 +57,13 @@ Core functionality required for the platform to work as a job-search and applica
 ## Original features
 Beyond the core platform, the team is proposing the following Generative-AI-assisted and original features:
 
-### 1. AI Job Study Partner *(needs team discussion)*
+### 1. AI Job Study Partner *(up to change)*
 The intent behind this feature: when a listing shows a qualification a user doesn't have, give them a concrete next step rather than a dead end. The current working proposal is **not** a tutoring/study feature, but a **pathfinding** feature — clicking a missing (red) qualification would either:
 
 - open a search for how to obtain that qualification, or
-- use Rupert to surface a legitimate, local resource (e.g., linking a Quebec resident to the relevant school or government certification page for a specific requirement).
+- use the ai to surface a legitimate, local resource (e.g., linking a Quebec resident to the relevant school or government certification page for a specific requirement).
 
-Open question for the team: whether Rupert should attempt to "teach" missing skills directly, or stay in scope as a **router to existing, official resources** (courses, certifications, licenses, government sites). Formal certifications and licenses are outside what an AI can credibly issue, so the current lean is toward the latter — Rupert points users to the simplest legitimate path, rather than trying to replace the institutions that grant the qualification.
+Possibility: whether it should attempt to "teach" missing skills directly, or stay in scope as a **router to existing, official resources** (courses, certifications, licenses, government sites). Formal certifications and licenses are outside what an AI can credibly issue, so the current lean is toward the latter — it would points users to the simplest legitimate path, rather than trying to replace the institutions that grant the qualification.
 
 ### 2. AI Resume/Job Matching
 Rupert scans uploaded CVs and job listings, extracts qualifications as keywords, and matches job seekers to listings they're eligible for. This match is what powers the default filtered homepage.
