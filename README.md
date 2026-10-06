@@ -30,13 +30,13 @@ CareerConnect centralizes the entire job-search workflow in one platform: a sing
 
 2. Run the setup script (one-time, or after pulling changes to requirements.txt/package.json):
 ```bash
-   cd "Sprint 1"
+   cd "Sprint 2"
    ./setup.sh
 ```
 3. Fill in `backend/.env` with the shared Supabase `DATABASE_URL` if setup.sh flagged it as missing.
 4. Run both servers:
 ```bash
-    cd "Sprint 1"
+    cd "Sprint 2"
    ./run.sh
 ```
 4. Once both servers are running, open the URL Vite prints in the terminal (usually `http://localhost:5173`).
