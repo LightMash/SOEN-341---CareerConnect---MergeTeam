@@ -12,6 +12,7 @@ class ResumeOut(BaseModel):
     user_id: int
     filename: str
     uploaded_at: datetime.datetime
+    is_primary: bool  # Sprint 2: true for the resume applications will use by default
     # filepath left out on purpose — frontend doesn't need our server path.
 
     class Config:

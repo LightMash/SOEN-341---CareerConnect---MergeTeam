@@ -1,346 +1,179 @@
-import { useEffect, useRef, useState } from "react";
-import type { DragEvent } from "react";
-import type { User, Resume } from "../api";
-import { uploadResume, listMyResumes, deleteResume, downloadResume } from "../api";
+import { useEffect, useState } from "react";
+import type { Role, User } from "../api";
+import { getProfilePhoto } from "../api";
+import Sidebar from "./Sidebar";
+import type { SidebarTab } from "./Sidebar";
+import { BriefcaseIcon, UserIcon } from "./icons";
+import JobDashboardTab from "./tabs/JobDashboardTab";
+import ProfileTab from "./tabs/ProfileTab";
+import RecruiterProfileTab from "./tabs/RecruiterProfileTab";
 
-// NOTE: we no longer declare our own local `Resume` interface here — we
-// import the one already defined in api.ts (which mirrors the backend's
-// ResumeOut schema exactly: id, user_id, filename, uploaded_at). Keeping a
-// second, hand-copied interface in this file risked drifting out of sync
-// with the real shape the backend actually returns (it was already missing
-// `user_id`). One shared type, defined once, used everywhere.
-
-const MAX_SIZE_MB = 5;
-const ALLOWED_TYPES = ["pdf", "docx"];
+// Dashboard is now a thin "shell": a retractable sidebar plus whichever tab
+// is active. It no longer contains any resume logic — that moved to
+// ResumeManager.tsx, which the Profile tab renders.
 
 interface DashboardProps {
   user: User;
-  // The logged-in user's JWT (from App.tsx's `token` state). Every resume
-  // endpoint on the backend (upload/list/delete/download) is protected by
-  // `Depends(get_current_user)`, which reads this token from the
-  // `Authorization: Bearer <token>` header — so every call this component
-  // makes to the resume API has to carry it.
+  // The logged-in user's JWT (from App.tsx's `token` state). Passed down to
+  // every tab that talks to a protected backend endpoint, which read it from
+  // the `Authorization: Bearer <token>` header.
   token: string;
   onLogout: () => void;
 }
 
-function fileType(filename: string) {
-  return filename.split(".").pop()?.toUpperCase() || "FILE";
+type TabId = "jobs" | "profile";
+
+interface TabDef extends SidebarTab {
+  id: TabId;
+  roles: Role[]; // which kinds of users get to see this tab
 }
 
-function formatDate(iso: string) {
-  const date = new Date(iso);
-  if (Number.isNaN(date.getTime())) return "";
-  return date.toLocaleDateString(undefined, { month: "short", day: "numeric" });
-}
+// ADDING A FUTURE TAB (e.g. "Applications"):
+//   1. add its id to TabId above,
+//   2. add one entry to this array,
+//   3. add one case to renderTab() below.
+// The sidebar, the role filtering and the collapsed (icon-only) mode all
+// pick it up automatically.
+const TABS: TabDef[] = [
+  {
+    id: "jobs",
+    label: "Job Dashboard",
+    icon: <BriefcaseIcon />,
+    roles: ["job_seeker", "recruiter"],
+  },
+  {
+    id: "profile",
+    label: "Profile",
+    icon: <UserIcon />,
+    // Everyone has a Profile tab (it holds the account photo). What it SHOWS
+    // differs by role: see renderTab() below.
+    roles: ["job_seeker", "recruiter"],
+  },
+];
 
-// placeholder until we have real thumbnails
-function SheetSketch() {
-  return (
-    <div className="cc-sketch" aria-hidden="true">
-      <span className="cc-sketch-name" />
-      <span className="cc-sketch-role" />
-      <span className="cc-sketch-line" />
-      <span className="cc-sketch-line" />
-      <span className="cc-sketch-line is-short" />
-      <span className="cc-sketch-line is-gap" />
-      <span className="cc-sketch-line is-shorter" />
-    </div>
-  );
-}
+// localStorage key used to remember whether the sidebar was collapsed.
+const COLLAPSE_KEY = "cc_sidebar_collapsed";
 
 export default function Dashboard({ user, token, onLogout }: DashboardProps) {
-  const isSeeker = user.role === "job_seeker";
+  // Only show the tabs this user's role is allowed to see.
+  const visibleTabs = TABS.filter((tab) => tab.roles.includes(user.role));
 
-  const initials =
-    user.full_name
-      .trim()
-      .split(/\s+/)
-      .map((part) => part.charAt(0))
-      .join("")
-      .slice(0, 2)
-      .toUpperCase() || "?";
-  const roleLabel = isSeeker ? "Job seeker" : "Recruiter";
+  // Job Dashboard is the default landing tab, same as the old dashboard was.
+  const [activeTab, setActiveTab] = useState<TabId>("jobs");
 
-  // Resumes now live on the server (backend/routers/resume.py persists them
-  // to Postgres + disk), so this state is a client-side CACHE of what the
-  // backend has, not the source of truth. It starts empty and gets filled by
-  // the fetch-on-mount effect below, and is kept in sync with the server on
-  // every upload/delete by using the response the backend actually returns
-  // rather than guessing at the new state ourselves.
-  const [resumes, setResumes] = useState<Resume[]>([]);
-  const [dragging, setDragging] = useState(false);
-  const [error, setError] = useState("");
-  // True while an upload is in flight, so we can disable the drop
-  // zone/button and avoid firing a second upload before the first finishes.
-  const [uploading, setUploading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
+  // Remember the sidebar state across visits. Reading storage is done in a
+  // lazy initializer (runs once, on first render) and wrapped in try/catch,
+  // because localStorage can throw in private windows or with blocked storage.
+  const [collapsed, setCollapsed] = useState<boolean>(() => {
+    try {
+      return localStorage.getItem(COLLAPSE_KEY) === "1";
+    } catch {
+      return false;
+    }
+  });
 
-  // Fetch-on-mount: load whatever resumes this user has already uploaded
-  // (in an earlier session, or before this page refreshed) via
-  // GET /api/resume/mine. Without this, a real, already-saved resume would
-  // never appear until the user re-uploaded it — the old version of this
-  // component never asked the backend for anything, so its `resumes` state
-  // was always empty on every fresh page load. `token` is in the dependency
-  // array on principle (if it ever changed — e.g. a future token refresh —
-  // we'd want to refetch with the new one), even though in practice it's
-  // set once per login and doesn't change while this component is mounted.
+  // The user's profile photo as a temporary blob: URL (null = none). It lives
+  // HERE, in the shared parent, because two places show it: the sidebar avatar
+  // and the Profile tab's photo block. When the Profile tab uploads a new one,
+  // it reports back through handlePhotoChange and the sidebar updates too.
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+
+  // Load the saved photo once on mount (every role can have one).
   useEffect(() => {
-    // Recruiters don't have a resume list UI at all (see the role branch in
-    // the JSX below), so there's no reason to hit this endpoint for them.
-    if (!isSeeker) return;
+    // If the component goes away before the request finishes, free the URL
+    // instead of setting state on something that no longer exists.
+    let cancelled = false;
+    getProfilePhoto(token)
+      .then((url) => {
+        if (cancelled) {
+          if (url) URL.revokeObjectURL(url);
+        } else {
+          setPhotoUrl(url);
+        }
+      })
+      .catch(() => {
+        /* no photo is a fine fallback: the avatar just shows initials */
+      });
 
-    listMyResumes(token)
-      .then(setResumes)
-      .catch(() => setError("Couldn't load your resumes. Try refreshing the page."));
-  }, [isSeeker, token]);
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
 
-  function openPicker() {
-    inputRef.current?.click();
+  function handlePhotoChange(newUrl: string | null) {
+    // Blob URLs keep their bytes in memory until revoked, so release the one
+    // being replaced. (Revoking twice is harmless, which matters because
+    // React may run this updater twice in development.)
+    setPhotoUrl((previous) => {
+      if (previous) URL.revokeObjectURL(previous);
+      return newUrl;
+    });
   }
 
-  // `async` now, since it has to wait on the network request to the backend
-  // before it knows whether the upload actually succeeded. Both callers
-  // (handleDrop and the hidden <input>'s onChange) call this without
-  // `await`, which is fine — they don't need to block on the result, the
-  // state updates inside this function are what drive the UI once it
-  // resolves.
-  async function addFile(file: File | undefined) {
-    if (!file) return;
-
-    // Client-side pre-checks: catch obviously-wrong files (wrong extension,
-    // too large) immediately, without even making a network request. This
-    // is purely a fast-feedback UX shortcut — the backend enforces the real
-    // rules independently (by MIME type via `file.content_type`, and the
-    // same 5MB limit via MAX_UPLOAD_MB in routers/resume.py), so a file that
-    // somehow slips past this check still can't reach the database unless
-    // it's genuinely valid.
-    const ext = file.name.split(".").pop()?.toLowerCase() ?? "";
-    if (!ALLOWED_TYPES.includes(ext)) {
-      setError("Only PDF or DOCX files can be uploaded.");
-      return;
-    }
-    if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      setError(`That file is over ${MAX_SIZE_MB} MB. Try a smaller version.`);
-      return;
-    }
-
-    setError("");
-    setUploading(true);
-    try {
-      // uploadResume() (api.ts) sends the file as multipart/form-data to
-      // POST /api/resume/upload with the Authorization header set, and
-      // resolves with { message, resume } — `resume` is the real database
-      // row FastAPI just created (real `id`, real `user_id`, and
-      // `uploaded_at` as the server's own clock recorded it, not the
-      // browser's). We use THAT object instead of building a fake one
-      // locally, so what's on screen always matches what's actually stored.
-      const { resume } = await uploadResume(file, token);
-      setResumes((prev) => [resume, ...prev]);
-    } catch (err) {
-      // uploadResume() throws with the backend's own message when the
-      // server rejects the file (wrong content-type, too large, etc.) —
-      // surface that message directly rather than a generic one, since it
-      // already explains exactly what was wrong.
-      setError(err instanceof Error ? err.message : "Upload failed. Please try again.");
-    } finally {
-      setUploading(false);
-    }
+  function toggleSidebar() {
+    setCollapsed((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem(COLLAPSE_KEY, next ? "1" : "0");
+      } catch {
+        /* ignore — the sidebar still works, it just won't be remembered */
+      }
+      return next;
+    });
   }
 
-  // Called from each resume card's Delete button. Calls the backend first
-  // (DELETE /api/resume/{id}, which also checks the resume actually belongs
-  // to this user) and only removes it from local state once that succeeds —
-  // so a failed delete (e.g. a network error) leaves the card on screen
-  // instead of silently disappearing while still existing on the server.
-  async function handleDelete(id: number) {
-    try {
-      await deleteResume(id, token);
-      setResumes((prev) => prev.filter((r) => r.id !== id));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't delete that resume.");
-    }
-  }
-
-  // Called from each resume card's Download button. downloadResume()
-  // (api.ts) fetches the file's raw bytes with the auth header attached
-  // (a plain <a href="..."> can't send an Authorization header, which is
-  // why this goes through fetch + a Blob instead of a normal link), then
-  // triggers the browser's normal "Save As" flow.
-  async function handleDownload(id: number, filename: string) {
-    try {
-      await downloadResume(id, filename, token);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Couldn't download that resume.");
-    }
-  }
-
-  function handleDrop(e: DragEvent<HTMLDivElement>) {
-    e.preventDefault();
-    setDragging(false);
-    addFile(e.dataTransfer.files[0]);
-  }
-
-  function handleDragLeave(e: DragEvent<HTMLDivElement>) {
-    // dragleave also fires when hovering child elements
-    if (!e.currentTarget.contains(e.relatedTarget as Node | null)) {
-      setDragging(false);
+  // Picks what to show in the main area. The tab that is not active is
+  // unmounted, so each tab re-fetches its own data when you switch to it.
+  function renderTab() {
+    switch (activeTab) {
+      case "profile":
+        // Job seekers get the full profile + resumes; recruiters get just
+        // the photo block (they have no professional profile or resumes).
+        return user.role === "job_seeker" ? (
+          <ProfileTab
+            token={token}
+            fullName={user.full_name}
+            photoUrl={photoUrl}
+            onPhotoChange={handlePhotoChange}
+          />
+        ) : (
+          <RecruiterProfileTab
+            token={token}
+            fullName={user.full_name}
+            photoUrl={photoUrl}
+            onPhotoChange={handlePhotoChange}
+          />
+        );
+      case "jobs":
+      default:
+        return <JobDashboardTab user={user} />;
     }
   }
 
   return (
-    <div className="cc-dashboard">
-      <aside className="cc-sidebar">
-        <div className="cc-brand">
-          <span className="cc-brand-first">Career</span>
-          <span className="cc-brand-second">Connect</span>
-        </div>
+    // `is-collapsed` flips a CSS variable (--cc-side-w) in index.css, which
+    // is what actually narrows the sidebar column.
+    <div className={`cc-dashboard ${collapsed ? "is-collapsed" : ""}`}>
+      <Sidebar
+        user={user}
+        tabs={visibleTabs}
+        activeTab={activeTab}
+        // Sidebar only knows ids as plain strings; narrow back to TabId here.
+        onSelectTab={(id) => setActiveTab(id as TabId)}
+        collapsed={collapsed}
+        onToggle={toggleSidebar}
+        onLogout={onLogout}
+        photoUrl={photoUrl}
+        // Clicking the avatar jumps to the Profile tab (kept conditional so a
+        // role without that tab would simply get a non-clickable avatar).
+        onAvatarClick={
+          visibleTabs.some((tab) => tab.id === "profile")
+            ? () => setActiveTab("profile")
+            : undefined
+        }
+      />
 
-        <div className="cc-photo" role="img" aria-label="Profile photo placeholder">
-          {initials}
-        </div>
-        <p className="cc-name">{user.full_name}</p>
-        <p className="cc-role">{roleLabel}</p>
-        <p className="cc-email">{user.email}</p>
-
-        {/* add more sections here */}
-        <nav className="cc-nav" aria-label="Dashboard sections">
-          <button type="button" className="cc-nav-item is-active" aria-current="page">
-            {isSeeker ? "Resumes" : "Overview"}
-          </button>
-        </nav>
-
-        <button type="button" className="cc-nav-item cc-logout" onClick={onLogout}>
-          Log out
-        </button>
-      </aside>
-
-      <main className="cc-main">
-        <header className="cc-main-head">
-          <div>
-            <h1 className="cc-title">{isSeeker ? "Resumes" : "Dashboard"}</h1>
-            <p className="cc-subtitle">
-              {isSeeker
-                ? `PDF or DOCX, up to ${MAX_SIZE_MB} MB`
-                : "Your recruiter tools will live here."}
-            </p>
-          </div>
-
-          {isSeeker && (
-            <button
-              type="button"
-              className="cc-upload-btn"
-              onClick={openPicker}
-              disabled={uploading}
-            >
-              {uploading ? "Uploading..." : "Upload resume"}
-            </button>
-          )}
-        </header>
-
-        {isSeeker ? (
-          <>
-            <input
-              ref={inputRef}
-              type="file"
-              accept=".pdf,.docx"
-              className="cc-visually-hidden"
-              tabIndex={-1}
-              onChange={(e) => {
-                addFile(e.target.files?.[0]);
-                e.target.value = ""; // so the same file can be picked again
-              }}
-            />
-
-            <div
-              // `is-uploading` lets index.css dim the drop zone visually while
-              // a request is in flight, same idea as the button above.
-              className={`cc-drop ${dragging ? "is-dragging" : ""} ${uploading ? "is-uploading" : ""}`}
-              onDragOver={(e) => {
-                e.preventDefault();
-                if (!uploading) setDragging(true);
-              }}
-              onDragLeave={handleDragLeave}
-              onDrop={uploading ? (e) => e.preventDefault() : handleDrop}
-            >
-              {uploading ? (
-                "Uploading..."
-              ) : (
-                <>
-                  Drop a resume here or{" "}
-                  <button type="button" className="cc-link" onClick={openPicker}>
-                    browse your files
-                  </button>
-                </>
-              )}
-            </div>
-
-            {error && (
-              <p className="cc-error" role="alert">
-                {error}
-              </p>
-            )}
-
-            {resumes.length === 0 && (
-              <p className="cc-muted">No resumes yet. Upload your first one to get started.</p>
-            )}
-
-            <ul className="cc-grid">
-              {resumes.map((r) => (
-                <li key={r.id} className="cc-card">
-                  <div className="cc-thumb">
-                    {/* The backend doesn't generate real thumbnails yet —
-                        ResumeOut has no thumbnail_url field — so this always
-                        renders the placeholder sketch. If a real thumbnail
-                        field is added to the backend later, this is the only
-                        line that would need to change (back to an `r.thumbnail_url
-                        ? <img ... /> : <SheetSketch />` check). */}
-                    <SheetSketch />
-                  </div>
-                  <p className="cc-card-name" title={r.filename}>
-                    {r.filename}
-                  </p>
-                  <p className="cc-card-meta">
-                    {fileType(r.filename)}, added {formatDate(r.uploaded_at)}
-                  </p>
-                  <div className="cc-card-actions">
-                    <button
-                      type="button"
-                      className="cc-link"
-                      onClick={() => handleDownload(r.id, r.filename)}
-                    >
-                      Download
-                    </button>
-                    <button
-                      type="button"
-                      className="cc-link cc-link-danger"
-                      onClick={() => handleDelete(r.id)}
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </li>
-              ))}
-
-              <li>
-                <button
-                  type="button"
-                  className="cc-add"
-                  onClick={openPicker}
-                  aria-label="Upload a resume"
-                >
-                  <span aria-hidden="true">+</span>
-                </button>
-              </li>
-            </ul>
-          </>
-        ) : (
-          <section className="cc-soon">
-            <h2 className="cc-section-title">Recruiter tools are on the way</h2>
-            <p>Posting jobs and finding candidates will show up here in a later sprint.</p>
-          </section>
-        )}
-      </main>
+      <main className="cc-main">{renderTab()}</main>
     </div>
   );
 }
