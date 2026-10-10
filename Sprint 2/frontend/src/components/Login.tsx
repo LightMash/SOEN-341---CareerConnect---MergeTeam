@@ -144,7 +144,7 @@ export default function Login({ onSuccess }: LoginProps) {
                 checked={remember}
                 onChange={(e: ChangeEvent<HTMLInputElement>) => setRemember(e.target.checked)}
               />
-              Remember for 30 days
+              Remember for 24 hours
             </label>
 
             <button type="button" className="auth-forgot-link">

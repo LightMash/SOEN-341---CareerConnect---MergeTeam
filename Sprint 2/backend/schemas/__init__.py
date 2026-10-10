@@ -8,6 +8,7 @@ add one import line here.
 
 from .auth import UserCreate, UserLogin, UserOut, TokenResponse
 from .resume import ResumeOut, ResumeUploadResponse
+from .profile import EducationItem, ExperienceItem, ProfileUpdate, ProfileOut
 
 __all__ = [
     "UserCreate",
@@ -16,4 +17,8 @@ __all__ = [
     "TokenResponse",
     "ResumeOut",
     "ResumeUploadResponse",
+    "EducationItem",
+    "ExperienceItem",
+    "ProfileUpdate",
+    "ProfileOut",
 ]

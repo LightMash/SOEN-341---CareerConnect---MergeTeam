@@ -25,3 +25,8 @@ class User(Base):
     # (SQLAlchemy resolves it at runtime), so this file never has to import
     # Resume/Job/Application directly and never conflicts with those files.
     resumes = relationship("Resume", back_populates="owner")
+
+    # One-to-one (uselist=False -> a single object, not a list). Added in
+    # Sprint 2 for the profile feature; the matching foreign key lives on
+    # Profile.user_id, so this table itself did not change.
+    profile = relationship("Profile", back_populates="owner", uselist=False)

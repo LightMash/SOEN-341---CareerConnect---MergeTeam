@@ -141,7 +141,11 @@ code {
 
   flex: 1;
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
+  /* Sidebar width is a variable so collapsing is one class toggle
+     (.is-collapsed, set in Dashboard.tsx) and the column animates smoothly. */
+  --cc-side-w: 240px;
+  grid-template-columns: var(--cc-side-w) minmax(0, 1fr);
+  transition: grid-template-columns 0.2s ease;
   min-height: 100svh;
   background: var(--cc-bg);
   color: var(--cc-ink);
@@ -497,6 +501,7 @@ code {
 /* Download/Delete links shown under each resume card. */
 .cc-card-actions {
   display: flex;
+  flex-wrap: wrap; /* up to four links now: Download / Replace / Set primary / Delete */
   gap: 12px;
   margin-top: 6px;
   font-size: 13px;
@@ -605,5 +610,477 @@ code {
   .cc-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
+  }
+}
+
+
+/* ============================================================
+   Sprint 2 additions
+   ============================================================ */
+
+/* ---------- Retractable sidebar ---------- */
+
+/* Collapsed = slim icon-only rail. Overriding the one variable is enough:
+   the grid column in .cc-dashboard reads it and animates the change. */
+.cc-dashboard.is-collapsed {
+  --cc-side-w: 76px;
+}
+
+.cc-sidebar {
+  min-width: 0;
+  overflow: hidden; /* hide text that no longer fits while the column animates */
+}
+
+.cc-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cc-collapse {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  color: var(--cc-side-soft);
+  border: 1px solid var(--cc-side-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cc-collapse:hover {
+  color: var(--cc-side-ink);
+  border-color: var(--cc-side-dash);
+}
+
+.cc-collapse svg {
+  transition: transform 0.2s;
+}
+
+/* Nav buttons now hold an icon + a label side by side. */
+.cc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-nav-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.is-collapsed .cc-sidebar {
+  padding: 28px 14px;
+}
+
+.is-collapsed .cc-sidebar-top {
+  justify-content: center;
+}
+
+/* The chevron points left to collapse; flip it to point right to expand. */
+.is-collapsed .cc-collapse svg {
+  transform: rotate(180deg);
+}
+
+.is-collapsed .cc-brand,
+.is-collapsed .cc-identity {
+  display: none;
+}
+
+/* The big avatar shrinks to a small badge so the user is still identifiable. */
+.is-collapsed .cc-photo {
+  width: 44px;
+  margin: 20px auto 14px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.is-collapsed .cc-nav-item {
+  justify-content: center;
+}
+
+/* Visually hidden rather than display:none, so screen readers still hear
+   the tab names when only the icons are showing. */
+.is-collapsed .cc-nav-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The avatar doubles as a shortcut to the Profile tab. As a <button> it needs
+   the browser's default button styling reset so it keeps the avatar look. */
+.cc-photo.is-clickable {
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.cc-photo.is-clickable:hover {
+  border-style: solid;
+  border-color: var(--cc-side-ink);
+  transform: translateY(-1px);
+}
+
+/* ---------- Sections, resume badge, profile form and view ---------- */
+
+/* Positioning context for the "Primary" badge below. */
+.cc-thumb {
+  position: relative;
+}
+
+.cc-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 10px;
+  background: var(--cc-accent);
+  color: var(--cc-accent-ink);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* A bordered "card" panel: the profile view/form and the resume manager. */
+.cc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cc-section-head .cc-subtitle {
+  margin-top: 4px;
+}
+
+.cc-subhead {
+  margin: 8px 0 0;
+  color: var(--cc-ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Outline variant of the pill button (Cancel, "+ Add ..."). Used together
+   with .cc-upload-btn, which supplies the shape; this swaps the colors. */
+.cc-btn-secondary {
+  align-self: flex-start;
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px solid var(--cc-dash);
+}
+
+.cc-success {
+  margin: 0;
+  color: #2e7d32;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+@media (prefers-color-scheme: dark) {
+  .cc-success {
+    color: #81c784;
+  }
+}
+
+/* ---- profile completeness meter ---- */
+.cc-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 24px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-meter-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.cc-meter-bar {
+  height: 8px;
+  overflow: hidden;
+  background: var(--cc-line);
+  border-radius: 999px;
+}
+
+.cc-meter-fill {
+  height: 100%;
+  background: var(--cc-accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* ---- edit form ---- */
+.cc-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0; /* lets inputs shrink instead of overflowing the grid cell */
+}
+
+/* Spans both columns (summary, description, portfolio link). */
+.cc-field.is-wide {
+  grid-column: 1 / -1;
+}
+
+.cc-field-label {
+  color: var(--cc-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.cc-input:focus-visible {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 1px;
+}
+
+.cc-textarea {
+  resize: vertical;
+}
+
+/* Dashed box around one education / experience entry. */
+.cc-repeat-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 12px;
+}
+
+.cc-repeat-row .cc-form-grid {
+  width: 100%;
+}
+
+.cc-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cc-form-actions .cc-btn-secondary {
+  align-self: auto;
+}
+
+/* ---- read-only profile view ---- */
+.cc-kv {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.cc-kv-row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-kv-row:first-child {
+  border-top: 0;
+}
+
+.cc-kv-row dt {
+  color: var(--cc-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-kv-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the line breaks the user typed in summary / descriptions. */
+.cc-prewrap {
+  white-space: pre-wrap;
+}
+
+.cc-chips,
+.cc-entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-chip {
+  padding: 4px 12px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.cc-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .cc-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-kv-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+
+/* ---------- Profile photo ---------- */
+
+/* Sidebar avatar: clip the photo to the rounded square, and drop the dashed
+   "placeholder" border once there is a real picture. */
+.cc-photo {
+  position: relative; /* anchors the absolutely-positioned photo below */
+  overflow: hidden;
+}
+
+.cc-photo.has-photo {
+  border-style: solid;
+}
+
+/* The photo is pinned to all four edges of the avatar box (inset: 0). Without
+   that, "height: 100%" had nothing definite to resolve against (the box gets
+   its height from aspect-ratio), so a portrait photo kept its own tall shape
+   and was merely clipped. Now the box dictates the size and object-fit does
+   the cropping. */
+.cc-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fill the square and crop the overflow; never stretch */
+  /* Crop from 20% down instead of the exact middle: in portrait photos faces
+     sit in the upper part, so a dead-center crop tends to slice off the
+     forehead. Landscape photos only crop sideways, so they stay centered. */
+  object-position: center 20%;
+  display: block;
+}
+
+/* Photo block at the top of the Profile tab. */
+.cc-photo-section {
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+.cc-photo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cc-photo-info .cc-subtitle {
+  margin: 0;
+}
+
+.cc-avatar-lg {
+  position: relative;
+  flex-shrink: 0;
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: var(--cc-soft);
+  color: var(--cc-accent);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 36px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cc-avatar-lg.has-photo {
+  border-style: solid;
+}
+
+.cc-avatar-lg:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cc-avatar-lg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%; /* same face-friendly crop as the sidebar avatar */
+  display: block;
+}
+
+/* "Add photo" / "Change" caption that slides over the bottom of the circle on
+   hover or keyboard focus, hinting that the circle is clickable. */
+.cc-avatar-hint {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 6px 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.cc-avatar-lg:hover .cc-avatar-hint,
+.cc-avatar-lg:focus-visible .cc-avatar-hint {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .cc-photo-section {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }

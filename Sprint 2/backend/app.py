@@ -15,6 +15,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import Base, engine
 from routers.auth import router as auth_router
 from routers.resume import router as resume_router
+from routers.profile import router as profile_router
 
 # Create all the tables from the database on startup
 Base.metadata.create_all(bind=engine)
@@ -34,6 +35,7 @@ app.add_middleware(
 #How every different routes gets integrated within
 app.include_router(auth_router, prefix="/api", tags=["auth"])
 app.include_router(resume_router, prefix="/api", tags=["resume"])
+app.include_router(profile_router, prefix="/api", tags=["profile"])  # Sprint 2: /api/profile/me
 
 
 @app.get("/api/health")
