@@ -9,6 +9,9 @@ Job seekers typically spread their job search across multiple disconnected tools
 ## Proposed solution
 CareerConnect centralizes the entire job-search workflow in one platform: a single account lets a job seeker manage their profile and resumes, search and filter job postings, submit applications, and track each application's status (Applied, Interview, Offered, Rejected) from one dashboard. Recruiters get a straightforward way to post and manage job listings. On top of this core workflow, CareerConnect layers Generative-AI-assisted features — resume/job matching, and the original features described below — to reduce the manual effort involved in finding the right job and applying to it.
 
+## Project overview
+CareerConnect is a full-stack web application that brings a job seeker's entire search into one place and gives recruiters a simple way to reach candidates. The React 19 + TypeScript front end (built with Vite) talks to a FastAPI back end through a typed REST API, and all data is stored in PostgreSQL, with the shared development database hosted on Supabase. Users register as either a job seeker or a recruiter and sign in with stateless, 24-hour JWT tokens, while passwords are stored only as bcrypt hashes. Job seekers can build a professional profile (headline, skills, education, experience, links and a profile photo) that shows a live completeness score, and can upload, replace, download, delete and mark a primary PDF or DOCX resume, with strict type, size and ownership checks on every file. The back end is organised one feature per folder (models, schemas and routers), so teammates can add job search, application tracking and the recruiter dashboard without touching each other's code. Quality is protected by an automated test suite and a GitHub Actions pipeline that runs on every pull request into `main`, and the project also plans Generative-AI features such as resume feedback and job matching.
+
 ## Team members
 - Diego / dc905
 - Essam / Essamamiri
@@ -40,6 +43,31 @@ CareerConnect centralizes the entire job-search workflow in one platform: a sing
    ./run.sh
 ```
 4. Once both servers are running, open the URL Vite prints in the terminal (usually `http://localhost:5173`).
+
+## Testing and Continuous Integration
+Every push to `main` and every pull request into `main` automatically triggers the **CI pipeline** defined in [`.github/workflows/ci.yml`](.github/workflows/ci.yml). Nobody has to run anything by hand: the results appear as green/red checks on the pull request.
+
+| Job | What it does |
+| --- | --- |
+| **Backend tests (pytest)** | Starts a throwaway PostgreSQL 16 database and runs the automated tests in `Sprint 2/backend/tests/` (login/registration, resume management, profile). |
+| **Frontend (lint + build)** | Installs dependencies with `npm ci`, then runs ESLint and a production Vite build. |
+
+### Running the backend tests locally
+The tests create many fake users, so they **refuse to run against anything except a local database** (never the shared Supabase one). Start a disposable Postgres with Docker, then run pytest:
+```bash
+docker run -d --name cc-test-db -p 5432:5432 \
+  -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=careerconnect_test postgres:16
+
+cd "Sprint 2/backend"
+pip install -r requirements.txt -r requirements-dev.txt   # use your venv
+DATABASE_URL=postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_test pytest -v
+```
+Stop the database afterwards with `docker rm -f cc-test-db`.
+
+### Adding tests for a new feature
+1. Create `Sprint 2/backend/tests/test_<feature>.py`.
+2. Write functions named `test_...` and ask for the shared helpers by name: `client` (calls the API), `user` (a logged-in job seeker), `make_user(role=...)` (create more users). See `tests/conftest.py` and `tests/test_resume.py` for examples.
+3. Open a pull request. CI picks up the new file automatically; the workflow file does not need to change.
 
 ## Proposed features
 Core functionality required for the platform to work as a job-search and application-tracking tool:

@@ -1,0 +1,136 @@
+# =============================================================================
+# CareerConnect - Continuous Integration (CI) pipeline
+# =============================================================================
+# What this file does: every time code is pushed to `main`, or a pull request
+# into `main` is opened/updated, GitHub automatically runs the checks below on
+# its own machines. Nobody has to run anything by hand. The result (green check
+# or red X) appears on the pull request, so a reviewer can see at a glance
+# whether a change broke something.
+#
+# There are two independent jobs that run in parallel:
+#   1. backend  -> runs the automated pytest suite in  Sprint 2/backend/tests/
+#   2. frontend -> lints and builds the React app in   Sprint 2/frontend/
+#
+# Adding more tests later does NOT require editing this file: drop a new
+# `test_*.py` file in Sprint 2/backend/tests/ and `pytest` picks it up.
+# When Sprint 3 starts, change the "Sprint 2" folder name in the 4 places
+# marked  <-- SPRINT FOLDER  below.
+# =============================================================================
+
+name: CI
+
+# ---- When does the pipeline run? --------------------------------------------
+on:
+  push:
+    branches: [main]          # after anything lands on main
+  pull_request:
+    branches: [main]          # on every PR that targets main (the important one)
+  workflow_dispatch:          # adds a manual "Run workflow" button in the Actions tab
+
+# If you push twice quickly to the same branch, cancel the older run instead of
+# wasting time on results nobody will look at.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+# The workflow only needs to read the code. Least privilege = safer default.
+permissions:
+  contents: read
+
+jobs:
+  # ===========================================================================
+  # JOB 1: Backend tests (FastAPI + PostgreSQL)
+  # ===========================================================================
+  backend:
+    name: Backend tests (pytest)
+    runs-on: ubuntu-latest
+
+    # Every `run:` step in this job executes inside this folder.
+    defaults:
+      run:
+        working-directory: Sprint 2/backend      # <-- SPRINT FOLDER
+
+    # A throwaway PostgreSQL database that exists only while this job runs.
+    # We need a real Postgres because database.py refuses any other database.
+    # This is NOT the team's Supabase database - CI can never touch that one.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: careerconnect_test
+        ports:
+          - 5432:5432            # makes it reachable at localhost:5432
+        # Wait until Postgres is actually accepting connections before the
+        # steps start; otherwise the app could fail on a database not ready yet.
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    # Environment variables the app reads (see database.py and security.py).
+    env:
+      DATABASE_URL: postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_test
+      SECRET_KEY: ci-only-secret   # dummy key, only used to sign test tokens
+
+    steps:
+      # Download this repository's code onto the CI machine.
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      # Install Python. `cache: pip` re-uses downloaded packages between runs
+      # so installs are faster after the first time. The cache is refreshed
+      # whenever requirements.txt or requirements-dev.txt changes.
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+          cache-dependency-path: Sprint 2/backend/requirements*.txt   # <-- SPRINT FOLDER
+
+      # requirements.txt  = what the app needs to run
+      # requirements-dev.txt = extra tools only needed for testing (pytest, httpx)
+      - name: Install dependencies
+        run: pip install -r requirements.txt -r requirements-dev.txt
+
+      # Runs every test_*.py file in the tests/ folder (configured in pytest.ini).
+      # If any test fails this step fails, the job turns red, and the PR shows it.
+      - name: Run tests
+        run: pytest -v
+
+  # ===========================================================================
+  # JOB 2: Frontend checks (React + TypeScript + Vite)
+  # ===========================================================================
+  frontend:
+    name: Frontend (lint + build)
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Sprint 2/frontend     # <-- SPRINT FOLDER
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Sprint 2/frontend/package-lock.json   # <-- SPRINT FOLDER
+
+      # `npm ci` installs exactly the versions in package-lock.json
+      # (stricter and more reproducible than `npm install`).
+      - name: Install dependencies
+        run: npm ci
+
+      # ESLint: catches common mistakes and style problems.
+      - name: Lint
+        run: npm run lint
+
+      # Production build: fails on broken imports or bundling errors.
+      - name: Build
+        run: npm run build

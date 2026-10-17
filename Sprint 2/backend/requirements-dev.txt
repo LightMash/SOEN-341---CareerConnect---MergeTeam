@@ -1,0 +1,5 @@
+# Tools needed only for TESTING - not installed in production.
+# Install everything for local testing with:
+#   pip install -r requirements.txt -r requirements-dev.txt
+pytest>=8,<9      # the test runner
+httpx>=0.27,<1    # required by FastAPI's TestClient (it makes the fake HTTP requests)

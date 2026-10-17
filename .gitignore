@@ -9,3 +9,6 @@ node_modules/
 
 # OS
 .DS_Store
+
+# Test caches
+.pytest_cache/
