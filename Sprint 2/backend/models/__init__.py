@@ -14,5 +14,6 @@ Importing a model here is also what registers its table with SQLAlchemy, so
 from .user import User
 from .resume import Resume
 from .profile import Profile
+from .job import Job
 
-__all__ = ["User", "Resume", "Profile"]
+__all__ = ["User", "Resume", "Profile", "Job"]
