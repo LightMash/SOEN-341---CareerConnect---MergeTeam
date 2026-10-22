@@ -293,3 +293,18 @@ export function deleteProfilePhoto(token: string): Promise<{ message: string }> 
     headers: { Authorization: `Bearer ${token}` },
   });
 }
+
+
+// --- Jobs (Sprint 2: Job search & listing feature) -----------------------
+// Must match future Job schema
+export interface Job {
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  description: string;
+  category: string;
+  employment_type: "full_time" | "part_time" | "internship";
+  posted_at: string;
+  work_from: "on_site" | "remote" | "hybrid";
+}
