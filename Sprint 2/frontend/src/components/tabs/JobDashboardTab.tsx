@@ -4,11 +4,22 @@ import type { User, Job } from "../../api";
 import { sampleJobs } from "../../sampleJobs";
 
 // CSS style
-import '../../styles/jobs.css'
+import "../../styles/jobs.css";
 
-// The default tab. For now it is the same placeholder the old dashboard
-// showed; job listings, search and filters (Sprint 2 job-search feature) get
-// built inside this component, so nothing else has to change when they land.
+// Display labels for the job's employment_type and work_from values
+const EMPLOYMENT_LABELS: Record<Job["employment_type"], string> = {
+  full_time: "Full-time",
+  part_time: "Part-time",
+  internship: "Internship",
+};
+const WORK_FROM_LABELS: Record<Job["work_from"], string> = {
+  on_site: "On-site",
+  remote: "Remote",
+  hybrid: "Hybrid",
+};
+
+// The default tab. Job seekers see the job listings (Sprint 2 job-search feature).
+// Recruiters will see their tools here as well.
 export default function JobDashboardTab({ user }: { user: User }) {
   const isSeeker = user.role === "job_seeker";
 
@@ -31,19 +42,19 @@ export default function JobDashboardTab({ user }: { user: User }) {
       {isSeeker ? (
         <section className="cc-section">
           <h2 className="cc-section-title">Job Listings</h2>
-            <ul className="cc-jobs-list">
-              {sampleJobs.map((job: Job) => (
-                <li key={job.id} className="cc-job-card">
-                  <h3>{job.title}</h3>
-                  <p className="cc-card-meta">{job.company} | {job.location}</p>
-                  <ul className="cc-chips">
-                    <li className="cc-chip">{job.category}</li>
-                    <li className="cc-chip">{job.employment_type}</li>
-                    <li className="cc-chip">{job.work_from}</li>
-                  </ul>
-                </li>
-              ))}
-            </ul>
+          <ul className="cc-jobs-list">
+            {sampleJobs.map((job: Job) => (
+              <li key={job.id} className="cc-job-card">
+                <h3>{job.title}</h3>
+                <p className="cc-card-meta">{job.company} | {job.location}</p>
+                <ul className="cc-chips">
+                  <li className="cc-chip">{job.category}</li>
+                  <li className="cc-chip">{EMPLOYMENT_LABELS[job.employment_type]}</li>
+                  <li className="cc-chip">{WORK_FROM_LABELS[job.work_from]}</li>
+                </ul>
+              </li>
+            ))}
+          </ul>
         </section>
       ) : (
         <section className="cc-section">
