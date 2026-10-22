@@ -1,0 +1,41 @@
+/* =========================================================================
+   Job listings on the Job Dashboard tab (Sprint 2, job-search feature).
+   Uses the dashboard's theme variables so it works in light and dark mode.
+   ========================================================================= */
+
+/* Strip default list styling and lay cards out in a responsive grid */
+.cc-jobs-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+/* Individual card: subtle surface and border that work on a light & dark backgrounds */
+.cc-job-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  background: var(--cc-soft);
+  transition: border-color 0.15s ease;
+}
+
+.cc-job-card:hover {
+  border-color: var(--cc-accent);
+}
+
+/* Remove the default h3 top margin so the title sits flush with the card padding */
+.cc-job-card h3 {
+  margin: 0 0 4px;
+  font-size: 1rem;
+}
+
+.cc-job-card p {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+}
