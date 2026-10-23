@@ -4,8 +4,15 @@ Pydantic request/response shapes for /api/applications/*.
 """
 
 import datetime
+from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field
+
+from models.application import APPLICATION_STATUSES
+
+# "Applied" | "Under Review" | "Interview" | "Offered" | "Rejected", built from
+# the same list the database constraint uses, so the two can never disagree.
+ApplicationStatus = Literal[APPLICATION_STATUSES]
 
 
 class ApplicationCreate(BaseModel):
@@ -36,3 +43,34 @@ class ApplicationOut(BaseModel):
 class ApplicationSubmitResponse(BaseModel):
     message: str
     application: ApplicationOut
+
+
+# ---------------------------------------------------------------------------
+# Status updates and history
+# ---------------------------------------------------------------------------
+class StatusUpdate(BaseModel):
+    """Body of PATCH /api/applications/{id}/status."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    status: ApplicationStatus  # anything else -> 422 before the route runs
+
+
+class ApplicantOut(ApplicationOut):
+    """What a recruiter sees for each applicant to one of their postings:
+    the application plus who applied."""
+
+    applicant_id: int
+    applicant_name: str
+    applicant_email: str
+
+
+class StatusChangeOut(BaseModel):
+    """One entry in an application's status timeline."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    old_status: str | None  # None for the first entry (submission)
+    new_status: str
+    changed_by: int
+    changed_at: datetime.datetime
