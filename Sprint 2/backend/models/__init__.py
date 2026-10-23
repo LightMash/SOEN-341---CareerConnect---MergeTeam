@@ -15,5 +15,6 @@ from .user import User
 from .resume import Resume
 from .profile import Profile
 from .job import Job
+from .application import Application
 
-__all__ = ["User", "Resume", "Profile", "Job"]
+__all__ = ["User", "Resume", "Profile", "Job", "Application"]
