@@ -3,6 +3,9 @@ Owner: Job Application feature
 
 One row per (job seeker, job) pair: the job seeker applied to that job with
 one of their resumes, and the application is currently at `status`.
+
+Every status change (including the initial "Applied") is also recorded in
+`application_status_history`, so both sides can see a timeline.
 """
 
 import datetime
@@ -69,3 +72,40 @@ class Application(Base):
     job = relationship("Job")
     applicant = relationship("User")
     resume = relationship("Resume")
+
+    # Oldest change first, so the list reads as a timeline. passive_deletes
+    # lets the database's ON DELETE CASCADE remove the history rows.
+    history = relationship(
+        "ApplicationStatusHistory",
+        back_populates="application",
+        order_by="ApplicationStatusHistory.id",
+        passive_deletes=True,
+    )
+
+
+class ApplicationStatusHistory(Base):
+    """
+    Task 7.3: one row per status change, never edited or deleted afterwards.
+    The current status still lives on Application.status (fast to read and
+    filter); this table answers "when did it change, and who changed it?".
+    """
+
+    __tablename__ = "application_status_history"
+
+    id = Column(Integer, primary_key=True, index=True)
+
+    application_id = Column(
+        Integer, ForeignKey("applications.id", ondelete="CASCADE"), nullable=False, index=True
+    )
+
+    # None for the very first entry (the application being submitted).
+    old_status = Column(String(20), nullable=True)
+    new_status = Column(String(20), nullable=False)
+
+    # The user who made the change: the job seeker for "Applied", the
+    # recruiter for everything after.
+    changed_by = Column(Integer, ForeignKey("users.id"), nullable=False)
+
+    changed_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
+
+    application = relationship("Application", back_populates="history")
