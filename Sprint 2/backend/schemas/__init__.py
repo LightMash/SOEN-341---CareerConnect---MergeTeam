@@ -10,6 +10,7 @@ from .auth import UserCreate, UserLogin, UserOut, TokenResponse
 from .resume import ResumeOut, ResumeUploadResponse
 from .profile import EducationItem, ExperienceItem, ProfileUpdate, ProfileOut
 from .application import ApplicationCreate, ApplicationOut, ApplicationSubmitResponse
+from .job import JobIn, JobOut
 
 __all__ = [
     "UserCreate",
@@ -25,4 +26,6 @@ __all__ = [
     "ApplicationCreate",
     "ApplicationOut",
     "ApplicationSubmitResponse",
+    "JobIn",
+    "JobOut",
 ]
