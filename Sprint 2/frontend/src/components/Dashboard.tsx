@@ -147,13 +147,17 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
         );
       case "jobs":
       default:
+      case "jobs":
+      default:
         // Recruiters manage their own postings here; job seekers see the
         // job listings.
         return user.role === "recruiter" ? (
           <RecruiterPostings token={token} />
         ) : (
-          <JobDashboardTab user={user} />
+          <JobDashboardTab user={user} token={token} />
         );
+    }
+  } main
     }
   }
 
