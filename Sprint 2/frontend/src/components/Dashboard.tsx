@@ -146,7 +146,7 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
         );
       case "jobs":
       default:
-        return <JobDashboardTab user={user} />;
+        return <JobDashboardTab user={user} token={token}/>;
     }
   }
 
