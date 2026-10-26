@@ -61,10 +61,10 @@ class Job(Base):
 
     title = Column(String(120), nullable=False)
     company = Column(String(120), nullable=False)
-    location = Column(String(120), nullable=False, default="")
-    job_type = Column(String(20), nullable=False, default=DEFAULT_JOB_TYPE)
-    work_from = Column(String(20), nullable=False, default=DEFAULT_WORK_FROM)
-    category = Column(String(60), nullable=False, default="")  # e.g. "Software", used by search filters
+    location = Column(String(120), nullable=False, default="", index=True)
+    job_type = Column(String(20), nullable=False, default=DEFAULT_JOB_TYPE, index=True)
+    work_from = Column(String(20), nullable=False, default=DEFAULT_WORK_FROM, index=True)
+    category = Column(String(60), nullable=False, default="", index=True)  # e.g. "Software", used by search filters
     description = Column(Text, nullable=False, default="")
 
     # Yearly salary range in CAD; both optional ("not disclosed").
@@ -73,7 +73,7 @@ class Job(Base):
 
     # Closing a posting keeps it (and its applications) in the database but
     # hides it from job search and refuses new applications. Deleting removes it.
-    is_open = Column(Boolean, nullable=False, default=True)
+    is_open = Column(Boolean, nullable=False, default=True, index=True)
 
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_at = Column(
