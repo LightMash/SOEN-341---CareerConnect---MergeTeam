@@ -296,6 +296,7 @@ export function deleteProfilePhoto(token: string): Promise<{ message: string }> 
 
 
 // --- Jobs (Sprint 2: Job search & listing feature) -----------------------
+// Matches schemas/job.py's JobOut
 export interface Job {
   id: number;
   recruiter_id: number;
@@ -311,4 +312,25 @@ export interface Job {
   is_open: boolean;
   created_at: string;
   updated_at: string;
+}
+
+// Filtering for GET /api/jobs. All optional
+export interface JobFilters {
+  q?: string;
+  location?: string;
+  category?: string;
+  job_type?: Job["job_type"] | "";
+  work_from?: Job["work_from"] | "";
+}
+
+export function listJobs(filters: JobFilters, token: string): Promise<Job[]> {
+  // Skip empty filters
+  const params = new URLSearchParams();
+  for (const [key, value] of Object.entries(filters)) {
+    if (value && value.trim()) params.append(key, value.trim());
+  }
+  const query = params.toString();
+  return request<Job[]>(`/jobs${query ? `?${query}` : ""}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  })
 }

@@ -39,3 +39,41 @@
   margin: 0 0 4px;
   font-size: 0.8rem;
 }
+
+/* Search bar + filters */
+.cc-job-filters {
+  display: grid;
+  grid-template-columns: 2fr repeat(4, 1fr) auto;
+  gap: 8px;
+}
+
+@media (max-width: 900px) {
+  .cc-job-filters {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Job details view and button */
+.cc-job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-top: 8px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-job-button {
+  align-self: flex-start;
+  padding: 6px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 1000px;
+  background: transparent;
+  color: var(--cc-accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cc-job-button:hover {
+  border-color: var(--cc-accent);
+}
