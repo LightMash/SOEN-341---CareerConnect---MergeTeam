@@ -145,9 +145,7 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
             onPhotoChange={handlePhotoChange}
           />
         );
-      case "jobs":
-      default:
-      case "jobs":
+            case "jobs":
       default:
         // Recruiters manage their own postings here; job seekers see the
         // job listings.
@@ -156,8 +154,6 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
         ) : (
           <JobDashboardTab user={user} token={token} />
         );
-    }
-  } main
     }
   }
 
