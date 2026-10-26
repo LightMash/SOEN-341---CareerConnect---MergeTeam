@@ -1,0 +1,139 @@
+/* Recruiter job postings (US-04, Task 4.3).
+   Uses the --cc-* colors from index.css, so dark mode works automatically. */
+
+.cc-posting-form {
+  background: var(--cc-soft);
+  border-color: var(--cc-dash);
+}
+
+.cc-field-error {
+  color: var(--cc-danger);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.cc-input[aria-invalid="true"] {
+  border-color: var(--cc-danger);
+}
+
+.cc-postings-empty {
+  padding: 32px 24px;
+  background: var(--cc-soft);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 16px;
+  text-align: center;
+}
+
+.cc-postings-empty p {
+  margin: 4px 0 0;
+  color: var(--cc-muted);
+}
+
+.cc-postings {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.cc-posting {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 20px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-posting:first-child {
+  border-top: 0;
+}
+
+.cc-posting.is-closed {
+  background: var(--cc-soft);
+}
+
+.cc-posting-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.cc-posting-title-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.cc-posting-title {
+  margin: 0;
+  color: var(--cc-ink);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.cc-posting.is-closed .cc-posting-title {
+  color: var(--cc-muted);
+}
+
+.cc-status {
+  padding: 1px 10px;
+  background: color-mix(in srgb, var(--cc-accent) 14%, var(--cc-paper));
+  color: var(--cc-accent);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cc-status.is-closed {
+  background: var(--cc-line);
+  color: var(--cc-muted);
+}
+
+.cc-posting-meta {
+  margin: 4px 0 10px;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-posting .cc-chip {
+  padding: 2px 10px;
+  font-size: 12px;
+}
+
+.cc-posting-actions {
+  display: flex;
+  flex-shrink: 0;
+  gap: 8px;
+}
+
+.cc-small-btn {
+  padding: 6px 14px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cc-small-btn:hover {
+  border-color: var(--cc-accent);
+  color: var(--cc-accent);
+}
+
+.cc-small-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+@media (max-width: 760px) {
+  .cc-posting {
+    flex-direction: column;
+    gap: 12px;
+  }
+}
