@@ -9,6 +9,15 @@ add one import line here.
 from .auth import UserCreate, UserLogin, UserOut, TokenResponse
 from .resume import ResumeOut, ResumeUploadResponse
 from .profile import EducationItem, ExperienceItem, ProfileUpdate, ProfileOut
+from .job import JobIn, JobOut
+from .application import (
+    ApplicationCreate,
+    ApplicationOut,
+    ApplicationSubmitResponse,
+    StatusUpdate,
+    ApplicantOut,
+    StatusChangeOut,
+)
 
 __all__ = [
     "UserCreate",
@@ -21,4 +30,12 @@ __all__ = [
     "ExperienceItem",
     "ProfileUpdate",
     "ProfileOut",
+    "JobIn",
+    "JobOut",
+    "ApplicationCreate",
+    "ApplicationOut",
+    "ApplicationSubmitResponse",
+    "StatusUpdate",
+    "ApplicantOut",
+    "StatusChangeOut",
 ]
