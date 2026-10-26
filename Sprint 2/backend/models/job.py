@@ -28,6 +28,8 @@ from database import Base
 # should all use this same list.
 JOB_TYPES = ("Full-time", "Part-time", "Internship", "Contract")
 DEFAULT_JOB_TYPE = "Full-time"
+WORK_FROM = ("On-site", "Remote", "Hybrid")
+DEFAULT_WORK_FROM = "On-site"
 
 
 class Job(Base):
@@ -45,6 +47,10 @@ class Job(Base):
             "salary_min IS NULL OR salary_max IS NULL OR salary_min <= salary_max",
             name="ck_job_salary_range",
         ),
+        CheckConstraint(
+            "work_from IN (" + ", ".join(f"'{w}'" for w in WORK_FROM) + ")",
+            name="ck_job_work_from",
+        ),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -57,6 +63,7 @@ class Job(Base):
     company = Column(String(120), nullable=False)
     location = Column(String(120), nullable=False, default="")
     job_type = Column(String(20), nullable=False, default=DEFAULT_JOB_TYPE)
+    work_from = Column(String(20), nullable=False, default=DEFAULT_WORK_FROM)
     category = Column(String(60), nullable=False, default="")  # e.g. "Software", used by search filters
     description = Column(Text, nullable=False, default="")
 
