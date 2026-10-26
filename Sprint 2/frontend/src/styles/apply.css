@@ -1,0 +1,316 @@
+/* Apply controls (src/components/ApplyControls.tsx): the Select / Apply
+   buttons on a job card, the resume menu and the confirm dialog.
+
+   Everything is scoped under .cc-apply so nothing here can leak into the rest
+   of the app. Text, borders, error and success reuse the --cc-* tokens from
+   index.css; only the two button fills are defined locally, because the
+   mockup's blue and purple aren't part of the app palette. */
+
+.cc-apply {
+  /* Select (blue). White text on the normal fills is >= 4.5:1. */
+  --cc-apply-select: #3d49cc; /* 6.95:1 */
+  --cc-apply-select-hover: #2f3ab3; /* 8.83:1 */
+  /* Apply (purple). */
+  --cc-apply-apply: #a24ba3; /* 5.16:1 */
+  --cc-apply-apply-hover: #8a3a8b; /* 6.87:1 */
+  --cc-apply-ink: #ffffff;
+  /* "Washed out" = a pale, desaturated fill with darker readable text, not
+     just reduced opacity. */
+  --cc-apply-select-off: #dfe2f6;
+  --cc-apply-select-off-ink: #4b5088; /* 5.83:1 */
+  --cc-apply-apply-off: #eadbea;
+  --cc-apply-apply-off-ink: #5a3d5b; /* 7.02:1 */
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  max-width: 100%;
+  font-family: var(--cc-font);
+}
+
+/* On a dark page the saturated fills need to sit lighter or they melt into
+   the background; white text stays >= 4.5:1 on all of these. The disabled
+   state flips to a dark, desaturated fill with light text. */
+:root[data-theme="dark"] .cc-apply {
+  --cc-apply-select: #5360e6; /* 5.02:1 */
+  --cc-apply-select-hover: #4a56e0; /* 5.68:1 */
+  --cc-apply-apply: #ae52af; /* 4.54:1 */
+  --cc-apply-apply-hover: #a24ba3; /* 5.16:1 */
+  --cc-apply-select-off: #262b55;
+  --cc-apply-select-off-ink: #aab1ee; /* 6.56:1 */
+  --cc-apply-apply-off: #3b2a3c;
+  --cc-apply-apply-off-ink: #d3b3d4; /* 7.06:1 */
+}
+
+.cc-apply *,
+.cc-apply *::before,
+.cc-apply *::after {
+  box-sizing: border-box;
+}
+
+.cc-apply__row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  max-width: 100%;
+}
+
+/* ---------- Buttons ---------- */
+
+.cc-apply__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px; /* touch target */
+  padding: 0 18px;
+  border: 0;
+  border-radius: 999px;
+  color: var(--cc-apply-ink);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.cc-apply__btn--select {
+  max-width: 100%;
+  background: var(--cc-apply-select);
+}
+
+.cc-apply__btn--select:hover:not(:disabled) {
+  background: var(--cc-apply-select-hover);
+}
+
+.cc-apply__btn--apply {
+  background: var(--cc-apply-apply);
+}
+
+.cc-apply__btn--apply:hover:not(:disabled) {
+  background: var(--cc-apply-apply-hover);
+}
+
+.cc-apply__btn--select:disabled {
+  background: var(--cc-apply-select-off);
+  color: var(--cc-apply-select-off-ink);
+}
+
+.cc-apply__btn--apply:disabled {
+  background: var(--cc-apply-apply-off);
+  color: var(--cc-apply-apply-off-ink);
+}
+
+.cc-apply__btn:disabled {
+  cursor: not-allowed;
+}
+
+/* Cancel in the dialog: the same outline look as .cc-btn-secondary. */
+.cc-apply__btn--cancel {
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px solid var(--cc-dash);
+}
+
+.cc-apply__btn--cancel:disabled {
+  background: none;
+  color: var(--cc-muted);
+}
+
+/* Visible keyboard focus. The dialog is inside .cc-apply in the DOM, so this
+   covers its buttons too. */
+.cc-apply button:focus-visible {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+/* A long filename shortens to "…" instead of stretching the card; the full
+   name is in the element's title attribute. */
+.cc-apply__label {
+  min-width: 0;
+  max-width: 10rem; /* leaves room for Apply to sit beside it on a narrow card */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cc-apply__caret {
+  font-size: 12px;
+}
+
+/* ---------- Resume menu ---------- */
+
+.cc-apply__select {
+  position: relative;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cc-apply__menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 20;
+  width: max-content;
+  min-width: 100%;
+  max-width: min(22rem, 80vw);
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.cc-apply__menu:focus,
+.cc-apply__list:focus {
+  outline: none; /* the highlighted option carries the focus ring */
+}
+
+.cc-apply__list {
+  max-height: 16rem; /* any number of resumes: scroll instead of growing */
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  list-style: none;
+}
+
+.cc-apply__option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  min-height: 44px; /* touch target */
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cc-apply__option.is-active {
+  background: var(--cc-soft);
+  outline: 3px solid var(--cc-accent);
+  outline-offset: -3px;
+}
+
+.cc-apply__option[aria-selected="true"] .cc-apply__option-name {
+  font-weight: 700;
+}
+
+.cc-apply__option-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cc-apply__tag {
+  flex: none;
+  padding: 1px 8px;
+  background: var(--cc-soft);
+  color: var(--cc-accent);
+  border: 1px solid var(--cc-dash);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cc-apply__note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0;
+  padding: 12px 14px;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-apply__retry {
+  min-height: 44px;
+  padding: 0 14px;
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px solid var(--cc-dash);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ---------- Applied state, hint, messages ---------- */
+
+.cc-apply__applied {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  background: var(--cc-soft);
+  color: var(--cc-ink);
+  border: 1.5px solid var(--cc-dash);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: default;
+}
+
+.cc-apply__applied:focus {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-apply__hint {
+  margin: 6px 0 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* The status / alert paragraphs are always in the DOM (see the component), so
+   they take no space until they hold text. .cc-error has a negative top
+   margin made for the resume manager, hence the reset. */
+.cc-apply__msg {
+  margin: 0;
+}
+
+.cc-apply__msg:not(:empty) {
+  margin-top: 8px;
+}
+
+/* ---------- Confirm dialog ---------- */
+
+.cc-apply__dialog {
+  width: min(26rem, calc(100vw - 32px));
+  padding: 24px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+}
+
+.cc-apply__dialog::backdrop {
+  background: rgba(10, 14, 30, 0.55);
+}
+
+.cc-apply__dialog-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.cc-apply__dialog-text {
+  margin: 0 0 20px;
+  overflow-wrap: anywhere; /* long filenames and titles wrap, never overflow */
+}
+
+.cc-apply__dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cc-apply__btn {
+    transition: background-color 0.12s ease;
+  }
+}

@@ -2,6 +2,9 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
+import { initTheme } from './theme'
+
+initTheme() // follow the saved Light/Dark/System choice (and OS changes)
 
 // The non-null assertion (!) tells TypeScript "trust me, this element
 // exists" — getElementById's return type is `HTMLElement | null` since

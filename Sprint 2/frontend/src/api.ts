@@ -58,6 +58,21 @@ function errorMessage(data: { error?: string; detail?: unknown }): string {
   return "Something went wrong";
 }
 
+// Thrown by request() for every non-2xx response. It is still an Error with
+// the same message the old plain `new Error(...)` had, so existing callers
+// (`err instanceof Error ? err.message : ...`) keep working unchanged. The new
+// `status` field lets a caller branch on the HTTP code (e.g. 409 = "already
+// applied") instead of matching on message text, which could be reworded.
+export class ApiError extends Error {
+  status: number;
+
+  constructor(status: number, message: string) {
+    super(message);
+    this.name = "ApiError";
+    this.status = status;
+  }
+}
+
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const res = await fetch(`${API_BASE}${path}`, {
     headers: { "Content-Type": "application/json" },
@@ -70,7 +85,7 @@ async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const data = await res.json();
 
   if (!res.ok) {
-    throw new Error(errorMessage(data));
+    throw new ApiError(res.status, errorMessage(data));
   }
 
   return data as T;
@@ -290,6 +305,51 @@ export function uploadProfilePhoto(file: File, token: string): Promise<{ message
 export function deleteProfilePhoto(token: string): Promise<{ message: string }> {
   return request<{ message: string }>("/profile/photo", {
     method: "DELETE",
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+// --- Job application feature -----------------------------------------
+
+// Matches schemas/application.py's ApplicationOut
+export interface ApplicationOut {
+  id: number;
+  job_id: number;
+  job_title: string;
+  company: string;
+  resume_id: number | null; // null if the resume was deleted after applying
+  resume_filename: string | null;
+  status: string; // "Applied" | "Under Review" | "Interview" | "Offered" | "Rejected"
+  applied_at: string; // ISO date string over JSON
+  updated_at: string;
+}
+
+// Matches schemas/application.py's ApplicationSubmitResponse
+export interface ApplicationSubmitResponse {
+  message: string;
+  application: ApplicationOut;
+}
+
+// POST /api/applications. Always pass the resume the user picked: the backend
+// would fall back to the primary resume when resume_id is missing, but the UI
+// should never apply with a resume the user didn't choose.
+export function submitApplication(
+  jobId: number,
+  resumeId: number,
+  token: string
+): Promise<ApplicationSubmitResponse> {
+  // Content-Type is listed again because request() replaces its default
+  // headers when `headers` is passed (same note as updateMyProfile).
+  return request<ApplicationSubmitResponse>("/applications", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
+    body: JSON.stringify({ job_id: jobId, resume_id: resumeId }),
+  });
+}
+
+// Every application the logged-in job seeker has submitted, newest first.
+export function listMyApplications(token: string): Promise<ApplicationOut[]> {
+  return request<ApplicationOut[]>("/applications/mine", {
     headers: { Authorization: `Bearer ${token}` },
   });
 }
