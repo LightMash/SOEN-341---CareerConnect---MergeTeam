@@ -6,18 +6,6 @@ import { sampleJobs } from "../../sampleJobs";
 // CSS style
 import "../../styles/jobs.css";
 
-// Display labels for the job's employment_type and work_from values
-const EMPLOYMENT_LABELS: Record<Job["employment_type"], string> = {
-  full_time: "Full-time",
-  part_time: "Part-time",
-  internship: "Internship",
-};
-const WORK_FROM_LABELS: Record<Job["work_from"], string> = {
-  on_site: "On-site",
-  remote: "Remote",
-  hybrid: "Hybrid",
-};
-
 // The default tab. Job seekers see the job listings (Sprint 2 job-search feature).
 // Recruiters will see their tools here as well.
 export default function JobDashboardTab({ user }: { user: User }) {
@@ -49,8 +37,8 @@ export default function JobDashboardTab({ user }: { user: User }) {
                 <p className="cc-card-meta">{job.company} | {job.location}</p>
                 <ul className="cc-chips">
                   <li className="cc-chip">{job.category}</li>
-                  <li className="cc-chip">{EMPLOYMENT_LABELS[job.employment_type]}</li>
-                  <li className="cc-chip">{WORK_FROM_LABELS[job.work_from]}</li>
+                  <li className="cc-chip">{job.job_type}</li>
+                  <li className="cc-chip">{job.work_from}</li>
                 </ul>
               </li>
             ))}

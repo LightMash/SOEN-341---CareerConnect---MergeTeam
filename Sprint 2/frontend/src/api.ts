@@ -296,15 +296,19 @@ export function deleteProfilePhoto(token: string): Promise<{ message: string }> 
 
 
 // --- Jobs (Sprint 2: Job search & listing feature) -----------------------
-// Must match future Job schema
 export interface Job {
   id: number;
+  recruiter_id: number;
   title: string;
   company: string;
   location: string;
-  description: string;
+  job_type: "Full-time" | "Part-time" | "Internship" | "Contract";
+  work_from: "On-site" | "Remote" | "Hybrid";
   category: string;
-  employment_type: "full_time" | "part_time" | "internship";
-  posted_at: string;
-  work_from: "on_site" | "remote" | "hybrid";
+  description: string;
+  salary_min: number | null;
+  salary_max: number | null;
+  is_open: boolean;
+  created_at: string;
+  updated_at: string;
 }
