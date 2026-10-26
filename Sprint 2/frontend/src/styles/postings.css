@@ -12,6 +12,12 @@
   font-weight: 500;
 }
 
+.cc-field-hint {
+  align-self: flex-end;
+  color: var(--cc-muted);
+  font-size: 12px;
+}
+
 .cc-input[aria-invalid="true"] {
   border-color: var(--cc-danger);
 }

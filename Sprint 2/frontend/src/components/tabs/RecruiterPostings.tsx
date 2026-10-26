@@ -4,52 +4,86 @@ import {
   listMyPostings,
   createPosting,
   updatePosting,
-  setPostingStatus,
-  EMPLOYMENT_LABELS,
-  WORK_FROM_LABELS,
+  closePosting,
+  reopenPosting,
+  JOB_TYPES,
+  MAX_DESCRIPTION,
+  MAX_SALARY,
 } from "../../postingsApi";
-import type { JobPosting, JobPostingInput, EmploymentType, WorkFrom } from "../../postingsApi";
+import type { JobPosting, JobPostingInput, JobType } from "../../postingsApi";
 import "../../styles/postings.css";
 
 // Recruiter side of the Job dashboard (US-04, Task 4.3): a list of the
 // recruiter's own postings plus one form used for both creating and editing.
 
-type FormState = Omit<JobPostingInput, "deadline"> & { deadline: string };
-type RequiredField = "title" | "company" | "location" | "description";
+// Salaries are typed into text boxes, so the form keeps them as strings
+// ("" = not disclosed) and converts them to numbers only when saving.
+type FormState = Omit<JobPostingInput, "salary_min" | "salary_max"> & {
+  salary_min: string;
+  salary_max: string;
+};
+type CheckedField = "title" | "company" | "location" | "description" | "salary_min" | "salary_max";
 
 const EMPTY_FORM: FormState = {
   title: "",
   company: "",
   location: "",
   category: "",
-  employment_type: "full_time",
-  work_from: "on_site",
-  deadline: "",
+  job_type: "Full-time",
   description: "",
+  salary_min: "",
+  salary_max: "",
 };
 
-const REQUIRED: [RequiredField, string][] = [
+const REQUIRED: [CheckedField, string][] = [
   ["title", "Enter a job title"],
   ["company", "Enter the company name"],
   ["location", "Enter a location"],
   ["description", "Add a short description"],
 ];
 
-// Deadlines are plain dates ("2026-11-15"). Adding a time of noon stops the
-// date from shifting to the day before in timezones behind UTC.
-function formatDeadline(date: string) {
-  return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, {
-    month: "short",
-    day: "numeric",
-    year: "numeric",
-  });
+function validate(form: FormState) {
+  const errors: Partial<Record<CheckedField, string>> = {};
+
+  for (const [key, message] of REQUIRED) {
+    if (!form[key].trim()) errors[key] = message;
+  }
+  if (form.description.length > MAX_DESCRIPTION) {
+    errors.description = `Keep the description under ${MAX_DESCRIPTION.toLocaleString()} characters`;
+  }
+
+  for (const key of ["salary_min", "salary_max"] as const) {
+    const value = form[key].trim();
+    if (value && (!/^\d+$/.test(value) || Number(value) > MAX_SALARY)) {
+      errors[key] = `Enter a whole number from 0 to ${MAX_SALARY.toLocaleString()}`;
+    }
+  }
+  if (!errors.salary_min && !errors.salary_max && form.salary_min.trim() && form.salary_max.trim()) {
+    if (Number(form.salary_min) > Number(form.salary_max)) {
+      errors.salary_max = "Maximum can't be lower than the minimum";
+    }
+  }
+
+  return errors;
+}
+
+function toSalary(value: string): number | null {
+  return value.trim() ? Number(value) : null;
+}
+
+function formatSalary(min: number | null, max: number | null) {
+  const money = (n: number) => `$${n.toLocaleString()}`;
+  if (min !== null && max !== null) return `${money(min)} – ${money(max)} CAD / year`;
+  if (min !== null) return `From ${money(min)} CAD / year`;
+  if (max !== null) return `Up to ${money(max)} CAD / year`;
+  return "Salary not disclosed";
 }
 
 // Open postings first, newest first inside each group.
 function sortPostings(list: JobPosting[]) {
   return [...list].sort((a, b) => {
-    if (a.status !== b.status) return a.status === "open" ? -1 : 1;
-    return b.posted_at.localeCompare(a.posted_at);
+    if (a.is_open !== b.is_open) return a.is_open ? -1 : 1;
+    return b.created_at.localeCompare(a.created_at);
   });
 }
 
@@ -71,7 +105,7 @@ export default function RecruiterPostings({ token }: { token: string }) {
   // null = form closed, "new" = creating, a number = editing that posting
   const [editing, setEditing] = useState<"new" | number | null>(null);
   const [form, setForm] = useState<FormState>(EMPTY_FORM);
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<RequiredField, string>>>({});
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<CheckedField, string>>>({});
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
 
@@ -81,11 +115,11 @@ export default function RecruiterPostings({ token }: { token: string }) {
   useEffect(() => {
     listMyPostings(token)
       .then((list) => setPostings(sortPostings(list)))
-      .catch(() => setLoadError("Couldn't load your postings. Try refreshing the page."))
+      .catch((err: Error) => setLoadError(`Couldn't load your postings. ${err.message}`))
       .finally(() => setLoading(false));
   }, [token]);
 
-  const openCount = postings.filter((p) => p.status === "open").length;
+  const openCount = postings.filter((p) => p.is_open).length;
 
   function openNewForm() {
     setEditing("new");
@@ -102,10 +136,10 @@ export default function RecruiterPostings({ token }: { token: string }) {
       company: posting.company,
       location: posting.location,
       category: posting.category,
-      employment_type: posting.employment_type,
-      work_from: posting.work_from,
-      deadline: posting.deadline ?? "",
+      job_type: posting.job_type,
       description: posting.description,
+      salary_min: posting.salary_min === null ? "" : String(posting.salary_min),
+      salary_max: posting.salary_max === null ? "" : String(posting.salary_max),
     });
     setFieldErrors({});
     setSaveError("");
@@ -127,24 +161,22 @@ export default function RecruiterPostings({ token }: { token: string }) {
   async function handleSubmit(e: SubmitEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    const errors: Partial<Record<RequiredField, string>> = {};
-    for (const [key, message] of REQUIRED) {
-      if (!form[key].trim()) errors[key] = message;
-    }
+    const errors = validate(form);
     if (Object.keys(errors).length > 0) {
       setFieldErrors(errors);
       return;
     }
 
+    // PUT replaces every editable field, so always send the whole form.
     const input: JobPostingInput = {
       title: form.title.trim(),
       company: form.company.trim(),
       location: form.location.trim(),
       category: form.category.trim(),
-      employment_type: form.employment_type,
-      work_from: form.work_from,
-      deadline: form.deadline || null,
+      job_type: form.job_type,
       description: form.description.trim(),
+      salary_min: toSalary(form.salary_min),
+      salary_max: toSalary(form.salary_max),
     };
 
     setSaving(true);
@@ -167,16 +199,22 @@ export default function RecruiterPostings({ token }: { token: string }) {
     }
   }
 
-  async function toggleStatus(posting: JobPosting) {
-    const next = posting.status === "open" ? "closed" : "open";
+  async function toggleOpen(posting: JobPosting) {
     setBusyId(posting.id);
     setNotice("");
+    setLoadError("");
     try {
-      const updated = await setPostingStatus(posting.id, next, token);
+      const updated = posting.is_open
+        ? await closePosting(posting.id, token)
+        : await reopenPosting(posting.id, token);
       setPostings((prev) => sortPostings(prev.map((p) => (p.id === updated.id ? updated : p))));
-      setNotice(next === "closed" ? "Posting closed" : "Posting reopened");
+      setNotice(updated.is_open ? "Posting reopened" : "Posting closed");
     } catch (err) {
       setLoadError(err instanceof Error ? err.message : "Couldn't update the posting. Try again.");
+      // The posting may have changed elsewhere (e.g. already closed), so reload the real state.
+      listMyPostings(token)
+        .then((list) => setPostings(sortPostings(list)))
+        .catch(() => {});
     } finally {
       setBusyId(null);
     }
@@ -250,49 +288,52 @@ export default function RecruiterPostings({ token }: { token: string }) {
                 onChange={(e) => setField("category", e.target.value)}
               />
             </Field>
-            <Field label="Apply by">
-              <input
-                className="cc-input"
-                type="date"
-                value={form.deadline}
-                onChange={(e) => setField("deadline", e.target.value)}
-              />
-            </Field>
             <Field label="Job type">
               <select
                 className="cc-input"
-                value={form.employment_type}
-                onChange={(e) => setField("employment_type", e.target.value as EmploymentType)}
+                value={form.job_type}
+                onChange={(e) => setField("job_type", e.target.value as JobType)}
               >
-                {Object.entries(EMPLOYMENT_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
+                {JOB_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
                   </option>
                 ))}
               </select>
             </Field>
-            <Field label="Work mode">
-              <select
+            <Field label="Minimum salary (CAD / year)" error={fieldErrors.salary_min}>
+              <input
                 className="cc-input"
-                value={form.work_from}
-                onChange={(e) => setField("work_from", e.target.value as WorkFrom)}
-              >
-                {Object.entries(WORK_FROM_LABELS).map(([value, label]) => (
-                  <option key={value} value={value}>
-                    {label}
-                  </option>
-                ))}
-              </select>
+                inputMode="numeric"
+                value={form.salary_min}
+                placeholder="Optional"
+                aria-invalid={Boolean(fieldErrors.salary_min)}
+                onChange={(e) => setField("salary_min", e.target.value)}
+              />
+            </Field>
+            <Field label="Maximum salary (CAD / year)" error={fieldErrors.salary_max}>
+              <input
+                className="cc-input"
+                inputMode="numeric"
+                value={form.salary_max}
+                placeholder="Optional"
+                aria-invalid={Boolean(fieldErrors.salary_max)}
+                onChange={(e) => setField("salary_max", e.target.value)}
+              />
             </Field>
             <Field label="Description *" error={fieldErrors.description} wide>
               <textarea
                 className="cc-input cc-textarea"
                 rows={5}
                 value={form.description}
+                maxLength={MAX_DESCRIPTION}
                 placeholder="What the role involves and who you're looking for."
                 aria-invalid={Boolean(fieldErrors.description)}
                 onChange={(e) => setField("description", e.target.value)}
               />
+              <span className="cc-field-hint">
+                {form.description.length.toLocaleString()} / {MAX_DESCRIPTION.toLocaleString()}
+              </span>
             </Field>
           </div>
 
@@ -331,7 +372,7 @@ export default function RecruiterPostings({ token }: { token: string }) {
       ) : (
         <ul className="cc-postings">
           {postings.map((p) => {
-            const closed = p.status === "closed";
+            const closed = !p.is_open;
             return (
               <li key={p.id} className={`cc-posting ${closed ? "is-closed" : ""}`}>
                 <div className="cc-posting-info">
@@ -340,13 +381,13 @@ export default function RecruiterPostings({ token }: { token: string }) {
                     <span className={`cc-status ${closed ? "is-closed" : ""}`}>{closed ? "Closed" : "Open"}</span>
                   </div>
                   <p className="cc-posting-meta">
-                    {p.company} · {p.location}
-                    {p.deadline && ` · Apply by ${formatDeadline(p.deadline)}`}
+                    {p.company}
+                    {p.location && ` · ${p.location}`}
+                    {` · ${formatSalary(p.salary_min, p.salary_max)}`}
                   </p>
                   <ul className="cc-chips">
                     {p.category && <li className="cc-chip">{p.category}</li>}
-                    <li className="cc-chip">{EMPLOYMENT_LABELS[p.employment_type]}</li>
-                    <li className="cc-chip">{WORK_FROM_LABELS[p.work_from]}</li>
+                    <li className="cc-chip">{p.job_type}</li>
                   </ul>
                 </div>
                 <div className="cc-posting-actions">
@@ -361,7 +402,7 @@ export default function RecruiterPostings({ token }: { token: string }) {
                   <button
                     type="button"
                     className="cc-small-btn"
-                    onClick={() => toggleStatus(p)}
+                    onClick={() => toggleOpen(p)}
                     disabled={busyId === p.id}
                   >
                     {closed ? "Reopen" : "Close"}
