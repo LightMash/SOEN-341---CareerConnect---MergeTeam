@@ -32,6 +32,16 @@ export function BriefcaseIcon({ size = 20 }: IconProps) {
   );
 }
 
+export function ClipboardIcon({ size = 20 }: IconProps) {
+  return (
+    <svg {...svgProps(size)}>
+      <rect x="5" y="4" width="14" height="17" rx="2" />
+      <path d="M9 4h6v3H9z" />
+      <path d="M9 12h6M9 16h4" />
+    </svg>
+  );
+}
+
 export function UserIcon({ size = 20 }: IconProps) {
   return (
     <svg {...svgProps(size)}>
