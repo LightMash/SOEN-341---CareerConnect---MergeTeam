@@ -7,6 +7,7 @@ import { BriefcaseIcon, UserIcon } from "./icons";
 import JobDashboardTab from "./tabs/JobDashboardTab";
 import ProfileTab from "./tabs/ProfileTab";
 import RecruiterProfileTab from "./tabs/RecruiterProfileTab";
+import RecruiterPostings from "./tabs/RecruiterPostings";
 
 // Dashboard is now a thin "shell": a retractable sidebar plus whichever tab
 // is active. It no longer contains any resume logic — that moved to
@@ -144,9 +145,15 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
             onPhotoChange={handlePhotoChange}
           />
         );
-      case "jobs":
+            case "jobs":
       default:
-        return <JobDashboardTab user={user} />;
+        // Recruiters manage their own postings here; job seekers see the
+        // job listings.
+        return user.role === "recruiter" ? (
+          <RecruiterPostings token={token} />
+        ) : (
+          <JobDashboardTab user={user} token={token} />
+        );
     }
   }
 
