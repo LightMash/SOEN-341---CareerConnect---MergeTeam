@@ -12,6 +12,8 @@ import {
 } from "../../postingsApi";
 import type { JobPosting, JobPostingInput, JobType } from "../../postingsApi";
 import "../../styles/postings.css";
+import RecruiterApplicants from "./RecruiterApplicants";
+import "../../styles/applicants.css";
 
 // Recruiter side of the Job dashboard (US-04, Task 4.3): a list of the
 // recruiter's own postings plus one form used for both creating and editing.
@@ -111,6 +113,14 @@ export default function RecruiterPostings({ token }: { token: string }) {
 
   const [notice, setNotice] = useState("");
   const [busyId, setBusyId] = useState<number | null>(null);
+  const [expandedApplicantsId, setExpandedApplicantsId] =
+    useState<number | null>(null);
+
+  function toggleApplicants(jobId: number) {
+    setExpandedApplicantsId(current =>
+      current === jobId ? null : jobId
+    );
+  }
 
   useEffect(() => {
     listMyPostings(token)
@@ -122,6 +132,7 @@ export default function RecruiterPostings({ token }: { token: string }) {
   const openCount = postings.filter((p) => p.is_open).length;
 
   function openNewForm() {
+    setExpandedApplicantsId(null); // NEW
     setEditing("new");
     setForm(EMPTY_FORM);
     setFieldErrors({});
@@ -130,6 +141,7 @@ export default function RecruiterPostings({ token }: { token: string }) {
   }
 
   function openEditForm(posting: JobPosting) {
+    setExpandedApplicantsId(null); // NEW
     setEditing(posting.id);
     setForm({
       title: posting.title,
@@ -407,7 +419,30 @@ export default function RecruiterPostings({ token }: { token: string }) {
                   >
                     {closed ? "Reopen" : "Close"}
                   </button>
+                  <button
+                    type="button"
+                    className="cc-small-btn"
+                    aria-expanded={expandedApplicantsId === p.id}
+                    aria-controls={`applicants-panel-${p.id}`}
+                    onClick={() => toggleApplicants(p.id)}
+                    disabled={editing !== null}
+                  >
+                    {expandedApplicantsId === p.id
+                      ? "Hide applicants"
+                      : "Applicants"}
+                  </button>
                 </div>
+                {expandedApplicantsId === p.id && (
+                  <div
+                    id={`applicants-panel-${p.id}`}
+                    className="cc-applicants-panel"
+                  >
+                    <RecruiterApplicants
+                      jobId={p.id}
+                      token={token}
+                    />
+                  </div>
+                )}
               </li>
             );
           })}
