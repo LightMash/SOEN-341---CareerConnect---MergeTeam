@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginUser, type User, type LoginPayload } from "../api";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/auth.css";
 
 // Props this component accepts. onSuccess is optional (the `?`) — App.jsx
@@ -73,6 +74,7 @@ export default function Login({ onSuccess }: LoginProps) {
 
   return (
     <div className="auth-page">
+      <ThemeToggle variant="floating" />
       <div className="auth-card">
         <div className="auth-icon">
           <div className="auth-icon-dot" />

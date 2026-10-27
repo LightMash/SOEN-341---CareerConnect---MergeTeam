@@ -17,7 +17,7 @@
 
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
-  color-scheme: light dark;
+  color-scheme: light;
   color: var(--text);
   background: var(--bg);
   font-synthesis: none;
@@ -30,24 +30,25 @@
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #9ca3af;
-    --text-h: #f3f4f6;
-    --bg: #16171d;
-    --border: #2e303a;
-    --code-bg: #1f2028;
-    --accent: #c084fc;
-    --accent-bg: rgba(192, 132, 252, 0.15);
-    --accent-border: rgba(192, 132, 252, 0.5);
-    --social-bg: rgba(47, 48, 58, 0.5);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
-  }
+/* Dark theme: applied when <html data-theme="dark"> (set by src/theme.ts from
+   the user's choice, or from the OS setting when "System" is selected). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+}
 
-  #social .button-icon {
-    filter: invert(1) brightness(2);
-  }
+:root[data-theme="dark"] #social .button-icon {
+  filter: invert(1) brightness(2);
 }
 
 body {
@@ -154,36 +155,34 @@ code {
   text-align: left;
 }
 
-/* dark mode */
-@media (prefers-color-scheme: dark) {
-  .cc-dashboard {
-    --cc-side: #0a1416;
-    --cc-side-2: #10201f;
-    --cc-side-ink: #e6eeee;
-    --cc-side-soft: #c9c1ff;
-    --cc-side-faint: #7d9395;
-    --cc-side-line: #1f3033;
-    --cc-side-dash: #2f4649;
-    --cc-side-focus: #9b8cff;
-    --cc-brand-first: #e6eeee;
-    --cc-brand-second: #9b8cff;
-    --cc-bg: #0d1a1c;
-    --cc-ink: #e6eeee;
-    --cc-muted: #7d9395;
-    --cc-line: #1f3033;
-    --cc-accent: #9b8cff;
-    --cc-accent-ink: #15112e;
-    --cc-soft: #10201f;
-    --cc-dash: #2f4649;
-    --cc-paper: #10201f;
-    --cc-sketch: #1f3033;
-    --cc-sketch-ink: #c9c1ff;
-    --cc-danger: #ff8a80;
-  }
+/* dark mode (see src/theme.ts) */
+:root[data-theme="dark"] .cc-dashboard {
+  --cc-side: #0a1416;
+  --cc-side-2: #10201f;
+  --cc-side-ink: #e6eeee;
+  --cc-side-soft: #c9c1ff;
+  --cc-side-faint: #7d9395;
+  --cc-side-line: #1f3033;
+  --cc-side-dash: #2f4649;
+  --cc-side-focus: #9b8cff;
+  --cc-brand-first: #e6eeee;
+  --cc-brand-second: #9b8cff;
+  --cc-bg: #0d1a1c;
+  --cc-ink: #e6eeee;
+  --cc-muted: #7d9395;
+  --cc-line: #1f3033;
+  --cc-accent: #9b8cff;
+  --cc-accent-ink: #15112e;
+  --cc-soft: #10201f;
+  --cc-dash: #2f4649;
+  --cc-paper: #10201f;
+  --cc-sketch: #1f3033;
+  --cc-sketch-ink: #c9c1ff;
+  --cc-danger: #ff8a80;
+}
 
-  .cc-sidebar {
-    border-right: 1px solid var(--cc-line);
-  }
+:root[data-theme="dark"] .cc-sidebar {
+  border-right: 1px solid var(--cc-line);
 }
 
 .cc-dashboard *,
@@ -794,10 +793,32 @@ code {
   font-weight: 500;
 }
 
-@media (prefers-color-scheme: dark) {
-  .cc-success {
-    color: #81c784;
-  }
+:root[data-theme="dark"] .cc-success {
+  color: #81c784;
+}
+
+/* ---- theme toggle (src/components/ThemeToggle.tsx) ---- */
+/* Corner button on the login / register pages, where there is no sidebar. */
+.cc-theme-floating {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--auth-border);
+  background: var(--auth-card-bg);
+  color: var(--auth-text);
+  cursor: pointer;
+}
+
+.cc-theme-floating:focus-visible {
+  outline: 3px solid var(--auth-primary);
+  outline-offset: 2px;
 }
 
 /* ---- profile completeness meter ---- */

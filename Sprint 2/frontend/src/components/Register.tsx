@@ -1,6 +1,7 @@
 import { useState, type ChangeEvent, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { registerUser, type User, type RegisterPayload, type Role } from "../api";
+import ThemeToggle from "./ThemeToggle";
 import "../styles/auth.css";
 
 interface RegisterProps {
@@ -64,6 +65,7 @@ export default function Register({ onSuccess }: RegisterProps) {
 
   return (
     <div className="auth-page">
+      <ThemeToggle variant="floating" />
       <div className="auth-card">
         <div className="auth-icon">
           <div className="auth-icon-dot" />

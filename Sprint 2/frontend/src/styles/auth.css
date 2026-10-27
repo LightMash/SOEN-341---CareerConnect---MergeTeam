@@ -38,21 +38,19 @@
    index.css (same media query, same variable values), so the login/
    register pages switch themes in step with the dashboard instead of
    staying stuck in light mode after the rest of the app goes dark. */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --auth-primary: #9b8cff;         /* = --cc-accent (dark) */
-    --auth-primary-hover: #8574f0;
-    --auth-primary-light: #0d1a1c;   /* = --cc-bg (dark) — page background */
-    --auth-border: #1f3033;          /* = --cc-line (dark) */
-    --auth-text: #e6eeee;            /* = --cc-ink (dark) */
-    --auth-text-muted: #7d9395;      /* = --cc-muted (dark) */
-    --auth-danger: #ff8a80;          /* = --cc-danger (dark) */
-    --auth-danger-bg: rgba(255, 138, 128, 0.12);
-    --auth-danger-border: rgba(255, 138, 128, 0.35);
-    --auth-card-bg: #10201f;         /* = --cc-paper (dark) */
-    --auth-tab-track: #0f1f21;
-    --auth-surface-hover: #16232a;
-  }
+:root[data-theme="dark"] {
+  --auth-primary: #9b8cff;         /* = --cc-accent (dark) */
+  --auth-primary-hover: #8574f0;
+  --auth-primary-light: #0d1a1c;   /* = --cc-bg (dark) — page background */
+  --auth-border: #1f3033;          /* = --cc-line (dark) */
+  --auth-text: #e6eeee;            /* = --cc-ink (dark) */
+  --auth-text-muted: #7d9395;      /* = --cc-muted (dark) */
+  --auth-danger: #ff8a80;          /* = --cc-danger (dark) */
+  --auth-danger-bg: rgba(255, 138, 128, 0.12);
+  --auth-danger-border: rgba(255, 138, 128, 0.35);
+  --auth-card-bg: #10201f;         /* = --cc-paper (dark) */
+  --auth-tab-track: #0f1f21;
+  --auth-surface-hover: #16232a;
 }
 
 /* Full-page container: centers the card both horizontally and

@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import type { User } from "../api";
 import { ChevronIcon, LogoutIcon } from "./icons";
 import { getInitials } from "../avatar";
+import ThemeToggle from "./ThemeToggle";
 
 // One entry per tab. Dashboard.tsx owns the list of tabs; the sidebar is a
 // "dumb" component that only renders what it is given and reports clicks
@@ -123,6 +124,8 @@ export default function Sidebar({
           </button>
         ))}
       </nav>
+
+      <ThemeToggle variant="nav" />
 
       <button
         type="button"
