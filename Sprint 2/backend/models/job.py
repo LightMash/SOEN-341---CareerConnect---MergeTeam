@@ -28,6 +28,8 @@ from database import Base
 # should all use this same list.
 JOB_TYPES = ("Full-time", "Part-time", "Internship", "Contract")
 DEFAULT_JOB_TYPE = "Full-time"
+WORK_FROM = ("On-site", "Remote", "Hybrid")
+DEFAULT_WORK_FROM = "On-site"
 
 
 class Job(Base):
@@ -45,6 +47,10 @@ class Job(Base):
             "salary_min IS NULL OR salary_max IS NULL OR salary_min <= salary_max",
             name="ck_job_salary_range",
         ),
+        CheckConstraint(
+            "work_from IN (" + ", ".join(f"'{w}'" for w in WORK_FROM) + ")",
+            name="ck_job_work_from",
+        ),
     )
 
     id = Column(Integer, primary_key=True, index=True)
@@ -55,9 +61,10 @@ class Job(Base):
 
     title = Column(String(120), nullable=False)
     company = Column(String(120), nullable=False)
-    location = Column(String(120), nullable=False, default="")
-    job_type = Column(String(20), nullable=False, default=DEFAULT_JOB_TYPE)
-    category = Column(String(60), nullable=False, default="")  # e.g. "Software", used by search filters
+    location = Column(String(120), nullable=False, default="", index=True)
+    job_type = Column(String(20), nullable=False, default=DEFAULT_JOB_TYPE, index=True)
+    work_from = Column(String(20), nullable=False, default=DEFAULT_WORK_FROM, index=True)
+    category = Column(String(60), nullable=False, default="", index=True)  # e.g. "Software", used by search filters
     description = Column(Text, nullable=False, default="")
 
     # Yearly salary range in CAD; both optional ("not disclosed").
@@ -66,7 +73,7 @@ class Job(Base):
 
     # Closing a posting keeps it (and its applications) in the database but
     # hides it from job search and refuses new applications. Deleting removes it.
-    is_open = Column(Boolean, nullable=False, default=True)
+    is_open = Column(Boolean, nullable=False, default=True, index=True)
 
     created_at = Column(DateTime, nullable=False, default=datetime.datetime.utcnow)
     updated_at = Column(

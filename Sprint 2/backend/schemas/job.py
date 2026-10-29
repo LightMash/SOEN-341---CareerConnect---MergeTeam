@@ -11,11 +11,14 @@ from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, Field, model_validator
 
-from models.job import DEFAULT_JOB_TYPE, JOB_TYPES
+from models.job import DEFAULT_JOB_TYPE, JOB_TYPES, DEFAULT_WORK_FROM, WORK_FROM
 
 # "Full-time" | "Part-time" | "Internship" | "Contract", built from the same
 # list the database constraint uses.
 JobType = Literal[JOB_TYPES]
+# "On-site" | "Remote" | "Hybrid", built from the same list the database 
+# constraint uses.
+WorkFrom = Literal[WORK_FROM]
 
 
 class JobIn(BaseModel):
@@ -33,6 +36,7 @@ class JobIn(BaseModel):
     company: str = Field(min_length=1, max_length=120)
     location: str = Field(default="", max_length=120)
     job_type: JobType = DEFAULT_JOB_TYPE
+    work_from: WorkFrom = DEFAULT_WORK_FROM
     category: str = Field(default="", max_length=60)
     description: str = Field(default="", max_length=5000)
     salary_min: int | None = Field(default=None, ge=0, le=10_000_000)
@@ -54,6 +58,7 @@ class JobOut(BaseModel):
     company: str
     location: str
     job_type: str
+    work_from: str
     category: str
     description: str
     salary_min: int | None

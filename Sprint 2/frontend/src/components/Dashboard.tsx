@@ -3,10 +3,12 @@ import type { Role, User } from "../api";
 import { getProfilePhoto } from "../api";
 import Sidebar from "./Sidebar";
 import type { SidebarTab } from "./Sidebar";
-import { BriefcaseIcon, UserIcon } from "./icons";
+import { BriefcaseIcon, ClipboardIcon, UserIcon } from "./icons";
 import JobDashboardTab from "./tabs/JobDashboardTab";
+import MyApplicationsTab from "./tabs/MyApplicationsTab";
 import ProfileTab from "./tabs/ProfileTab";
 import RecruiterProfileTab from "./tabs/RecruiterProfileTab";
+import RecruiterPostings from "./tabs/RecruiterPostings";
 
 // Dashboard is now a thin "shell": a retractable sidebar plus whichever tab
 // is active. It no longer contains any resume logic — that moved to
@@ -21,7 +23,7 @@ interface DashboardProps {
   onLogout: () => void;
 }
 
-type TabId = "jobs" | "profile";
+type TabId = "jobs" | "applications" | "profile";
 
 interface TabDef extends SidebarTab {
   id: TabId;
@@ -40,6 +42,14 @@ const TABS: TabDef[] = [
     label: "Job Dashboard",
     icon: <BriefcaseIcon />,
     roles: ["job_seeker", "recruiter"],
+  },
+  {
+    id: "applications",
+    label: "My Applications",
+    icon: <ClipboardIcon />,
+    // Only job seekers apply to jobs; recruiters track applicants from their
+    // postings on the Job Dashboard tab instead.
+    roles: ["job_seeker"],
   },
   {
     id: "profile",
@@ -144,9 +154,17 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
             onPhotoChange={handlePhotoChange}
           />
         );
+            case "applications":
+        return <MyApplicationsTab token={token} />;
       case "jobs":
       default:
-        return <JobDashboardTab user={user} />;
+        // Recruiters manage their own postings here; job seekers see the
+        // job listings.
+        return user.role === "recruiter" ? (
+          <RecruiterPostings token={token} />
+        ) : (
+          <JobDashboardTab user={user} token={token} />
+        );
     }
   }
 

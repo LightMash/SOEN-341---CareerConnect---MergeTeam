@@ -1,0 +1,209 @@
+/* applicants.css */
+
+/* Keep existing posting content on the first row.
+   The applicants panel occupies the entire next row. */
+.cc-posting:has(.cc-applicants-panel) {
+  flex-wrap: wrap;
+}
+
+/* Expanded area underneath the posting */
+.cc-applicants-panel {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding: 18px;
+  margin-top: 4px;
+
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+}
+
+/* Individual applicant */
+.cc-applicant-card {
+  padding: 16px;
+  margin-top: 12px;
+
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+}
+
+/* Applicant name */
+.cc-applicant-name {
+  margin: 0;
+  color: var(--cc-ink);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Email, resume, application date */
+.cc-applicant-meta {
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* Status dropdown */
+.cc-applicant-status {
+  width: 100%;
+  max-width: 220px;
+  padding: 8px 10px;
+
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  font: inherit;
+  font-size: 13px;
+}
+
+.cc-applicant-status:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-applicant-status:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Expandable history */
+.cc-applicant-history {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cc-line);
+}
+
+@media (max-width: 760px) {
+  .cc-applicants-panel {
+    width: 100%;
+    padding: 12px;
+  }
+
+  .cc-applicant-status {
+    max-width: none;
+  }
+}
+
+.cc-applicants {
+  color: var(--cc-ink);
+}
+
+.cc-applicants-heading,
+.cc-applicant-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-applicants-heading h4 {
+  margin: 0;
+}
+
+.cc-applicants-list,
+.cc-applicant-history-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0 0;
+}
+
+.cc-applicant-card {
+  padding: 16px;
+  margin-bottom: 12px;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+}
+
+.cc-applicant-name {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.cc-applicant-meta {
+  margin: 4px 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+.cc-applicant-details {
+  margin: 12px 0;
+}
+
+.cc-applicant-status-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 14px 0;
+}
+
+.cc-applicant-status {
+  width: 100%;
+  max-width: 240px;
+  padding: 9px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 8px;
+  color: var(--cc-ink);
+  background: var(--cc-paper);
+  font: inherit;
+}
+
+.cc-applicant-status:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.cc-applicant-status:focus-visible,
+.cc-history-toggle:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-applicant-success {
+  color: #23834e;
+  font-size: 13px;
+}
+
+.cc-applicant-error {
+  color: #c43d3d;
+  font-size: 13px;
+}
+
+.cc-history-toggle {
+  margin-top: 6px;
+}
+
+.cc-applicant-history {
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-applicant-history h5 {
+  margin: 0 0 10px;
+}
+
+.cc-applicant-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--cc-line);
+  font-size: 13px;
+}
+
+.cc-applicant-history-item:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 600px) {
+  .cc-applicant-card {
+    padding: 12px;
+  }
+
+  .cc-applicant-status {
+    max-width: none;
+  }
+}

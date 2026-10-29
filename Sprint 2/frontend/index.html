@@ -5,6 +5,17 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>frontend</title>
+    <!-- Sets the theme before the first paint so dark-mode users never see a
+         light flash. Same logic as src/theme.ts (storage key "cc-theme"). -->
+    <script>
+      (function () {
+        var pref = "system";
+        try { pref = localStorage.getItem("cc-theme") || "system"; } catch (e) {}
+        var dark = pref === "dark" ||
+          (pref !== "light" && window.matchMedia("(prefers-color-scheme: dark)").matches);
+        document.documentElement.dataset.theme = dark ? "dark" : "light";
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

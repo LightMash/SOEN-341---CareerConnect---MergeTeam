@@ -18,6 +18,7 @@ from routers.resume import router as resume_router
 from routers.profile import router as profile_router
 from routers.job import router as job_router
 from routers.application import router as application_router
+from routers.job_search import router as job_search_router
 
 # Create all the tables from the database on startup
 Base.metadata.create_all(bind=engine)
@@ -40,6 +41,7 @@ app.include_router(resume_router, prefix="/api", tags=["resume"])
 app.include_router(profile_router, prefix="/api", tags=["profile"])  # Sprint 2: /api/profile/me
 app.include_router(job_router, prefix="/api", tags=["jobs"])
 app.include_router(application_router, prefix="/api", tags=["applications"])
+app.include_router(job_search_router, prefix="/api", tags=["jobs"])
 
 @app.get("/api/health")
 def health_check():
