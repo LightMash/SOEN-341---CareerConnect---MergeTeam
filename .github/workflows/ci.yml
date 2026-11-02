@@ -8,13 +8,13 @@
 # whether a change broke something.
 #
 # There are two independent jobs that run in parallel:
-#   1. backend  -> runs the automated pytest suite in  Sprint 2/backend/tests/
-#   2. frontend -> lints and builds the React app in   Sprint 2/frontend/
+#   1. backend  -> runs the automated pytest suite in  Sprint 3/backend/tests/
+#   2. frontend -> lints and builds the React app in   Sprint 3/frontend/
 #
 # Adding more tests later does NOT require editing this file: drop a new
-# `test_*.py` file in Sprint 2/backend/tests/ and `pytest` picks it up.
-# When Sprint 3 starts, change the "Sprint 2" folder name in the 4 places
-# marked  <-- SPRINT FOLDER  below.
+# `test_*.py` file in Sprint 3/backend/tests/ and `pytest` picks it up.
+# The pipeline now targets the "Sprint 3" folder (see the 4 places
+# marked  <-- SPRINT FOLDER  below); update them when Sprint 4 starts.
 # =============================================================================
 
 name: CI
@@ -48,7 +48,7 @@ jobs:
     # Every `run:` step in this job executes inside this folder.
     defaults:
       run:
-        working-directory: Sprint 2/backend      # <-- SPRINT FOLDER
+        working-directory: Sprint 3/backend      # <-- SPRINT FOLDER
 
     # A throwaway PostgreSQL database that exists only while this job runs.
     # We need a real Postgres because database.py refuses any other database.
@@ -88,7 +88,7 @@ jobs:
         with:
           python-version: "3.13"
           cache: pip
-          cache-dependency-path: Sprint 2/backend/requirements*.txt   # <-- SPRINT FOLDER
+          cache-dependency-path: Sprint 3/backend/requirements*.txt   # <-- SPRINT FOLDER
 
       # requirements.txt  = what the app needs to run
       # requirements-dev.txt = extra tools only needed for testing (pytest, httpx)
@@ -109,7 +109,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: Sprint 2/frontend     # <-- SPRINT FOLDER
+        working-directory: Sprint 3/frontend     # <-- SPRINT FOLDER
 
     steps:
       - name: Check out code
@@ -120,7 +120,7 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: Sprint 2/frontend/package-lock.json   # <-- SPRINT FOLDER
+          cache-dependency-path: Sprint 3/frontend/package-lock.json   # <-- SPRINT FOLDER
 
       # `npm ci` installs exactly the versions in package-lock.json
       # (stricter and more reproducible than `npm install`).

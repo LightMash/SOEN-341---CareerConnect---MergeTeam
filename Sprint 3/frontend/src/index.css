@@ -1,0 +1,1107 @@
+:root {
+  --text: #6b6375;
+  --text-h: #08060d;
+  --bg: #fff;
+  --border: #e5e4e7;
+  --code-bg: #f4f3ec;
+  --accent: #aa3bff;
+  --accent-bg: rgba(170, 59, 255, 0.1);
+  --accent-border: rgba(170, 59, 255, 0.5);
+  --social-bg: rgba(244, 243, 236, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+
+  --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --heading: system-ui, 'Segoe UI', Roboto, sans-serif;
+  --mono: ui-monospace, Consolas, monospace;
+
+  font: 18px/145% var(--sans);
+  letter-spacing: 0.18px;
+  color-scheme: light;
+  color: var(--text);
+  background: var(--bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  @media (max-width: 1024px) {
+    font-size: 16px;
+  }
+}
+
+/* Dark theme: applied when <html data-theme="dark"> (set by src/theme.ts from
+   the user's choice, or from the OS setting when "System" is selected). */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --text: #9ca3af;
+  --text-h: #f3f4f6;
+  --bg: #16171d;
+  --border: #2e303a;
+  --code-bg: #1f2028;
+  --accent: #c084fc;
+  --accent-bg: rgba(192, 132, 252, 0.15);
+  --accent-border: rgba(192, 132, 252, 0.5);
+  --social-bg: rgba(47, 48, 58, 0.5);
+  --shadow:
+    rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+}
+
+:root[data-theme="dark"] #social .button-icon {
+  filter: invert(1) brightness(2);
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  width: 1126px;
+  max-width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  border-inline: 1px solid var(--border);
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+h1,
+h2 {
+  font-family: var(--heading);
+  font-weight: 500;
+  color: var(--text-h);
+}
+
+h1 {
+  font-size: 56px;
+  letter-spacing: -1.68px;
+  margin: 32px 0;
+  @media (max-width: 1024px) {
+    font-size: 36px;
+    margin: 20px 0;
+  }
+}
+h2 {
+  font-size: 24px;
+  line-height: 118%;
+  letter-spacing: -0.24px;
+  margin: 0 0 8px;
+  @media (max-width: 1024px) {
+    font-size: 20px;
+  }
+}
+p {
+  margin: 0;
+}
+
+code,
+.counter {
+  font-family: var(--mono);
+  display: inline-flex;
+  border-radius: 4px;
+  color: var(--text-h);
+}
+
+code {
+  font-size: 15px;
+  line-height: 135%;
+  padding: 4px 8px;
+  background: var(--code-bg);
+}
+
+
+/* CareerConnect dashboard */
+
+.cc-dashboard {
+  /* light mode */
+  --cc-side: #2742d6;
+  --cc-side-2: #3a55e6;
+  --cc-side-ink: #ffffff;
+  --cc-side-soft: rgba(255, 255, 255, 0.8);
+  --cc-side-faint: rgba(255, 255, 255, 0.68);
+  --cc-side-line: rgba(255, 255, 255, 0.25);
+  --cc-side-dash: rgba(255, 255, 255, 0.45);
+  --cc-side-focus: #ffffff;
+  --cc-brand-first: #ffffff;
+  --cc-brand-second: #ffd166;
+  --cc-bg: #ffffff;
+  --cc-ink: #141a2e;
+  --cc-muted: #6b7289;
+  --cc-line: #e3e6ee;
+  --cc-accent: #2742d6;
+  --cc-accent-ink: #ffffff;
+  --cc-soft: #f6f8ff;
+  --cc-dash: #c9d0f5;
+  --cc-paper: #ffffff;
+  --cc-sketch: #e6e9f2;
+  --cc-sketch-ink: #141a2e;
+  --cc-danger: #c62828;
+  --cc-font: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
+
+  flex: 1;
+  display: grid;
+  /* Sidebar width is a variable so collapsing is one class toggle
+     (.is-collapsed, set in Dashboard.tsx) and the column animates smoothly. */
+  --cc-side-w: 240px;
+  grid-template-columns: var(--cc-side-w) minmax(0, 1fr);
+  transition: grid-template-columns 0.2s ease;
+  min-height: 100svh;
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+  font: 15px/1.5 var(--cc-font);
+  letter-spacing: 0;
+  text-align: left;
+}
+
+/* dark mode (see src/theme.ts) */
+:root[data-theme="dark"] .cc-dashboard {
+  --cc-side: #0a1416;
+  --cc-side-2: #10201f;
+  --cc-side-ink: #e6eeee;
+  --cc-side-soft: #c9c1ff;
+  --cc-side-faint: #7d9395;
+  --cc-side-line: #1f3033;
+  --cc-side-dash: #2f4649;
+  --cc-side-focus: #9b8cff;
+  --cc-brand-first: #e6eeee;
+  --cc-brand-second: #9b8cff;
+  --cc-bg: #0d1a1c;
+  --cc-ink: #e6eeee;
+  --cc-muted: #7d9395;
+  --cc-line: #1f3033;
+  --cc-accent: #9b8cff;
+  --cc-accent-ink: #15112e;
+  --cc-soft: #10201f;
+  --cc-dash: #2f4649;
+  --cc-paper: #10201f;
+  --cc-sketch: #1f3033;
+  --cc-sketch-ink: #c9c1ff;
+  --cc-danger: #ff8a80;
+}
+
+:root[data-theme="dark"] .cc-sidebar {
+  border-right: 1px solid var(--cc-line);
+}
+
+.cc-dashboard *,
+.cc-dashboard *::before,
+.cc-dashboard *::after {
+  box-sizing: border-box;
+}
+
+.cc-dashboard button:focus-visible {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-sidebar button:focus-visible {
+  outline-color: var(--cc-side-focus);
+}
+
+/* ---------- Sidebar ---------- */
+
+.cc-sidebar {
+  display: flex;
+  flex-direction: column;
+  padding: 28px 22px;
+  background: var(--cc-side);
+  color: var(--cc-side-ink);
+}
+
+.cc-brand {
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.4px;
+}
+
+.cc-brand-first {
+  color: var(--cc-brand-first);
+}
+
+.cc-brand-second {
+  color: var(--cc-brand-second);
+}
+
+.cc-photo {
+  width: 100%;
+  aspect-ratio: 1;
+  margin: 28px 0 18px;
+  display: grid;
+  place-items: center;
+  background: var(--cc-side-2);
+  color: var(--cc-side-soft);
+  border: 1.5px dashed var(--cc-side-dash);
+  border-radius: 20px;
+  font-size: 64px;
+  font-weight: 600;
+}
+
+.cc-name {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.cc-role {
+  margin: 4px 0 0;
+  color: var(--cc-side-soft);
+  font-size: 14px;
+}
+
+.cc-email {
+  margin: 12px 0 0;
+  color: var(--cc-side-faint);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.cc-nav {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin-top: 32px;
+}
+
+.cc-nav-item {
+  width: 100%;
+  padding: 11px 0;
+  background: none;
+  color: var(--cc-side-faint);
+  border: 0;
+  border-top: 1px solid var(--cc-side-line);
+  font: inherit;
+  font-size: 14px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cc-nav-item:hover,
+.cc-nav-item.is-active {
+  color: var(--cc-side-ink);
+}
+
+.cc-nav-item.is-active {
+  font-weight: 600;
+}
+
+/* ---------- Main area ---------- */
+
+.cc-main {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  min-width: 0;
+  padding: 44px 44px 56px;
+}
+
+.cc-main-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cc-title {
+  margin: 0;
+  color: var(--cc-ink);
+  font-family: var(--cc-font);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.8px;
+}
+
+.cc-subtitle {
+  margin: 8px 0 0;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-upload-btn {
+  padding: 12px 20px;
+  background: var(--cc-accent);
+  color: var(--cc-accent-ink);
+  border: 0;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.15s, opacity 0.15s;
+}
+
+.cc-upload-btn:hover {
+  transform: translateY(-1px);
+}
+
+.cc-upload-btn:disabled {
+  opacity: 0.6;
+  cursor: progress;
+  transform: none;
+}
+
+/* ---------- Drop zone ---------- */
+
+.cc-drop {
+  padding: 20px;
+  background: var(--cc-soft);
+  color: var(--cc-muted);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 16px;
+  text-align: center;
+  font-size: 14px;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cc-drop.is-dragging {
+  border-color: var(--cc-accent);
+  background: color-mix(in srgb, var(--cc-accent) 10%, var(--cc-bg));
+  color: var(--cc-ink);
+}
+
+/* Shown while addFile() is awaiting the backend's response to an upload —
+   mirrors .cc-upload-btn:disabled's dimmed look so both "busy" states read
+   the same way to the user. */
+.cc-drop.is-uploading {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cc-link {
+  padding: 0;
+  background: none;
+  color: var(--cc-accent);
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.cc-error {
+  margin: -8px 0 0;
+  color: var(--cc-danger);
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.cc-muted {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+.cc-visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Resume cards ---------- */
+
+.cc-grid {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 22px;
+}
+
+.cc-card {
+  min-width: 0;
+}
+
+.cc-thumb {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+
+.cc-card:hover .cc-thumb {
+  transform: translateY(-3px);
+  border-color: var(--cc-dash);
+}
+
+.cc-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  display: block;
+}
+
+.cc-sketch {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px;
+}
+
+.cc-sketch span {
+  display: block;
+  height: 5px;
+  background: var(--cc-sketch);
+  border-radius: 3px;
+}
+
+.cc-sketch .cc-sketch-name {
+  width: 55%;
+  height: 10px;
+  background: var(--cc-sketch-ink);
+}
+
+.cc-sketch .cc-sketch-role {
+  width: 35%;
+  margin-bottom: 10px;
+  background: var(--cc-accent);
+}
+
+.cc-sketch .is-short {
+  width: 80%;
+}
+
+.cc-sketch .is-gap {
+  margin-top: 8px;
+}
+
+.cc-sketch .is-shorter {
+  width: 60%;
+}
+
+.cc-card-name {
+  margin: 10px 0 0;
+  font-size: 14px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cc-card-meta {
+  margin: 2px 0 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* Download/Delete links shown under each resume card. */
+.cc-card-actions {
+  display: flex;
+  flex-wrap: wrap; /* up to four links now: Download / Replace / Set primary / Delete */
+  gap: 12px;
+  margin-top: 6px;
+  font-size: 13px;
+}
+
+/* Same base look as .cc-link, but in the "danger" color so Delete visually
+   stands out from Download before the user clicks it. */
+.cc-link-danger {
+  color: var(--cc-danger);
+}
+
+.cc-add {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  display: grid;
+  place-items: center;
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 12px;
+  font: inherit;
+  font-size: 36px;
+  font-weight: 300;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s;
+}
+
+.cc-add:hover {
+  border-color: var(--cc-accent);
+  background: var(--cc-soft);
+}
+
+.cc-add:disabled {
+  opacity: 0.5;
+  cursor: progress;
+}
+
+/* ---------- Recruiter placeholder ---------- */
+
+.cc-soon {
+  padding: 32px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-section-title {
+  margin: 0 0 6px;
+  color: var(--cc-ink);
+  font-family: var(--cc-font);
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+.cc-soon p {
+  margin: 0;
+  color: var(--cc-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cc-dashboard * {
+    transition: none !important;
+  }
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 760px) {
+  .cc-dashboard {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-sidebar {
+    padding: 20px 18px;
+  }
+
+  .cc-brand {
+    font-size: 22px;
+  }
+
+  .cc-photo {
+    width: 96px;
+    margin: 18px 0 12px;
+    border-radius: 16px;
+    font-size: 36px;
+  }
+
+  .cc-nav {
+    margin-top: 18px;
+  }
+
+  .cc-main {
+    padding: 28px 18px 40px;
+  }
+
+  .cc-main-head {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .cc-title {
+    font-size: 32px;
+  }
+
+  .cc-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+}
+
+
+/* ============================================================
+   Sprint 2 additions
+   ============================================================ */
+
+/* ---------- Retractable sidebar ---------- */
+
+/* Collapsed = slim icon-only rail. Overriding the one variable is enough:
+   the grid column in .cc-dashboard reads it and animates the change. */
+.cc-dashboard.is-collapsed {
+  --cc-side-w: 76px;
+}
+
+.cc-sidebar {
+  min-width: 0;
+  overflow: hidden; /* hide text that no longer fits while the column animates */
+}
+
+.cc-sidebar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.cc-collapse {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  background: none;
+  color: var(--cc-side-soft);
+  border: 1px solid var(--cc-side-line);
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.cc-collapse:hover {
+  color: var(--cc-side-ink);
+  border-color: var(--cc-side-dash);
+}
+
+.cc-collapse svg {
+  transition: transform 0.2s;
+}
+
+/* Nav buttons now hold an icon + a label side by side. */
+.cc-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.cc-nav-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+}
+
+.is-collapsed .cc-sidebar {
+  padding: 28px 14px;
+}
+
+.is-collapsed .cc-sidebar-top {
+  justify-content: center;
+}
+
+/* The chevron points left to collapse; flip it to point right to expand. */
+.is-collapsed .cc-collapse svg {
+  transform: rotate(180deg);
+}
+
+.is-collapsed .cc-brand,
+.is-collapsed .cc-identity {
+  display: none;
+}
+
+/* The big avatar shrinks to a small badge so the user is still identifiable. */
+.is-collapsed .cc-photo {
+  width: 44px;
+  margin: 20px auto 14px;
+  border-radius: 12px;
+  font-size: 16px;
+}
+
+.is-collapsed .cc-nav-item {
+  justify-content: center;
+}
+
+/* Visually hidden rather than display:none, so screen readers still hear
+   the tab names when only the icons are showing. */
+.is-collapsed .cc-nav-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* The avatar doubles as a shortcut to the Profile tab. As a <button> it needs
+   the browser's default button styling reset so it keeps the avatar look. */
+.cc-photo.is-clickable {
+  padding: 0;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.cc-photo.is-clickable:hover {
+  border-style: solid;
+  border-color: var(--cc-side-ink);
+  transform: translateY(-1px);
+}
+
+/* ---------- Sections, resume badge, profile form and view ---------- */
+
+/* Positioning context for the "Primary" badge below. */
+.cc-thumb {
+  position: relative;
+}
+
+.cc-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 2px 10px;
+  background: var(--cc-accent);
+  color: var(--cc-accent-ink);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* A bordered "card" panel: the profile view/form and the resume manager. */
+.cc-section {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-section-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cc-section-head .cc-subtitle {
+  margin-top: 4px;
+}
+
+.cc-subhead {
+  margin: 8px 0 0;
+  color: var(--cc-ink);
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* Outline variant of the pill button (Cancel, "+ Add ..."). Used together
+   with .cc-upload-btn, which supplies the shape; this swaps the colors. */
+.cc-btn-secondary {
+  align-self: flex-start;
+  background: none;
+  color: var(--cc-accent);
+  border: 1.5px solid var(--cc-dash);
+}
+
+.cc-success {
+  margin: 0;
+  color: #2e7d32;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+:root[data-theme="dark"] .cc-success {
+  color: #81c784;
+}
+
+/* ---- theme toggle (src/components/ThemeToggle.tsx) ---- */
+/* Corner button on the login / register pages, where there is no sidebar. */
+.cc-theme-floating {
+  position: fixed;
+  top: 16px;
+  right: 16px;
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid var(--auth-border);
+  background: var(--auth-card-bg);
+  color: var(--auth-text);
+  cursor: pointer;
+}
+
+.cc-theme-floating:focus-visible {
+  outline: 3px solid var(--auth-primary);
+  outline-offset: 2px;
+}
+
+/* ---- profile completeness meter ---- */
+.cc-meter {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 24px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+}
+
+.cc-meter-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+}
+
+.cc-meter-bar {
+  height: 8px;
+  overflow: hidden;
+  background: var(--cc-line);
+  border-radius: 999px;
+}
+
+.cc-meter-fill {
+  height: 100%;
+  background: var(--cc-accent);
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* ---- edit form ---- */
+.cc-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.cc-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0; /* lets inputs shrink instead of overflowing the grid cell */
+}
+
+/* Spans both columns (summary, description, portfolio link). */
+.cc-field.is-wide {
+  grid-column: 1 / -1;
+}
+
+.cc-field-label {
+  color: var(--cc-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 10px;
+  font: inherit;
+}
+
+.cc-input:focus-visible {
+  outline: 3px solid var(--cc-accent);
+  outline-offset: 1px;
+}
+
+.cc-textarea {
+  resize: vertical;
+}
+
+/* Dashed box around one education / experience entry. */
+.cc-repeat-row {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 14px;
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 12px;
+}
+
+.cc-repeat-row .cc-form-grid {
+  width: 100%;
+}
+
+.cc-form-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cc-form-actions .cc-btn-secondary {
+  align-self: auto;
+}
+
+/* ---- read-only profile view ---- */
+.cc-kv {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+.cc-kv-row {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-kv-row:first-child {
+  border-top: 0;
+}
+
+.cc-kv-row dt {
+  color: var(--cc-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-kv-row dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Keep the line breaks the user typed in summary / descriptions. */
+.cc-prewrap {
+  white-space: pre-wrap;
+}
+
+.cc-chips,
+.cc-entries {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.cc-chip {
+  padding: 4px 12px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.cc-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .cc-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cc-kv-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+}
+
+
+/* ---------- Profile photo ---------- */
+
+/* Sidebar avatar: clip the photo to the rounded square, and drop the dashed
+   "placeholder" border once there is a real picture. */
+.cc-photo {
+  position: relative; /* anchors the absolutely-positioned photo below */
+  overflow: hidden;
+}
+
+.cc-photo.has-photo {
+  border-style: solid;
+}
+
+/* The photo is pinned to all four edges of the avatar box (inset: 0). Without
+   that, "height: 100%" had nothing definite to resolve against (the box gets
+   its height from aspect-ratio), so a portrait photo kept its own tall shape
+   and was merely clipped. Now the box dictates the size and object-fit does
+   the cropping. */
+.cc-photo-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fill the square and crop the overflow; never stretch */
+  /* Crop from 20% down instead of the exact middle: in portrait photos faces
+     sit in the upper part, so a dead-center crop tends to slice off the
+     forehead. Landscape photos only crop sideways, so they stay centered. */
+  object-position: center 20%;
+  display: block;
+}
+
+/* Photo block at the top of the Profile tab. */
+.cc-photo-section {
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+.cc-photo-info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.cc-photo-info .cc-subtitle {
+  margin: 0;
+}
+
+.cc-avatar-lg {
+  position: relative;
+  flex-shrink: 0;
+  width: 112px;
+  height: 112px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  overflow: hidden;
+  background: var(--cc-soft);
+  color: var(--cc-accent);
+  border: 1.5px dashed var(--cc-dash);
+  border-radius: 50%;
+  font: inherit;
+  font-size: 36px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.cc-avatar-lg.has-photo {
+  border-style: solid;
+}
+
+.cc-avatar-lg:disabled {
+  opacity: 0.6;
+  cursor: progress;
+}
+
+.cc-avatar-lg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%; /* same face-friendly crop as the sidebar avatar */
+  display: block;
+}
+
+/* "Add photo" / "Change" caption that slides over the bottom of the circle on
+   hover or keyboard focus, hinting that the circle is clickable. */
+.cc-avatar-hint {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 6px 0;
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.cc-avatar-lg:hover .cc-avatar-hint,
+.cc-avatar-lg:focus-visible .cc-avatar-hint {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .cc-photo-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
