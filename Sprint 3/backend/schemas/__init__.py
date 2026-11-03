@@ -1,0 +1,41 @@
+"""
+Central import point so the rest of the app writes `from schemas import UserCreate, ...`
+regardless of which file a schema actually lives in.
+
+When you add a new feature's schemas, create its own file in this folder and
+add one import line here.
+"""
+
+from .auth import UserCreate, UserLogin, UserOut, TokenResponse
+from .resume import ResumeOut, ResumeUploadResponse
+from .profile import EducationItem, ExperienceItem, ProfileUpdate, ProfileOut
+from .job import JobIn, JobOut
+from .application import (
+    ApplicationCreate,
+    ApplicationOut,
+    ApplicationSubmitResponse,
+    StatusUpdate,
+    ApplicantOut,
+    StatusChangeOut,
+)
+
+__all__ = [
+    "UserCreate",
+    "UserLogin",
+    "UserOut",
+    "TokenResponse",
+    "ResumeOut",
+    "ResumeUploadResponse",
+    "EducationItem",
+    "ExperienceItem",
+    "ProfileUpdate",
+    "ProfileOut",
+    "JobIn",
+    "JobOut",
+    "ApplicationCreate",
+    "ApplicationOut",
+    "ApplicationSubmitResponse",
+    "StatusUpdate",
+    "ApplicantOut",
+    "StatusChangeOut",
+]

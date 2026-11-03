@@ -33,13 +33,13 @@ CareerConnect is a full-stack web application that brings a job seeker's entire 
 
 2. Run the setup script (one-time, or after pulling changes to requirements.txt/package.json):
 ```bash
-   cd "Sprint 2"
+   cd "Sprint 3"
    ./setup.sh
 ```
 3. Fill in `backend/.env` with the shared Supabase `DATABASE_URL` if setup.sh flagged it as missing.
 4. Run both servers:
 ```bash
-    cd "Sprint 2"
+    cd "Sprint 3"
    ./run.sh
 ```
 4. Once both servers are running, open the URL Vite prints in the terminal (usually `http://localhost:5173`).
@@ -49,7 +49,7 @@ Every push to `main` and every pull request into `main` automatically triggers t
 
 | Job | What it does |
 | --- | --- |
-| **Backend tests (pytest)** | Starts a throwaway PostgreSQL 16 database and runs the automated tests in `Sprint 2/backend/tests/` (login/registration, resume management, profile). |
+| **Backend tests (pytest)** | Starts a throwaway PostgreSQL 16 database and runs the automated tests in `Sprint 3/backend/tests/` (login/registration, resume management, profile, job postings and search, applications and status tracking). |
 | **Frontend (lint + build)** | Installs dependencies with `npm ci`, then runs ESLint and a production Vite build. |
 
 ### Running the backend tests locally
@@ -58,14 +58,14 @@ The tests create many fake users, so they **refuse to run against anything excep
 docker run -d --name cc-test-db -p 5432:5432 \
   -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=careerconnect_test postgres:16
 
-cd "Sprint 2/backend"
+cd "Sprint 3/backend"
 pip install -r requirements.txt -r requirements-dev.txt   # use your venv
 DATABASE_URL=postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_test pytest -v
 ```
 Stop the database afterwards with `docker rm -f cc-test-db`.
 
 ### Adding tests for a new feature
-1. Create `Sprint 2/backend/tests/test_<feature>.py`.
+1. Create `Sprint 3/backend/tests/test_<feature>.py`.
 2. Write functions named `test_...` and ask for the shared helpers by name: `client` (calls the API), `user` (a logged-in job seeker), `make_user(role=...)` (create more users). See `tests/conftest.py` and `tests/test_resume.py` for examples.
 3. Open a pull request. CI picks up the new file automatically; the workflow file does not need to change.
 
