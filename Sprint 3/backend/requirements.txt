@@ -6,6 +6,7 @@ pyyaml>=5.1
 colorama>=0.4
 sqlalchemy==2.0.35
 pg8000==1.31.5
+scramp==1.4.17  # 1.5.0 breaks pg8000 1.31.5 (no make_channel_binding)
 python-dotenv==1.0.1
 pydantic[email]>=2.9,<3
 bcrypt>=4.2
