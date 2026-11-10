@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { User, Job, JobFilters } from "../../api";
-import { listJobs } from "../../api";
+import { listJobs, listMyApplications } from "../../api";
+import ApplyControls from "../ApplyControls";
 
 // CSS style
 import "../../styles/jobs.css";
@@ -43,6 +44,15 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
   // Id of the card whose details are expanded (only one at a time)
   const [openId, setOpenId] = useState<number | null>(null);
 
+  // Ids of the jobs this user already applied to, so those cards show
+  // "Applied" instead of the Apply controls (also after a page refresh).
+  const [appliedIds, setAppliedIds] = useState<Set<number>>(new Set());
+  // Apply controls wait for this, so a card never offers "Apply" for a job
+  // that is about to turn out to be already applied. It becomes true even if
+  // the request fails: the backend rejects a duplicate with a 409 anyway, and
+  // ApplyControls turns that into "Applied".
+  const [applicationsLoaded, setApplicationsLoaded] = useState(false);
+
   // Debounce: each change restarts the timer, so only the last value
   // after the user stops typing makes it through.
   useEffect(() => {
@@ -73,6 +83,26 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
       cancelled = true;
     };
   }, [debouncedFilters, token, isSeeker]);
+
+  // Load the user's applications ONCE for the whole listing (never once per
+  // card) and keep just the job ids.
+  useEffect(() => {
+    if (!isSeeker) return;
+    let cancelled = false;
+    listMyApplications(token)
+      .then((applications) => {
+        if (!cancelled) setAppliedIds(new Set(applications.map((a) => a.job_id)));
+      })
+      .catch(() => {
+        /* see applicationsLoaded above: the 409 on a duplicate is the safety net */
+      })
+      .finally(() => {
+        if (!cancelled) setApplicationsLoaded(true);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [token, isSeeker]);
 
   // One handler for every input/select, keyed by the filter name
   function updateFilter(key: keyof JobFilters, value: string) {
@@ -213,6 +243,20 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
                     >
                       {isOpen ? "Hide details" : "View details"}
                     </button>
+
+                    {/* Search only returns open jobs, so every card here can
+                        take an application. The controls handle picking a
+                        resume, the confirmation and the error messages. */}
+                    {applicationsLoaded && (
+                      <ApplyControls
+                        job={job}
+                        token={token}
+                        alreadyApplied={appliedIds.has(job.id)}
+                        onApplied={(application) =>
+                          setAppliedIds((prev) => new Set(prev).add(application.job_id))
+                        }
+                      />
+                    )}
                   </li>
                 );
               })}

@@ -1,0 +1,138 @@
+/* =========================================================================
+   "My Applications" tab (src/components/tabs/MyApplicationsTab.tsx).
+   Uses the dashboard's theme variables, so it works in light and dark mode.
+   ========================================================================= */
+
+.cc-app-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-app-section-head .cc-section-title {
+  margin: 0;
+}
+
+.cc-apps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Same card look as the job listings, so the two tabs feel related. */
+.cc-app-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  background: var(--cc-soft);
+}
+
+.cc-app-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-app-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.cc-app-meta {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* Status badge: neutral pill + a colored dot. The text carries the meaning;
+   the dot only adds a quick visual cue. */
+.cc-app-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cc-app-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cc-muted);
+}
+
+.cc-app-status.is-applied::before { background: #3d49cc; }
+.cc-app-status.is-under-review::before { background: #d08a12; }
+.cc-app-status.is-interview::before { background: #7b4fd0; }
+.cc-app-status.is-offered::before { background: #23834e; }
+.cc-app-status.is-rejected::before { background: #c43d3d; }
+
+.cc-app-toggle {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cc-accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cc-app-toggle:hover {
+  border-color: var(--cc-accent);
+}
+
+.cc-app-toggle:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+/* Timeline of status changes */
+.cc-app-history {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-app-history-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.cc-app-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cc-app-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cc-line);
+  font-size: 13px;
+}
+
+.cc-app-history-item:last-child {
+  border-bottom: none;
+}
