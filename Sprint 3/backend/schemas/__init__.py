@@ -18,6 +18,10 @@ from .application import (
     ApplicantOut,
     StatusChangeOut,
 )
+from .notification import (
+    NotificationOut,
+    UnreadCountOut,
+)
 
 __all__ = [
     "UserCreate",
@@ -38,4 +42,6 @@ __all__ = [
     "StatusUpdate",
     "ApplicantOut",
     "StatusChangeOut",
+    "NotificationOut",
+    "UnreadCountOut",
 ]

@@ -8,7 +8,7 @@ Interactive docs available at http://localhost:5000/docs
 from dotenv import load_dotenv
 load_dotenv()  # reads .env before anything else imports database.py
 
-#Standart imports for FAST API 
+#Standart imports for FAST API
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -19,9 +19,11 @@ from routers.profile import router as profile_router
 from routers.job import router as job_router
 from routers.application import router as application_router
 from routers.job_search import router as job_search_router
+from routers.notification import router as notification_router
 
 # Create all the tables from the database on startup
 Base.metadata.create_all(bind=engine)
+
 
 #Creates the FastAPI app
 app = FastAPI(title="CareerConnect API")
@@ -42,6 +44,7 @@ app.include_router(profile_router, prefix="/api", tags=["profile"])  # Sprint 2:
 app.include_router(job_router, prefix="/api", tags=["jobs"])
 app.include_router(application_router, prefix="/api", tags=["applications"])
 app.include_router(job_search_router, prefix="/api", tags=["jobs"])
+app.include_router(notification_router, prefix="/api", tags=["notifications"])  # Sprint 3: US-09
 
 @app.get("/api/health")
 def health_check():
