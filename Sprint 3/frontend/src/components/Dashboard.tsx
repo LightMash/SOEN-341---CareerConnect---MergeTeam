@@ -3,9 +3,11 @@ import type { Role, User } from "../api";
 import { getProfilePhoto } from "../api";
 import Sidebar from "./Sidebar";
 import type { SidebarTab } from "./Sidebar";
-import { BriefcaseIcon, ClipboardIcon, UserIcon } from "./icons";
+import { BellIcon, BriefcaseIcon, ClipboardIcon, UserIcon } from "./icons";
+import { getUnreadCount } from "../notificationsApi";
 import JobDashboardTab from "./tabs/JobDashboardTab";
 import MyApplicationsTab from "./tabs/MyApplicationsTab";
+import NotificationsTab from "./tabs/NotificationsTab";
 import ProfileTab from "./tabs/ProfileTab";
 import RecruiterProfileTab from "./tabs/RecruiterProfileTab";
 import RecruiterPostings from "./tabs/RecruiterPostings";
@@ -23,7 +25,10 @@ interface DashboardProps {
   onLogout: () => void;
 }
 
-type TabId = "jobs" | "applications" | "profile";
+type TabId = "jobs" | "applications" | "notifications" | "profile";
+
+// How often the sidebar badge asks the server for the unread count.
+const UNREAD_POLL_MS = 30_000;
 
 interface TabDef extends SidebarTab {
   id: TabId;
@@ -52,6 +57,12 @@ const TABS: TabDef[] = [
     roles: ["job_seeker"],
   },
   {
+    id: "notifications",
+    label: "Notifications",
+    icon: <BellIcon />,
+    roles: ["job_seeker", "recruiter"],
+  },
+  {
     id: "profile",
     label: "Profile",
     icon: <UserIcon />,
@@ -65,8 +76,39 @@ const TABS: TabDef[] = [
 const COLLAPSE_KEY = "cc_sidebar_collapsed";
 
 export default function Dashboard({ user, token, onLogout }: DashboardProps) {
-  // Only show the tabs this user's role is allowed to see.
-  const visibleTabs = TABS.filter((tab) => tab.roles.includes(user.role));
+  // Number of unread notifications, shown next to the "Notifications" tab.
+  const [unread, setUnread] = useState(0);
+  // Bumped by NotificationsTab after it changes something, to refresh at once.
+  const [unreadKey, setUnreadKey] = useState(0);
+
+  // Ask for the count now, then every 30 s. A failed request just keeps the
+  // previous number: a missing badge must never break the dashboard.
+  useEffect(() => {
+    let cancelled = false;
+    function refresh() {
+      getUnreadCount(token)
+        .then((result) => {
+          if (!cancelled) setUnread(result.unread);
+        })
+        .catch(() => {
+          /* keep the last known count */
+        });
+    }
+    refresh();
+    const timer = setInterval(refresh, UNREAD_POLL_MS);
+    return () => {
+      cancelled = true;
+      clearInterval(timer);
+    };
+  }, [token, unreadKey]);
+
+  // Only show the tabs this user's role is allowed to see, with the unread
+  // count added to the notifications label.
+  const visibleTabs = TABS.filter((tab) => tab.roles.includes(user.role)).map((tab) =>
+    tab.id === "notifications" && unread > 0
+      ? { ...tab, label: `Notifications (${unread})` }
+      : tab
+  );
 
   // Job Dashboard is the default landing tab, same as the old dashboard was.
   const [activeTab, setActiveTab] = useState<TabId>("jobs");
@@ -156,6 +198,8 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
         );
             case "applications":
         return <MyApplicationsTab token={token} />;
+      case "notifications":
+        return <NotificationsTab token={token} onChanged={() => setUnreadKey((n) => n + 1)} />;
       case "jobs":
       default:
         // Recruiters manage their own postings here; job seekers see the

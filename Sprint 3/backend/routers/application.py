@@ -23,6 +23,7 @@ from schemas import (
     StatusChangeOut,
     StatusUpdate,
 )
+from services.notifications import notify_new_application, notify_status_change
 
 router = APIRouter()
 
@@ -145,6 +146,12 @@ def submit_application(
     )
     db.add(application)
     try:
+        # flush() sends the INSERT now (so a duplicate is caught here and the
+        # application gets its id) without ending the transaction yet.
+        db.flush()
+        # US-09: tell the recruiter. Staged in the SAME commit as the
+        # application, so one can't exist without the other.
+        notify_new_application(db, application, job, current_user)
         db.commit()
     except IntegrityError:
         # Two requests at the same moment (like a double-click) can both pass the check above
@@ -236,6 +243,9 @@ def update_application_status(
         )
     )
     application.status = payload.status
+    # US-09: tell the job seeker (an "interview invitation" when the new
+    # status is Interview). Same commit as the status change itself.
+    notify_status_change(db, application, payload.status)
     db.commit()
     db.refresh(application)
     return _to_applicant_out(application)
