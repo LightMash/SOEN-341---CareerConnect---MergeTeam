@@ -6,6 +6,9 @@ pyyaml>=5.1
 colorama>=0.4
 sqlalchemy==2.0.35
 pg8000==1.31.5
+# pg8000 1.31.5 calls scramp.make_channel_binding, which scramp 1.5.0 removed.
+# Only shows up on SSL connections (Supabase), not on the local test database.
+scramp==1.4.17
 python-dotenv==1.0.1
 pydantic[email]>=2.9,<3
 bcrypt>=4.2
