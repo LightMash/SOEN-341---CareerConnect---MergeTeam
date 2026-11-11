@@ -1,13 +1,10 @@
 """
-Owner: AI Resume Feedback (US-16, Task 16.1)
+Owner: AI Resume Feedback
 
 Turns a stored resume file (PDF or DOCX) into plain text that can be sent
 to the AI. This file knows nothing about the database, FastAPI or Gemini:
-it takes a path on disk and returns a string. That keeps it easy to test
-and easy to reuse (e.g. for AI Job Matching later).
+it takes a path on disk and returns a string.
 
-Supported formats match what routers/resume.py accepts on upload
-(ALLOWED_CONTENT_TYPES): .pdf and .docx.
 """
 
 import os
@@ -81,9 +78,9 @@ def _extract_docx(filepath: str) -> str:
 
     lines = [paragraph.text for paragraph in document.paragraphs]
 
-    # Many resume templates lay out sections with TABLES (e.g. dates in the
-    # left column, job details in the right). document.paragraphs skips table
-    # contents entirely, so without this loop those resumes lose most of
+    # Many resume templates lay out sections with TABLES.
+    # document.paragraphs skips table contents entirely,
+    # so without this loop those resumes lose most of
     # their text. Merged cells show up more than once, so skip repeats.
     for table in document.tables:
         for row in table.rows:

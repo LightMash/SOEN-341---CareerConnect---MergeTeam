@@ -1,5 +1,5 @@
 """
-Unit tests for services/resume_parser.py (US-16, Task 16.1).
+Unit tests for services/resume_parser.py
 
 These only touch files in a temporary folder: no database, no AI calls.
 Test files are built on the fly so we don't commit binary fixtures.
