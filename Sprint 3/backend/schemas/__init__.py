@@ -22,6 +22,13 @@ from .notification import (
     NotificationOut,
     UnreadCountOut,
 )
+from .resume_feedback import (
+    AIFeedback,
+    AISuggestion,
+    FeedbackRequest,
+    ResumeFeedbackOut,
+    SuggestionOut,
+)
 
 __all__ = [
     "UserCreate",
@@ -44,4 +51,9 @@ __all__ = [
     "StatusChangeOut",
     "NotificationOut",
     "UnreadCountOut",
+    "AIFeedback",
+    "AISuggestion",
+    "FeedbackRequest",
+    "ResumeFeedbackOut",
+    "SuggestionOut",
 ]

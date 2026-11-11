@@ -1,6 +1,5 @@
 """
 Owner: AI Resume Feedback
-
 The ONLY file in the backend that talks to Google Gemini.
 
 Everything else asks for AI output through `generate_json()`. Keeping the
@@ -10,9 +9,6 @@ provider behind this one function means:
   - switching provider or model later only changes this file;
   - every Gemini error is turned into one AIServiceError with a message
     that is safe to show users (the real error is logged for us).
-
-This file knows nothing about resumes. The resume prompt and the shape of
-the feedback live in the feedback service
 
 Configuration (backend/.env):
   GEMINI_API_KEY=...            required, from Google AI Studio
@@ -54,6 +50,11 @@ class AIServiceError(Exception):
 def _get_client() -> genai.Client:
     """
     Builds the Gemini client the first time it's needed, then reuses it.
+
+    Lazy on purpose: importing this module (which the app does at startup,
+    and pytest does in CI) must work even when no API key is set. Only an
+    actual AI request needs one. lru_cache doesn't cache exceptions, so if
+    the key is added later the next call will succeed.
     """
     api_key = os.environ.get("GEMINI_API_KEY")
     if not api_key:
@@ -66,7 +67,8 @@ def _get_client() -> genai.Client:
     )
 
 
-def _model_name() -> str:
+def model_name() -> str:
+    """The Gemini model in use (GEMINI_MODEL from .env, or DEFAULT_MODEL)."""
     return os.environ.get("GEMINI_MODEL") or DEFAULT_MODEL
 
 
@@ -88,7 +90,7 @@ def generate_json(prompt: str, schema: type[T], system_instruction: str | None =
 
     try:
         response = client.models.generate_content(
-            model=_model_name(),
+            model=model_name(),
             contents=prompt,
             config=types.GenerateContentConfig(
                 system_instruction=system_instruction,
@@ -140,5 +142,5 @@ if __name__ == "__main__":
         language: str
 
     result = generate_json("Say hello to a new CareerConnect user, in French.", _Greeting)
-    print(f"Model: {_model_name()}")
+    print(f"Model: {model_name()}")
     print(f"Parsed: {result!r}")
