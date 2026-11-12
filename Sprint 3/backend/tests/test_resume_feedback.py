@@ -17,6 +17,8 @@ from schemas.resume_feedback import AIFeedback
 from services import resume_feedback as feedback_service
 from services.ai_client import AIServiceError
 
+FAKE_MODEL = "fake-gemini-model"
+
 DOCX = "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
 
 RESUME_LINES = [
@@ -83,7 +85,7 @@ def _ask(client, account, resume_id, json=None):
 def fake_ai(monkeypatch):
     """
     Replaces Gemini. Use `fake_ai.calls` to see the prompts it received, or
-    set `fake_ai.error` to make the next call fail.
+    set `fake_ai.error` to make the next call fail. Answers as FAKE_MODEL.
     """
 
     class FakeAI:
@@ -95,12 +97,12 @@ def fake_ai(monkeypatch):
             self.calls.append({"prompt": prompt, "system_instruction": system_instruction})
             if self.error:
                 raise self.error
-            return schema.model_validate(CANNED_ANSWER)
+            return schema.model_validate(CANNED_ANSWER), FAKE_MODEL
 
     fake = FakeAI()
     # Patch the name where it is USED (inside the feedback service), not
-    # where it is defined, because the service did `from ... import generate_json`.
-    monkeypatch.setattr(feedback_service, "generate_json", fake)
+    # where it is defined, because the service did `from ... import ...`.
+    monkeypatch.setattr(feedback_service, "generate_json_with_model", fake)
     return fake
 
 
@@ -120,6 +122,7 @@ def test_feedback_is_generated_and_returned(client, user, fake_ai):
     assert [s["id"] for s in body["suggestions"]] == [0, 1]
     assert body["job_id"] is None
     assert body["is_outdated"] is False
+    assert body["model"] == FAKE_MODEL  # whichever model actually answered
 
 
 def test_resume_text_is_what_gets_sent_to_the_ai(client, user, fake_ai):

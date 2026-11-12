@@ -1,5 +1,5 @@
 """
-Owner: AI Resume Feedback 
+Owner: AI Resume Feedback
 
 Two kinds of shapes live here:
 
@@ -32,7 +32,7 @@ class AISuggestion(BaseModel):
     priority: Priority = Field(description="How much this change would improve the resume.")
     original: str = Field(
         description=(
-            "Text copied EXACTLY, character for character, from the resume: one line or bullet. "
+            "One COMPLETE bullet or line copied EXACTLY, character for character, from the resume. "
             "Use an empty string only when suggesting something new to add."
         )
     )

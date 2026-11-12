@@ -1,5 +1,5 @@
 """
-Owner: AI Resume Feedback (US-16, Task 16.2)
+Owner: AI Resume Feedback
 
 Endpoints:
   POST /api/resume/{resume_id}/feedback   ask the AI for a new review (optional body: {"job_id": 3})
@@ -20,7 +20,7 @@ from routers.auth import get_current_user
 from routers.resume import _get_owned_resume
 from schemas import FeedbackRequest, ResumeFeedbackOut
 from services import resume_feedback as feedback_service
-from services.ai_client import AIServiceError, model_name
+from services.ai_client import AIServiceError
 from services.resume_parser import ResumeParseError, extract_text
 
 router = APIRouter()
@@ -45,7 +45,7 @@ def _to_out(feedback: ResumeFeedback, resume: Resume) -> ResumeFeedbackOut:
     )
 
 
-# NOTE: a plain `def`, not `async def`, on purpose. The Gemini call blocks
+# a plain `def`, not `async def`, on purpose. The Gemini call blocks
 # for several seconds. FastAPI runs plain `def` routes in a worker thread,
 # so other users' requests keep being served meanwhile. Inside an
 # `async def`, the same blocking call would freeze the whole server.
@@ -61,7 +61,7 @@ def create_feedback(
     db: Session = Depends(get_db),
 ):
     """
-    Task 16.2: reads the resume, asks Gemini for feedback, saves it, returns it.
+    Reads the resume, asks Gemini for feedback, saves it, returns it.
     Order matters: every cheap check runs BEFORE the AI call, so a bad
     request never spends API quota.
     """
@@ -87,7 +87,7 @@ def create_feedback(
     # 4. Text -> AI feedback. 503 = "a service we depend on is unavailable";
     #    the messages from ai_client are already safe to show users.
     try:
-        feedback, suggestions = feedback_service.generate_feedback(resume_text, job)
+        feedback, suggestions, used_model = feedback_service.generate_feedback(resume_text, job)
     except AIServiceError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc
 
@@ -100,7 +100,7 @@ def create_feedback(
         summary=feedback.summary,
         strengths=feedback.strengths,
         suggestions=suggestions,
-        model=model_name(),
+        model=used_model,  # the model that actually answered
     )
     db.add(row)
     db.commit()
