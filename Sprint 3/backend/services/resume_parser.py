@@ -5,6 +5,8 @@ Turns a stored resume file (PDF or DOCX) into plain text that can be sent
 to the AI. This file knows nothing about the database, FastAPI or Gemini:
 it takes a path on disk and returns a string.
 
+Supported formats match what routers/resume.py accepts on upload
+(ALLOWED_CONTENT_TYPES): .pdf and .docx.
 """
 
 import os
@@ -63,7 +65,8 @@ def _extract_pdf(filepath: str) -> str:
         if reader.is_encrypted:
             raise ResumeParseError("This PDF is password-protected. Please upload an unlocked copy.")
         # extract_text() can return None for an empty page, hence `or ""`.
-        return "\n".join(page.extract_text() or "" for page in reader.pages)
+        raw = "\n".join(page.extract_text() or "" for page in reader.pages)
+        return _unwrap_lines(raw)
     except ResumeParseError:
         raise
     except (PdfReadError, OSError, ValueError) as exc:
@@ -78,9 +81,9 @@ def _extract_docx(filepath: str) -> str:
 
     lines = [paragraph.text for paragraph in document.paragraphs]
 
-    # Many resume templates lay out sections with TABLES.
-    # document.paragraphs skips table contents entirely,
-    # so without this loop those resumes lose most of
+    # Many resume templates lay out sections with TABLES (e.g. dates in the
+    # left column, job details in the right). document.paragraphs skips table
+    # contents entirely, so without this loop those resumes lose most of
     # their text. Merged cells show up more than once, so skip repeats.
     for table in document.tables:
         for row in table.rows:
@@ -91,6 +94,46 @@ def _extract_docx(filepath: str) -> str:
             lines.append(" | ".join(seen))
 
     return "\n".join(lines)
+
+
+# Small words a line can end on when the sentence clearly continues below.
+_CONNECTORS = {"a", "an", "and", "as", "at", "by", "for", "from", "in", "into",
+               "of", "on", "or", "the", "to", "via", "with", "&"}
+
+# Characters resumes use to start a bullet point.
+_BULLETS = ("●", "•", "▪", "◦", "‣", "-", "*", "–", "·")
+
+
+def _unwrap_lines(text: str) -> str:
+    """
+    Rejoins lines that the PDF wrapped in the middle of a sentence.
+
+    A PDF stores positioned lines, not paragraphs, so one long bullet comes
+    out of pypdf as several lines. If we send that to the AI, it treats
+    "...and open issues/maintenance" as a complete line, then "fixes" it by
+    adding words that were already on the next line.
+
+    A line is glued to the previous one when it is clearly a continuation:
+      - it starts with a lowercase letter ("requests", "filtering by store"),
+      - or the previous line ends with a hyphen splitting a word ("cost-"),
+      - or the previous line ends with a small linking word ("Intro to").
+    Never when the line starts with a bullet: that's a new item.
+    DOCX files don't need this, because Word stores real paragraphs.
+    """
+    merged: list[str] = []
+    for line in text.split("\n"):
+        current = line.strip()
+        if merged and current and not current.startswith(_BULLETS):
+            previous = merged[-1].rstrip()
+            last_word = previous.split()[-1].lower() if previous.split() else ""
+            if re.search(r"[A-Za-z]-$", previous):  # "cost-" + "effective"
+                merged[-1] = previous + current
+                continue
+            if current[0].islower() or last_word in _CONNECTORS:
+                merged[-1] = previous + " " + current
+                continue
+        merged.append(line)
+    return "\n".join(merged)
 
 
 def _clean(text: str) -> str:

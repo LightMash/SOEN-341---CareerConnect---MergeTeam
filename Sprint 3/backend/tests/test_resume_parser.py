@@ -8,7 +8,7 @@ Test files are built on the fly so we don't commit binary fixtures.
 import pytest
 from docx import Document
 
-from services.resume_parser import MAX_CHARS, ResumeParseError, extract_text
+from services.resume_parser import MAX_CHARS, ResumeParseError, _unwrap_lines, extract_text
 
 
 # -----------------------------------------------------------------------------
@@ -163,3 +163,55 @@ def test_very_long_resume_is_capped(tmp_path):
     text = extract_text(path)
 
     assert len(text) == MAX_CHARS
+
+
+# -----------------------------------------------------------------------------
+# Wrapped PDF lines (a long bullet comes out of a PDF as several lines)
+# -----------------------------------------------------------------------------
+def test_pdf_wrapped_bullet_is_rejoined(tmp_path):
+    path = make_pdf(
+        tmp_path,
+        [
+            "- Built a dashboard showing open issues/maintenance",
+            "requests for the team",
+            "- Wrote documentation",
+        ],
+    )
+
+    lines = extract_text(path).split("\n")
+
+    assert "- Built a dashboard showing open issues/maintenance requests for the team" in lines
+    assert "- Wrote documentation" in lines  # a new bullet stays on its own line
+
+
+def test_round_bullets_from_real_resumes_start_a_new_line():
+    # make_pdf can only write basic Latin text, so the "●" bullet most
+    # resume templates use is checked on the rejoin step directly.
+    text = "● Built a dashboard for open issues/maintenance\nrequests\n● Wrote documentation"
+
+    assert _unwrap_lines(text) == (
+        "● Built a dashboard for open issues/maintenance requests\n● Wrote documentation"
+    )
+
+
+def test_pdf_word_split_by_hyphen_is_rejoined(tmp_path):
+    path = make_pdf(tmp_path, ["- Suggests healthier, more cost-", "effective alternatives"])
+
+    assert "more cost-effective alternatives" in extract_text(path)
+
+
+def test_pdf_line_ending_on_linking_word_is_rejoined(tmp_path):
+    path = make_pdf(tmp_path, ["- Coursework: Algorithms, Intro to", "Web Programming, Databases"])
+
+    assert "Intro to Web Programming" in extract_text(path)
+
+
+def test_pdf_headings_and_titles_are_not_merged(tmp_path):
+    path = make_pdf(
+        tmp_path,
+        ["WORK EXPERIENCE", "Software Intern Jan 2026 - Aug 2026", "Acme Inc., Montreal, QC"],
+    )
+
+    lines = extract_text(path).split("\n")
+
+    assert lines == ["WORK EXPERIENCE", "Software Intern Jan 2026 - Aug 2026", "Acme Inc., Montreal, QC"]
