@@ -20,6 +20,7 @@ from routers.job import router as job_router
 from routers.application import router as application_router
 from routers.job_search import router as job_search_router
 from routers.notification import router as notification_router
+from routers.resume_feedback import router as resume_feedback_router
 
 # Create all the tables from the database on startup
 Base.metadata.create_all(bind=engine)
@@ -45,6 +46,7 @@ app.include_router(job_router, prefix="/api", tags=["jobs"])
 app.include_router(application_router, prefix="/api", tags=["applications"])
 app.include_router(job_search_router, prefix="/api", tags=["jobs"])
 app.include_router(notification_router, prefix="/api", tags=["notifications"])  # Sprint 3: US-09
+app.include_router(resume_feedback_router, prefix="/api", tags=["resume feedback"])  # Sprint 3: US-16
 
 @app.get("/api/health")
 def health_check():

@@ -17,6 +17,7 @@ from .profile import Profile
 from .job import Job
 from .application import Application, ApplicationStatusHistory
 from .notification import Notification
+from .resume_feedback import ResumeFeedback
 
 __all__ = [
     "User",
@@ -26,4 +27,5 @@ __all__ = [
     "Application",
     "ApplicationStatusHistory",
     "Notification",
+    "ResumeFeedback",
 ]
