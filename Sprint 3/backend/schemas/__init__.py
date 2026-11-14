@@ -29,6 +29,7 @@ from .resume_feedback import (
     ResumeFeedbackOut,
     SuggestionOut,
 )
+from .study_partner import StudyPartnerReply
 
 __all__ = [
     "UserCreate",
@@ -56,4 +57,5 @@ __all__ = [
     "FeedbackRequest",
     "ResumeFeedbackOut",
     "SuggestionOut",
+    "StudyPartnerReply",
 ]
