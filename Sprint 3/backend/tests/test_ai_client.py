@@ -10,10 +10,16 @@ from types import SimpleNamespace
 
 import pytest
 from google.genai import errors
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 from services import ai_client
-from services.ai_client import AIServiceError, generate_json, generate_json_with_model
+from services.ai_client import (
+    AIServiceError,
+    ChatMessage,
+    generate_chat_with_model,
+    generate_json,
+    generate_json_with_model,
+)
 
 
 class Greeting(BaseModel):
@@ -295,3 +301,95 @@ def test_no_fallback_when_it_is_the_same_model(monkeypatch):
     monkeypatch.setenv("GEMINI_FALLBACK_MODEL", MAIN)
 
     assert ai_client.models_to_try() == [MAIN]
+
+
+# -----------------------------------------------------------------------------
+# Conversations (AI Job Study Partner)
+# -----------------------------------------------------------------------------
+class ChatReply(BaseModel):
+    """
+    Stand-in for schemas.study_partner.ChatReply (same fields).
+    Importing the real one loads the `schemas` package, whose job and
+    application schemas need the database. That one is tested on its own in
+    tests/test_study_partner.py.
+    """
+
+    reply: str
+    suggested_questions: list[str]
+
+
+STUDY_REPLY = '{"reply": "Let us start with SQL joins.", "suggested_questions": ["Quiz me on joins", "Explain indexes"]}'
+
+CONVERSATION = [
+    ChatMessage(role="user", text="Help me prepare for this job."),
+    ChatMessage(role="model", text="Sure! Which skill first?"),
+    ChatMessage(role="user", text="SQL please."),
+]
+
+
+def test_whole_conversation_is_sent_in_order(fake_gemini):
+    models = fake_gemini(text=STUDY_REPLY)
+
+    generate_chat_with_model(CONVERSATION, ChatReply, system_instruction="Be a coach.")
+
+    sent = models.calls[0]["contents"]
+    assert [content.role for content in sent] == ["user", "model", "user"]
+    assert [content.parts[0].text for content in sent] == [m.text for m in CONVERSATION]
+    assert models.calls[0]["config"].system_instruction == "Be a coach."
+
+
+def test_chat_returns_parsed_reply_and_model(fake_gemini):
+    fake_gemini(text=STUDY_REPLY)
+
+    reply, used = generate_chat_with_model(CONVERSATION, ChatReply)
+
+    assert isinstance(reply, ChatReply)
+    assert reply.suggested_questions == ["Quiz me on joins", "Explain indexes"]
+    assert used == MAIN
+
+
+def test_chat_sends_the_schema(fake_gemini):
+    models = fake_gemini(text=STUDY_REPLY)
+
+    generate_chat_with_model(CONVERSATION, ChatReply)
+
+    assert models.calls[0]["config"].response_json_schema == ChatReply.model_json_schema()
+
+
+def test_chat_also_falls_back_when_overloaded(fake_gemini):
+    fake_gemini(
+        text=STUDY_REPLY,
+        errors_by_model={MAIN: gemini_error(errors.ServerError, 503, "UNAVAILABLE")},
+    )
+
+    _, used = generate_chat_with_model(CONVERSATION, ChatReply)
+
+    assert used == FALLBACK
+
+
+def test_chat_errors_are_friendly(fake_gemini):
+    fake_gemini(error=gemini_error(errors.ClientError, 429, "RESOURCE_EXHAUSTED"))
+
+    with pytest.raises(AIServiceError, match="busy"):
+        generate_chat_with_model(CONVERSATION, ChatReply)
+
+
+@pytest.mark.parametrize(
+    "messages",
+    [
+        [],  # nothing to answer
+        [ChatMessage(role="user", text="Hi"), ChatMessage(role="model", text="Hello!")],  # ends with the AI
+    ],
+)
+def test_conversation_must_end_with_the_user(fake_gemini, messages):
+    models = fake_gemini(text=STUDY_REPLY)
+
+    with pytest.raises(ValueError):
+        generate_chat_with_model(messages, ChatReply)
+
+    assert models.calls == []  # rejected before calling Gemini
+
+
+def test_chat_message_only_accepts_gemini_roles():
+    with pytest.raises(ValidationError):
+        ChatMessage(role="assistant", text="Hi")  # Gemini calls it "model"
