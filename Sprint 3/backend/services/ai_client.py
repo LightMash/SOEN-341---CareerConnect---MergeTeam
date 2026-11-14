@@ -19,7 +19,7 @@ Configuration (backend/.env):
 import logging
 import os
 from functools import lru_cache
-from typing import TypeVar
+from typing import Literal, TypeVar
 
 from google import genai
 from google.genai import errors, types
@@ -77,12 +77,22 @@ class AIServiceError(Exception):
     """Raised for every AI failure. The message is safe to show the user."""
 
 
+class ChatMessage(BaseModel):
+    """
+    One message of a conversation, for generate_chat_with_model().
+    Roles use Gemini's names: "user" for the person, "model" for the AI.
+    """
+
+    role: Literal["user", "model"]
+    text: str
+
+
 @lru_cache(maxsize=1)
 def _get_client() -> genai.Client:
     """
     Builds the Gemini client the first time it's needed, then reuses it.
 
-    Importing this module (which the app does at startup,
+    Lazy on purpose: importing this module (which the app does at startup,
     and pytest does in CI) must work even when no API key is set. Only an
     actual AI request needs one. lru_cache doesn't cache exceptions, so if
     the key is added later the next call will succeed.
@@ -115,11 +125,15 @@ def models_to_try() -> list[str]:
     return [primary]
 
 
-def _ask(client: genai.Client, model: str, prompt: str, schema: type[BaseModel], system_instruction: str | None):
-    """One request to one model. Lets the SDK's own errors through."""
+def _ask(client: genai.Client, model: str, contents, schema: type[BaseModel], system_instruction: str | None):
+    """
+    One request to one model. Lets the SDK's own errors through.
+    `contents` is a single prompt (str) or a whole conversation (list of
+    types.Content, one per message).
+    """
     return client.models.generate_content(
         model=model,
-        contents=prompt,
+        contents=contents,
         config=types.GenerateContentConfig(
             system_instruction=system_instruction,
             temperature=TEMPERATURE,
@@ -168,12 +182,42 @@ def generate_json_with_model(
 
     Raises AIServiceError on any failure.
     """
+    return _generate(prompt, schema, system_instruction)
+
+
+def generate_chat_with_model(
+    messages: list[ChatMessage], schema: type[T], system_instruction: str | None = None
+) -> tuple[T, str]:
+    """
+    Like generate_json_with_model(), but sends a whole CONVERSATION so the
+    AI remembers what was said before (used by the AI Job Study Partner).
+
+    `messages` is the conversation in order, oldest first, and must end with
+    the user's newest message. Gemini itself keeps no memory between
+    requests: the full history is sent every time.
+
+    Same reliability as generate_json_with_model(): retries, fallback model,
+    friendly errors. Raises AIServiceError on any failure.
+    """
+    if not messages or messages[-1].role != "user":
+        # A bug in our code, not something the user did: fail loudly.
+        raise ValueError("A conversation must end with the user's message.")
+
+    contents = [
+        types.Content(role=message.role, parts=[types.Part(text=message.text)])
+        for message in messages
+    ]
+    return _generate(contents, schema, system_instruction)
+
+
+def _generate(contents, schema: type[T], system_instruction: str | None) -> tuple[T, str]:
+    """The shared core: main model then fallback, error handling, validation."""
     client = _get_client()
     models = models_to_try()
 
     for index, model in enumerate(models):
         try:
-            response = _ask(client, model, prompt, schema, system_instruction)
+            response = _ask(client, model, contents, schema, system_instruction)
             break
         except errors.APIError as exc:
             has_next = index + 1 < len(models)
@@ -204,7 +248,7 @@ def generate_json(prompt: str, schema: type[T], system_instruction: str | None =
 
 
 # -----------------------------------------------------------------------------
-# Manual check: does my API key work?
+# Manual check: does my API key work, and do conversations work?
 #   cd backend  (venv active, GEMINI_API_KEY in .env)
 #   python -m services.ai_client
 # Not used by the app or by tests.
@@ -221,3 +265,18 @@ if __name__ == "__main__":
     result, used = generate_json_with_model("Say hello to a new CareerConnect user, in French.", _Greeting)
     print(f"Model: {used}")
     print(f"Parsed: {result!r}")
+
+    # Conversation check: the answer is only right if the AI "remembers"
+    # the first message, which proves the whole history is being sent.
+    class _Answer(BaseModel):
+        answer: str
+
+    reply, used = generate_chat_with_model(
+        [
+            ChatMessage(role="user", text="My favourite programming language is Python. Just say OK."),
+            ChatMessage(role="model", text="OK."),
+            ChatMessage(role="user", text="What is my favourite programming language? One word."),
+        ],
+        _Answer,
+    )
+    print(f"Chat ({used}): {reply.answer!r}  <- should be Python")

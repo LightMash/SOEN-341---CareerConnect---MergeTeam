@@ -18,6 +18,7 @@ from .job import Job
 from .application import Application, ApplicationStatusHistory
 from .notification import Notification
 from .resume_feedback import ResumeFeedback
+from .study_chat import StudyChat, StudyChatMessage
 
 __all__ = [
     "User",
@@ -28,4 +29,6 @@ __all__ = [
     "ApplicationStatusHistory",
     "Notification",
     "ResumeFeedback",
+    "StudyChat",
+    "StudyChatMessage",
 ]
