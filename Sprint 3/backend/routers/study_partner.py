@@ -5,6 +5,7 @@ Endpoints (job seekers only):
   GET    /api/jobs/{job_id}/study-chat            the conversation so far (never calls the AI)
   POST   /api/jobs/{job_id}/study-chat/messages   send a message, get the AI's reply
   DELETE /api/jobs/{job_id}/study-chat            start over
+  GET    /api/jobs/{job_id}/certifications        useful certifications for the job (no AI)
 """
 
 import datetime
@@ -15,7 +16,8 @@ from sqlalchemy.orm import Session
 from database import get_db
 from models import Job, StudyChat, StudyChatMessage, User
 from routers.auth import get_current_user
-from schemas import StudyChatOut, StudyMessageIn
+from schemas import CertificationsOut, StudyChatOut, StudyMessageIn
+from services import certifications as certification_service
 from services import study_partner as study_service
 from services.ai_client import AIServiceError
 
@@ -128,3 +130,18 @@ def delete_chat(
         db.delete(chat)
         db.commit()
     return Response(status_code=status.HTTP_204_NO_CONTENT)
+
+
+@router.get("/jobs/{job_id}/certifications", response_model=CertificationsOut)
+def get_certifications(
+    job_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    Certifications from our curated list that fit the posting. Plain keyword
+    matching, so it never calls the AI and the links are always ones we checked.
+    """
+    _require_job_seeker(current_user)
+    job = _get_job(job_id, db)
+    return CertificationsOut(job_id=job_id, certifications=certification_service.find_for_job(job))

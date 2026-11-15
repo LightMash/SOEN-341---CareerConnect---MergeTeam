@@ -289,3 +289,95 @@ def test_history_maps_assistant_to_gemini_model_role():
 
 def test_max_history_is_even_so_history_starts_with_the_user():
     assert study_service.MAX_HISTORY_MESSAGES % 2 == 0
+
+
+# =============================================================================
+# Useful certifications: GET /api/jobs/{job_id}/certifications (no AI involved)
+# =============================================================================
+from services import certifications as certification_service  # noqa: E402
+
+
+def _post_job(client, recruiter, title, description, category="Software"):
+    response = client.post(
+        "/api/jobs",
+        json={"title": title, "company": "Globex", "description": description, "category": category},
+        headers=recruiter.headers,
+    )
+    assert response.status_code in (200, 201), response.text
+    return response.json()
+
+
+def _cert_url(job_id: int) -> str:
+    return f"/api/jobs/{job_id}/certifications"
+
+
+def test_certifications_match_the_posting(client, user, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Backend Dev", "Python, FastAPI, Docker and AWS experience.")
+
+    response = client.get(_cert_url(posting["id"]), headers=user.headers)
+
+    assert response.status_code == 200, response.text
+    ids = [c["id"] for c in response.json()["certifications"]]
+    assert {"pcep", "aws-cloud-practitioner", "ckad"} <= set(ids)
+    assert "azure-fundamentals" not in ids
+
+
+def test_certification_with_most_keyword_hits_comes_first(client, user, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Platform Dev", "Kubernetes, Docker and containers. Some Python.")
+
+    ids = [c["id"] for c in client.get(_cert_url(posting["id"]), headers=user.headers).json()["certifications"]]
+
+    assert ids[0] == "ckad"
+
+
+def test_no_certifications_when_nothing_fits(client, user, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Barista", "Make coffee and greet customers.", category="Food")
+
+    body = client.get(_cert_url(posting["id"]), headers=user.headers).json()
+
+    assert body["certifications"] == []
+
+
+def test_keywords_match_whole_words_only(client, user, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Digital Marketer", "Digital campaigns and gitless paperwork.", category="Marketing")
+
+    assert client.get(_cert_url(posting["id"]), headers=user.headers).json()["certifications"] == []
+
+
+def test_every_catalog_link_is_an_official_https_page():
+    assert certification_service.CATALOG
+    for cert in certification_service.CATALOG:
+        assert cert.url.startswith("https://"), cert.id
+        assert cert.keywords and all(k == k.lower() for k in cert.keywords), cert.id
+    assert len({c.id for c in certification_service.CATALOG}) == len(certification_service.CATALOG)
+
+
+def test_certifications_never_call_the_ai(client, user, make_user, fake_ai):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Dev", "Python")
+
+    client.get(_cert_url(posting["id"]), headers=user.headers)
+
+    assert fake_ai.calls == []
+
+
+def test_certifications_unknown_job_is_404(client, user):
+    assert client.get(_cert_url(999999), headers=user.headers).status_code == 404
+
+
+def test_certifications_forbidden_for_recruiters(client, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Dev", "Python")
+
+    assert client.get(_cert_url(posting["id"]), headers=recruiter.headers).status_code == 403
+
+
+def test_certifications_require_login(client, make_user):
+    recruiter = make_user(role="recruiter")
+    posting = _post_job(client, recruiter, "Dev", "Python")
+
+    assert client.get(_cert_url(posting["id"])).status_code in (401, 403)
