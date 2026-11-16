@@ -6,6 +6,7 @@ import {
   getApplicationHistory,
   updateApplicationStatus,
   type Applicant,
+  type ApplicantFilters,
   type ApplicationHistoryEntry,
   type ApplicationStatus,
 } from "../../applicantsApi";
@@ -194,6 +195,78 @@ export default function RecruiterApplicants({
   const [error, setError] = useState<string | null>(null);
   const [retryKey, setRetryKey] = useState(0);
 
+  const [statusFilter, setStatusFilter] = useState<ApplicationStatus | "">("");
+  const [appliedFrom, setAppliedFrom] = useState("");
+  const [appliedTo, setAppliedTo] = useState("");
+  // Distinguish an unfiltered empty posting from no matching filtered applicants.
+  const hasFilters = Boolean(statusFilter || appliedFrom || appliedTo);
+  const invalidDateRange = Boolean(appliedFrom && appliedTo && appliedFrom > appliedTo);
+  // Do not reinsert a row from an earlier filter after a status PATCH finishes.
+  const filterGenerationRef = useRef(0);
+
+  function changeFilters(change: () => void) {
+    filterGenerationRef.current += 1;
+    change();
+  }
+
+  function clearFilters() {
+    if (!hasFilters) return;
+    changeFilters(() => {
+      setStatusFilter("");
+      setAppliedFrom("");
+      setAppliedTo("");
+    });
+  }
+
+  const filterBar = (
+    <div className="cc-applicants-filters" role="group" aria-label="Filter applicants">
+      <label className="cc-applicants-filter-field">
+        <span>Status</span>
+        <select
+          value={statusFilter}
+          onChange={(event) =>
+            changeFilters(() =>
+              setStatusFilter(event.target.value as ApplicationStatus | "")
+            )
+          }
+        >
+          <option value="">All statuses</option>
+          {APPLICATION_STATUSES.map((status) => (
+            <option key={status} value={status}>{status}</option>
+          ))}
+        </select>
+      </label>
+      <label className="cc-applicants-filter-field">
+        <span>From date</span>
+        <input
+          type="date"
+          value={appliedFrom}
+          onChange={(event) =>
+            changeFilters(() => setAppliedFrom(event.target.value))
+          }
+        />
+      </label>
+      <label className="cc-applicants-filter-field">
+        <span>To date</span>
+        <input
+          type="date"
+          value={appliedTo}
+          onChange={(event) =>
+            changeFilters(() => setAppliedTo(event.target.value))
+          }
+        />
+      </label>
+      <button
+        type="button"
+        className="cc-small-btn cc-applicants-clear"
+        onClick={clearFilters}
+        disabled={!hasFilters}
+      >
+        Clear
+      </button>
+    </div>
+  );
+
   const [savingIds, setSavingIds] = useState<number[]>([]);
 
   const [pendingStatuses, setPendingStatuses] = useState<
@@ -224,12 +297,26 @@ export default function RecruiterApplicants({
   // ----------------------------------------------------------
 
   useEffect(() => {
+    // Keep the previously loaded list visible for an invalid date range.
+    // Do not send a request until the date range is valid again.
+    if (invalidDateRange) {
+      setLoading(false);
+      setError(null);
+      return;
+    }
+
     let active = true;
 
     setLoading(true);
     setError(null);
 
-    getApplicants(jobId, token)
+    const filters: ApplicantFilters = {
+      status: statusFilter || undefined,
+      applied_from: appliedFrom || undefined,
+      applied_to: appliedTo || undefined,
+    };
+
+    getApplicants(jobId, token, filters)
       .then((data) => {
         if (active) {
           setApplicants(sortNewestFirst(data));
@@ -249,7 +336,7 @@ export default function RecruiterApplicants({
     return () => {
       active = false;
     };
-  }, [jobId, token, retryKey]);
+  }, [jobId, token, retryKey, statusFilter, appliedFrom, appliedTo, invalidDateRange]);
 
   // ----------------------------------------------------------
   // Save a status immediately when selected.
@@ -260,6 +347,7 @@ export default function RecruiterApplicants({
     newStatus: ApplicationStatus
   ) {
     const id = applicant.id;
+    const filterGeneration = filterGenerationRef.current;
 
     if (newStatus === applicant.status) return;
     if (savingRef.current.has(id)) return;
@@ -291,11 +379,13 @@ export default function RecruiterApplicants({
       );
 
       // Only the backend-confirmed value becomes saved state.
-      setApplicants((prev) =>
-        prev.map((item) =>
-          item.id === id ? updated : item
-        )
-      );
+      // Keep the updated row visible under the current filters until they change.
+      // If filters changed while the PATCH was in flight, don't reinsert stale rows.
+      if (filterGeneration === filterGenerationRef.current) {
+        setApplicants((prev) =>
+          prev.map((item) => item.id === id ? updated : item)
+        );
+      }
 
       setStatusSuccess((prev) => ({
         ...prev,
@@ -338,59 +428,50 @@ export default function RecruiterApplicants({
   }
 
   // ----------------------------------------------------------
-  // Loading, error and empty states
-  // ----------------------------------------------------------
-
-  if (loading) {
-    return (
-      <section className="cc-applicants" aria-busy="true">
-        <p role="status">Loading applicants...</p>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className="cc-applicants">
-        <p role="alert">{error}</p>
-
-        <button
-          type="button"
-          className="cc-small-btn"
-          onClick={() => setRetryKey((key) => key + 1)}
-        >
-          Retry
-        </button>
-      </section>
-    );
-  }
-
-  if (applicants.length === 0) {
-    return (
-      <section className="cc-applicants">
-        <h4>Applicants</h4>
-        <p>No applications yet for this posting.</p>
-      </section>
-    );
-  }
-
-  // ----------------------------------------------------------
-  // Applicant list
+  // Stable heading and filter bar; only the content below changes.
   // ----------------------------------------------------------
 
   return (
-    <section className="cc-applicants">
+    <section className="cc-applicants" aria-busy={loading}>
       <div className="cc-applicants-heading">
         <h4>Applicants</h4>
 
-        <span className="cc-applicant-meta">
-          {applicants.length}{" "}
-          {applicants.length === 1
-            ? "applicant"
-            : "applicants"}
-        </span>
+        {!loading && !error && applicants.length > 0 && (
+          <span className="cc-applicant-meta">
+            {applicants.length}{" "}
+            {applicants.length === 1 ? "applicant" : "applicants"}
+          </span>
+        )}
       </div>
 
+      {filterBar}
+
+      {invalidDateRange && (
+        <p className="cc-applicants-filter-error" role="alert">
+          From date must be on or before To date
+        </p>
+      )}
+
+      {loading ? (
+        <p role="status">Loading applicants...</p>
+      ) : error ? (
+        <div>
+          <p role="alert">{error}</p>
+          <button
+            type="button"
+            className="cc-small-btn"
+            onClick={() => setRetryKey((key) => key + 1)}
+          >
+            Retry
+          </button>
+        </div>
+      ) : applicants.length === 0 ? (
+        <p>
+          {hasFilters
+            ? "No applicants match these filters"
+            : "No applications yet for this posting."}
+        </p>
+      ) : (
       <ul className="cc-applicants-list">
         {applicants.map((applicant) => {
           const id = applicant.id;
@@ -513,6 +594,7 @@ export default function RecruiterApplicants({
           );
         })}
       </ul>
+      )}
     </section>
   );
 }
