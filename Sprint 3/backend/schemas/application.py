@@ -33,6 +33,9 @@ class ApplicationOut(BaseModel):
     job_id: int
     job_title: str
     company: str
+    location: str
+    job_type: str
+    work_from: str
     resume_id: int | None  # None if the resume was deleted after applying
     resume_filename: str | None
     status: str
