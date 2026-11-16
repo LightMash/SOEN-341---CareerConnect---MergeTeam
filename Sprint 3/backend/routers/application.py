@@ -7,18 +7,19 @@ Routes:
   PATCH /api/applications/{id}/status    - the posting's recruiter changes the status
   GET   /api/applications/{id}/history   - status timeline (applicant or recruiter)
 """
-
+ 
 import datetime
-
+ 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import func, literal_column
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-
+ 
 from database import get_db
 from models import Application, ApplicationStatusHistory, Job, Resume, User
 from models.application import APPLICATION_STATUSES
 from routers.auth import get_current_user
+from schemas.application import ApplicationStatus
 from schemas import (
     ApplicantOut,
     ApplicationCreate,
@@ -30,17 +31,17 @@ from schemas import (
     StatusUpdate,
 )
 from services.notifications import notify_new_application, notify_status_change
-
+ 
 router = APIRouter()
-
+ 
 DUPLICATE_MESSAGE = "You have already applied to this job."
-
-
+ 
+ 
 def _require_job_seeker(current_user: User) -> None:
     if current_user.role != "job_seeker":
         raise HTTPException(status_code=403, detail="Only job seekers can apply to jobs.")
-
-
+ 
+ 
 def _pick_resume(resume_id: int | None, current_user: User, db: Session) -> Resume:
     """
     The resume to send with the application:
@@ -56,7 +57,7 @@ def _pick_resume(resume_id: int | None, current_user: User, db: Session) -> Resu
             # Same rule as routers/resume.py: you can't use someone else's resume.
             raise HTTPException(status_code=403, detail="You don't have permission to use this resume.")
         return resume
-
+ 
     resume = (
         db.query(Resume)
         .filter(Resume.user_id == current_user.id, Resume.is_primary.is_(True))
@@ -65,8 +66,8 @@ def _pick_resume(resume_id: int | None, current_user: User, db: Session) -> Resu
     if not resume:
         raise HTTPException(status_code=400, detail="Upload a resume before applying to jobs.")
     return resume
-
-
+ 
+ 
 def _common_fields(application: Application) -> dict:
     # Built by hand because job_title / company / resume_filename come from
     # the related rows, not from the applications table itself.
@@ -84,13 +85,13 @@ def _common_fields(application: Application) -> dict:
         applied_at=application.applied_at,
         updated_at=application.updated_at,
     )
-
-
+ 
+ 
 def _to_out(application: Application) -> ApplicationOut:
     """The job seeker's view of their own application."""
     return ApplicationOut(**_common_fields(application))
-
-
+ 
+ 
 def _to_applicant_out(application: Application) -> ApplicantOut:
     """The recruiter's view: the same fields plus who applied."""
     return ApplicantOut(
@@ -99,20 +100,20 @@ def _to_applicant_out(application: Application) -> ApplicantOut:
         applicant_name=application.applicant.full_name,
         applicant_email=application.applicant.email,
     )
-
-
+ 
+ 
 def _get_application(application_id: int, db: Session) -> Application:
     application = db.query(Application).filter(Application.id == application_id).first()
     if not application:
         raise HTTPException(status_code=404, detail="Application not found.")
     return application
-
-
+ 
+ 
 def _is_posting_recruiter(application: Application, user: User) -> bool:
     """True only for the recruiter who posted the job this application is for."""
     return user.role == "recruiter" and application.job.recruiter_id == user.id
-
-
+ 
+ 
 @router.post(
     "/applications",
     response_model=ApplicationSubmitResponse,
@@ -129,13 +130,13 @@ def submit_application(
     -> valid resume? Then saves the application with status "Applied".
     """
     _require_job_seeker(current_user)
-
+ 
     job = db.query(Job).filter(Job.id == payload.job_id).first()
     if not job:
         raise HTTPException(status_code=404, detail="Job not found.")
     if not job.is_open:
         raise HTTPException(status_code=400, detail="This job is no longer accepting applications.")
-
+ 
     # early check so the user gets a clear message in the normal case
     already_applied = (
         db.query(Application.id)
@@ -144,9 +145,9 @@ def submit_application(
     )
     if already_applied:
         raise HTTPException(status_code=409, detail=DUPLICATE_MESSAGE)
-
+ 
     resume = _pick_resume(payload.resume_id, current_user, db)
-
+ 
     application = Application(job_id=job.id, applicant_id=current_user.id, resume_id=resume.id)
     # First timeline entry: Saved in the SAME commit as the application
     # so there is never an application without its history
@@ -167,13 +168,13 @@ def submit_application(
         db.rollback()
         raise HTTPException(status_code=409, detail=DUPLICATE_MESSAGE)
     db.refresh(application)
-
+ 
     return ApplicationSubmitResponse(
         message="Application submitted successfully.",
         application=_to_out(application),
     )
-
-
+ 
+ 
 @router.get("/applications/mine", response_model=list[ApplicationOut])
 def list_my_applications(
     current_user: User = Depends(get_current_user),
@@ -188,36 +189,48 @@ def list_my_applications(
         .all()
     )
     return [_to_out(a) for a in applications]
-
-
+ 
+ 
 # ---------------------------------------------------------------------------
 # Status tracking
 # ---------------------------------------------------------------------------
 @router.get("/jobs/{job_id}/applications", response_model=list[ApplicantOut])
 def list_job_applications(
     job_id: int,
+    status: ApplicationStatus | None = None,
+    applied_from: datetime.date | None = None,
+    applied_to: datetime.date | None = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     """
-    GET /api/jobs/{job_id}/applications — everyone who applied to one posting,
-    oldest first. Only the recruiter who posted the job may see this list.
+    GET /api/jobs/{job_id}/applications — applicants for a recruiter's posting,
+    oldest first. Optional filters: status, applied_from, applied_to (inclusive).
+    Without filters, the response and ordering are unchanged.
     """
     job = db.query(Job).filter(Job.id == job_id).first()
     if not job:
         raise HTTPException(status_code=404, detail="Job not found.")
     if current_user.role != "recruiter" or job.recruiter_id != current_user.id:
         raise HTTPException(status_code=403, detail="Only the recruiter who posted this job can see its applicants.")
-
-    applications = (
-        db.query(Application)
-        .filter(Application.job_id == job.id)
-        .order_by(Application.id.asc())
-        .all()
-    )
+ 
+    if applied_from is not None and applied_to is not None and applied_from > applied_to:
+        raise HTTPException(status_code=400, detail="applied_from must be on or before applied_to.")
+ 
+    query = db.query(Application).filter(Application.job_id == job.id)
+    if status is not None:
+        query = query.filter(Application.status == status)
+    if applied_from is not None:
+        query = query.filter(Application.applied_at >= datetime.datetime.combine(applied_from, datetime.time.min))
+    if applied_to is not None:
+        # Include every timestamp on the end date, including fractional seconds.
+        # Using time.max also handles date.max without adding an overflowing day.
+        query = query.filter(Application.applied_at <= datetime.datetime.combine(applied_to, datetime.time.max))
+ 
+    applications = query.order_by(Application.id.asc()).all()
     return [_to_applicant_out(a) for a in applications]
-
-
+ 
+ 
 @router.patch("/applications/{application_id}/status", response_model=ApplicantOut)
 def update_application_status(
     application_id: int,
@@ -227,11 +240,11 @@ def update_application_status(
 ):
     """
     PATCH /api/applications/{id}/status  body: {"status": "Interview"}
-
+ 
     Restricted to the recruiter who posted the job: job seekers (including the
     applicant) and other recruiters get 403. An invalid status never reaches
     this function (StatusUpdate rejects it with 422).
-
+ 
     The status change and its history entry are saved in one commit.
     """
     application = _get_application(application_id, db)
@@ -240,10 +253,10 @@ def update_application_status(
             status_code=403,
             detail="Only the recruiter who posted this job can update the application status.",
         )
-
+ 
     if payload.status == application.status:
         raise HTTPException(status_code=400, detail=f"Application is already '{application.status}'.")
-
+ 
     application.history.append(
         ApplicationStatusHistory(
             old_status=application.status,
@@ -258,8 +271,8 @@ def update_application_status(
     db.commit()
     db.refresh(application)
     return _to_applicant_out(application)
-
-
+ 
+ 
 @router.get("/applications/{application_id}/history", response_model=list[StatusChangeOut])
 def get_application_history(
     application_id: int,
@@ -275,23 +288,23 @@ def get_application_history(
     is_applicant = application.applicant_id == current_user.id
     if not (is_applicant or _is_posting_recruiter(application, current_user)):
         raise HTTPException(status_code=403, detail="You don't have permission to view this application.")
-
+ 
     return application.history
-
-
+ 
+ 
 # ---------------------------------------------------------------------------
 # Dashboard statistics (US-08)
 # ---------------------------------------------------------------------------
 WEEKS_SHOWN = 10
 MONTHS_SHOWN = 12
-
-
+ 
+ 
 def _week_starts(today: datetime.date) -> list[datetime.date]:
     """Mondays of the last WEEKS_SHOWN weeks, oldest first, ending with this week's Monday."""
     this_monday = today - datetime.timedelta(days=today.weekday())
     return [this_monday - datetime.timedelta(weeks=i) for i in range(WEEKS_SHOWN - 1, -1, -1)]
-
-
+ 
+ 
 def _month_starts(today: datetime.date) -> list[datetime.date]:
     """First day of each of the last MONTHS_SHOWN months, oldest first, ending with this month."""
     starts = []
@@ -303,8 +316,8 @@ def _month_starts(today: datetime.date) -> list[datetime.date]:
         if month == 0:
             year, month = year - 1, 12
     return starts[::-1]
-
-
+ 
+ 
 def _counts_by_period(
     db: Session, applicant_id: int, unit: str, starts: list[datetime.date]
 ) -> list[PeriodCount]:
@@ -320,7 +333,7 @@ def _counts_by_period(
     # comes from this file, never from the request, so inlining is safe.
     period = func.date_trunc(literal_column(f"'{unit}'"), Application.applied_at)
     window_start = datetime.datetime.combine(starts[0], datetime.time.min)
-
+ 
     rows = (
         db.query(period, func.count(Application.id))
         .filter(Application.applicant_id == applicant_id, Application.applied_at >= window_start)
@@ -330,8 +343,8 @@ def _counts_by_period(
     # date_trunc returns a timestamp (midnight); key by its date to match `starts`
     found = {period_start.date(): count for period_start, count in rows}
     return [PeriodCount(period_start=s, count=found.get(s, 0)) for s in starts]
-
-
+ 
+ 
 @router.get("/applications/mine/stats", response_model=ApplicationStatsOut)
 def my_application_stats(
     current_user: User = Depends(get_current_user),
@@ -342,12 +355,12 @@ def my_application_stats(
     dashboard, computed from the existing columns (no stored counters):
       - total and per-status counts over all of the job seeker's applications
       - applications submitted per week (last 10) and per month (last 12)
-
+ 
     Must stay above any future GET /applications/{id} route, or "mine"
     would be parsed as an id.
     """
     _require_job_seeker(current_user)
-
+ 
     rows = (
         db.query(Application.status, func.count(Application.id))
         .filter(Application.applicant_id == current_user.id)
@@ -357,11 +370,11 @@ def my_application_stats(
     # Seed every status with 0 so the frontend always gets all five keys in pipeline order
     by_status = {s: 0 for s in APPLICATION_STATUSES}
     by_status.update(dict(rows))
-
+ 
     # applied_at is stored as naive UTC (utcnow), so "today" is in UTC too,
     # keeping the buckets and the window boundaries consistent
     today = datetime.datetime.utcnow().date()
-
+ 
     return ApplicationStatsOut(
         total=sum(by_status.values()),
         by_status=by_status,

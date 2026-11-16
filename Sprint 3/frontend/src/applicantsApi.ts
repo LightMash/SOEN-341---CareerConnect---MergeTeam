@@ -70,13 +70,27 @@ async function send<T>(
   return data as T;
 }
 
+// Optional server-side filters for one posting's applicants.
+export interface ApplicantFilters {
+  status?: ApplicationStatus;
+  applied_from?: string; // YYYY-MM-DD
+  applied_to?: string;   // YYYY-MM-DD
+}
+
 // 1. List applicants for one recruiter's posting.
 export function getApplicants(
   jobId: number,
-  token: string
+  token: string,
+  filters: ApplicantFilters = {}
 ): Promise<Applicant[]> {
+  const params = new URLSearchParams();
+  if (filters.status) params.set("status", filters.status);
+  if (filters.applied_from) params.set("applied_from", filters.applied_from);
+  if (filters.applied_to) params.set("applied_to", filters.applied_to);
+
+  const query = params.toString();
   return send<Applicant[]>(
-    `/jobs/${jobId}/applications`,
+    `/jobs/${jobId}/applications${query ? `?${query}` : ""}`,
     token
   );
 }

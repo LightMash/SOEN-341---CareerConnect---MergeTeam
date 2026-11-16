@@ -71,3 +71,22 @@ class StudyChatOut(BaseModel):
     # Questions to show before the first message, so the user knows what
     # to ask. Empty once the conversation has started.
     starter_questions: list[str]
+
+
+class CertificationOut(BaseModel):
+    """One certification suggested for a job (see services/certifications.py)."""
+
+    model_config = ConfigDict(from_attributes=True)
+
+    id: str
+    name: str
+    issuer: str
+    level: str
+    topic: str
+    summary: str
+    url: str
+
+
+class CertificationsOut(BaseModel):
+    job_id: int
+    certifications: list[CertificationOut]  # empty when nothing in the catalog fits
