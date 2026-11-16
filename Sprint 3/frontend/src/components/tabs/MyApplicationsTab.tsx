@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { ApplicationOut } from "../../api";
-import { listMyApplications } from "../../api";
+import type { ApplicationOut, ApplicationStats } from "../../api";
+import { listMyApplications, getMyApplicationStats } from "../../api";
 import type { ApplicationHistoryEntry } from "../../applicantsApi";
 import { getApplicationHistory } from "../../applicantsApi";
 import "../../styles/myApplications.css";
@@ -118,13 +118,19 @@ export default function MyApplicationsTab({ token }: { token: string }) {
   const [reloadKey, setReloadKey] = useState(0);
   // Only one card's history is open at a time.
   const [openHistoryId, setOpenHistoryId] = useState<number | null>(null);
+  // Dashboard (status filter, order, stats)
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [stats, setStats] = useState<ApplicationStats | null>(null);
 
   useEffect(() => {
     let cancelled = false;
     setError("");
-    listMyApplications(token)
-      .then((data) => {
-        if (!cancelled) setApplications(data);
+    Promise.all([listMyApplications(token), getMyApplicationStats(token)])
+      .then(([data, statsData]) => {
+        if (cancelled) return;
+        setApplications(data);
+        setStats(statsData);
       })
       .catch((err: Error) => {
         if (!cancelled) setError(err.message);
@@ -141,6 +147,13 @@ export default function MyApplicationsTab({ token }: { token: string }) {
     setRefreshing(true);
     setReloadKey((n) => n + 1);
   }
+
+  const visible = (applications ?? [])
+    .filter((a) => statusFilter === "All" || a.status === statusFilter)
+    .sort((a, b) => {
+      const diff = new Date(a.applied_at).getTime() - new Date(b.applied_at).getTime();
+      return sortOrder === "newest" ? -diff : diff;
+    });
 
   return (
     <>
@@ -182,7 +195,7 @@ export default function MyApplicationsTab({ token }: { token: string }) {
 
         {applications !== null && applications.length > 0 && (
           <ul className="cc-apps-list">
-            {applications.map((application) => {
+            {visible.map((application) => {
               const historyOpen = openHistoryId === application.id;
               const historyId = `application-history-${application.id}`;
               return (
