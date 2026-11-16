@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { SubmitEvent, ReactNode } from "react";
 import {
   listMyPostings,
@@ -13,6 +13,9 @@ import {
 import type { JobPosting, JobPostingInput, JobType } from "../../postingsApi";
 import "../../styles/postings.css";
 import RecruiterApplicants from "./RecruiterApplicants";
+import RequirementsEditor from "../../features/matching/RequirementsEditor";
+import type { RequirementsEditorHandle } from "../../features/matching/RequirementsEditor";
+import "../../features/matching/matching.css";
 import "../../styles/applicants.css";
 
 // Recruiter side of the Job dashboard (US-04, Task 4.3): a list of the
@@ -110,6 +113,8 @@ export default function RecruiterPostings({ token }: { token: string }) {
   const [fieldErrors, setFieldErrors] = useState<Partial<Record<CheckedField, string>>>({});
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState("");
+  // Requirements are saved separately, right after the posting itself.
+  const requirementsRef = useRef<RequirementsEditorHandle>(null);
 
   const [notice, setNotice] = useState("");
   const [busyId, setBusyId] = useState<number | null>(null);
@@ -197,10 +202,18 @@ export default function RecruiterPostings({ token }: { token: string }) {
       if (editing === "new") {
         const created = await createPosting(input, token);
         setPostings((prev) => sortPostings([created, ...prev]));
-        setNotice("Job posted");
+        try {
+          await requirementsRef.current?.save(created.id);
+          setNotice("Job posted");
+        } catch (err) {
+          // The posting exists now, so don't leave a "new" form that would post it twice.
+          const reason = err instanceof Error ? err.message : "unknown error";
+          setNotice(`Job posted, but its qualifications weren't saved (${reason}). Edit the posting to add them.`);
+        }
       } else if (typeof editing === "number") {
         const updated = await updatePosting(editing, input, token);
         setPostings((prev) => sortPostings(prev.map((p) => (p.id === updated.id ? updated : p))));
+        await requirementsRef.current?.save(updated.id);
         setNotice("Changes saved");
       }
       setEditing(null);
@@ -348,6 +361,13 @@ export default function RecruiterPostings({ token }: { token: string }) {
               </span>
             </Field>
           </div>
+
+          <RequirementsEditor
+            key={editing === "new" ? "new" : editing}
+            ref={requirementsRef}
+            token={token}
+            jobId={typeof editing === "number" ? editing : null}
+          />
 
           {saveError && (
             <p className="cc-error" role="alert">
