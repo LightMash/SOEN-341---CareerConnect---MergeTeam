@@ -8,6 +8,8 @@ Routes:
   GET   /api/applications/{id}/history   - status timeline (applicant or recruiter)
 """
 
+from datetime import date, datetime, time
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -15,6 +17,7 @@ from sqlalchemy.orm import Session
 from database import get_db
 from models import Application, ApplicationStatusHistory, Job, Resume, User
 from routers.auth import get_current_user
+from schemas.application import ApplicationStatus
 from schemas import (
     ApplicantOut,
     ApplicationCreate,
@@ -187,12 +190,16 @@ def list_my_applications(
 @router.get("/jobs/{job_id}/applications", response_model=list[ApplicantOut])
 def list_job_applications(
     job_id: int,
+    status: ApplicationStatus | None = None,
+    applied_from: date | None = None,
+    applied_to: date | None = None,
     current_user: User = Depends(get_current_user),
     db: Session = Depends(get_db),
 ):
     """
-    GET /api/jobs/{job_id}/applications — everyone who applied to one posting,
-    oldest first. Only the recruiter who posted the job may see this list.
+    GET /api/jobs/{job_id}/applications — applicants for a recruiter's posting,
+    oldest first. Optional filters: status, applied_from, applied_to (inclusive).
+    Without filters, the response and ordering are unchanged.
     """
     job = db.query(Job).filter(Job.id == job_id).first()
     if not job:
@@ -200,12 +207,20 @@ def list_job_applications(
     if current_user.role != "recruiter" or job.recruiter_id != current_user.id:
         raise HTTPException(status_code=403, detail="Only the recruiter who posted this job can see its applicants.")
 
-    applications = (
-        db.query(Application)
-        .filter(Application.job_id == job.id)
-        .order_by(Application.id.asc())
-        .all()
-    )
+    if applied_from is not None and applied_to is not None and applied_from > applied_to:
+        raise HTTPException(status_code=400, detail="applied_from must be on or before applied_to.")
+
+    query = db.query(Application).filter(Application.job_id == job.id)
+    if status is not None:
+        query = query.filter(Application.status == status)
+    if applied_from is not None:
+        query = query.filter(Application.applied_at >= datetime.combine(applied_from, time.min))
+    if applied_to is not None:
+        # Include every timestamp on the end date, including fractional seconds.
+        # Using time.max also handles date.max without adding an overflowing day.
+        query = query.filter(Application.applied_at <= datetime.combine(applied_to, time.max))
+
+    applications = query.order_by(Application.id.asc()).all()
     return [_to_applicant_out(a) for a in applications]
 
 
