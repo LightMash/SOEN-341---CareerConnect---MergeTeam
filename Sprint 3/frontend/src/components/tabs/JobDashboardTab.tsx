@@ -4,6 +4,7 @@ import { listJobs, listMyApplications } from "../../api";
 import ApplyControls from "../ApplyControls";
 import ListingMatchDetails from "../../features/matching/ListingMatchDetails";
 import QualifiedOnlyToggle from "../../features/matching/QualifiedOnlyToggle";
+import StudyPartnerPanel from "../StudyPartnerPanel";
 
 // CSS style
 import "../../styles/jobs.css";
@@ -45,6 +46,8 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
   const [error, setError] = useState("");
   // Id of the card whose details are expanded (only one at a time)
   const [openId, setOpenId] = useState<number | null>(null);
+  // The job whose Study partner panel is open (one at a time, like the details)
+  const [studyJob, setStudyJob] = useState<Job | null>(null);
 
   // Ids of the jobs this user already applied to, so those cards show
   // "Applied" instead of the Apply controls (also after a page refresh).
@@ -219,6 +222,16 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
             <p className="cc-muted">None of these jobs match your qualifications yet.</p>
           )}
 
+          {/* AI study partner for the chosen job (opened from its card) */}
+          {studyJob && (
+            <StudyPartnerPanel
+              key={studyJob.id}
+              job={studyJob}
+              token={token}
+              onClose={() => setStudyJob(null)}
+            />
+          )}
+
           {/* Listings: clicking "View details" expands the card in place */}
           {!loading && !error && shownJobs.length > 0 && (
             <ul className="cc-jobs-list">
@@ -247,15 +260,26 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
                       </div>
                     )}
 
-                    <button
-                      type="button"
-                      className="cc-job-button"
-                      aria-expanded={isOpen}
-                      aria-controls={`job-details-${job.id}`}
-                      onClick={() => setOpenId(isOpen ? null : job.id)}
-                    >
-                      {isOpen ? "Hide details" : "View details"}
-                    </button>
+                    <div className="cc-job-actions">
+                      <button
+                        type="button"
+                        className="cc-job-button"
+                        aria-expanded={isOpen}
+                        aria-controls={`job-details-${job.id}`}
+                        onClick={() => setOpenId(isOpen ? null : job.id)}
+                      >
+                        {isOpen ? "Hide details" : "View details"}
+                      </button>
+                      <button
+                        type="button"
+                        className="cc-job-button"
+                        aria-expanded={studyJob?.id === job.id}
+                        aria-controls={`study-partner-${job.id}`}
+                        onClick={() => setStudyJob(studyJob?.id === job.id ? null : job)}
+                      >
+                        Study with AI
+                      </button>
+                    </div>
 
                     {/* Search only returns open jobs, so every card here can
                         take an application. The controls handle picking a

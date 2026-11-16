@@ -9,6 +9,7 @@ import {
   replaceResume,
   setPrimaryResume,
 } from "../api";
+import ResumeFeedbackPanel from "./ResumeFeedbackPanel";
 
 // Everything resume-related lives here. This logic used to be inside
 // Dashboard.tsx; it moved so the Profile tab can render it and Dashboard.tsx
@@ -80,6 +81,8 @@ export default function ResumeManager({ token, onChange }: ResumeManagerProps) {
   // True while an upload/replace is in flight, so the buttons and drop zone
   // are disabled and a second request can't start before the first finishes.
   const [uploading, setUploading] = useState(false);
+  // US-16: the resume whose AI feedback panel is open (null = closed).
+  const [feedbackFor, setFeedbackFor] = useState<Resume | null>(null);
 
   const inputRef = useRef<HTMLInputElement>(null);
   // "Replace" uses its own hidden file input, separate from the upload one.
@@ -152,6 +155,9 @@ export default function ResumeManager({ token, onChange }: ResumeManagerProps) {
     try {
       const { resume } = await replaceResume(id, file, token);
       setResumes((prev) => prev.map((r) => (r.id === id ? resume : r)));
+      // Keep an open feedback panel pointing at the updated resume, so it
+      // reloads and can show the "you replaced this resume" warning.
+      setFeedbackFor((open) => (open?.id === id ? resume : open));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't replace that resume.");
     } finally {
@@ -183,6 +189,8 @@ export default function ResumeManager({ token, onChange }: ResumeManagerProps) {
       // primary one, the backend promotes the newest remaining resume, and
       // the list has to show that change too.
       setResumes(await listMyResumes(token));
+      // The deleted resume's feedback is gone too, so close its panel.
+      setFeedbackFor((open) => (open?.id === id ? null : open));
       onChange?.();
     } catch (err) {
       setError(err instanceof Error ? err.message : "Couldn't delete that resume.");
@@ -321,6 +329,9 @@ export default function ResumeManager({ token, onChange }: ResumeManagerProps) {
                   Set primary
                 </button>
               )}
+              <button type="button" className="cc-link" onClick={() => setFeedbackFor(r)}>
+                AI feedback
+              </button>
               <button type="button" className="cc-link cc-link-danger" onClick={() => handleDelete(r.id)}>
                 Delete
               </button>
@@ -334,6 +345,17 @@ export default function ResumeManager({ token, onChange }: ResumeManagerProps) {
           </button>
         </li>
       </ul>
+
+      {feedbackFor && (
+        <ResumeFeedbackPanel
+          // key: a different resume, or a replaced file (new uploaded_at),
+          // starts a fresh panel that reloads its feedback.
+          key={`${feedbackFor.id}-${feedbackFor.uploaded_at}`}
+          resume={feedbackFor}
+          token={token}
+          onClose={() => setFeedbackFor(null)}
+        />
+      )}
     </section>
   );
 }

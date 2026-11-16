@@ -317,6 +317,9 @@ export interface ApplicationOut {
   job_id: number;
   job_title: string;
   company: string;
+  location: string;
+  job_type: string;
+  work_from: string;
   resume_id: number | null; // null if the resume was deleted after applying
   resume_filename: string | null;
   status: string; // "Applied" | "Under Review" | "Interview" | "Offered" | "Rejected"
@@ -350,6 +353,24 @@ export function submitApplication(
 // Every application the logged-in job seeker has submitted, newest first.
 export function listMyApplications(token: string): Promise<ApplicationOut[]> {
   return request<ApplicationOut[]>("/applications/mine", {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+}
+
+export interface PeriodCount {
+  period_start: string;
+  count: number;
+}
+
+export interface ApplicationStats {
+  total: number;
+  by_status: Record<string, number>;
+  weekly: PeriodCount[];    // Last 10 weeks
+  monthly: PeriodCount[];   // Last 12 months
+}
+
+export function getMyApplicationStats(token: string): Promise<ApplicationStats> {
+  return request<ApplicationStats>("/applications/mine/stats", {
     headers: { Authorization: `Bearer ${token}` },
   });
 }

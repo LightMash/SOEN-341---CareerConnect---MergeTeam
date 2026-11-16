@@ -1,0 +1,322 @@
+/* =========================================================================
+   AI Resume Feedback panel (src/components/ResumeFeedbackPanel.tsx).
+   Built on the dashboard's theme variables (index.css), so it follows light
+   and dark mode. Meaning is never carried by color alone: every colored tag
+   also has a text label.
+   ========================================================================= */
+
+.cc-dashboard {
+  --cc-fb-good: #1b7f4c;
+  --cc-fb-warn: #a35c00;
+}
+
+:root[data-theme="dark"] .cc-dashboard {
+  --cc-fb-good: #6fd6a0;
+  --cc-fb-warn: #ffb74d;
+}
+
+.cc-fb {
+  scroll-margin-top: 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 18px;
+  padding: 20px;
+  background: var(--cc-paper);
+}
+
+.cc-fb-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.cc-fb-head .cc-section-title {
+  margin: 0;
+}
+
+.cc-fb-head .cc-subtitle {
+  margin-top: 4px;
+  max-width: 48ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------- Request controls ---------- */
+
+.cc-fb-controls {
+  margin-top: 16px;
+}
+
+.cc-fb-label {
+  display: block;
+  margin-bottom: 6px;
+  color: var(--cc-muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-fb-controls-row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cc-fb-select {
+  flex: 1 1 240px;
+  min-width: 0;
+  padding: 10px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+  background: var(--cc-bg);
+  color: var(--cc-ink);
+  font: inherit;
+  font-size: 14px;
+}
+
+.cc-fb-status {
+  min-height: 1.2em;
+  margin: 10px 0 0;
+  color: var(--cc-muted);
+  font-size: 14px;
+}
+
+/* ---------- Review ---------- */
+
+.cc-fb-review {
+  margin-top: 8px;
+  transition: opacity 0.15s;
+}
+
+/* Dim the old review while a new one is being generated. */
+.cc-fb-review.is-busy {
+  opacity: 0.5;
+}
+
+.cc-fb-warning {
+  margin: 0 0 14px;
+  padding: 10px 14px;
+  border-left: 4px solid var(--cc-fb-warn);
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--cc-fb-warn) 12%, var(--cc-bg));
+  color: var(--cc-ink);
+  font-size: 14px;
+}
+
+.cc-fb-overview {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.cc-fb-score {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  width: 104px;
+  height: 104px;
+  border-radius: 50%;
+  border: 6px solid currentColor;
+  flex: none;
+  box-sizing: border-box;
+}
+
+.cc-fb-score.is-high {
+  color: var(--cc-fb-good);
+}
+
+.cc-fb-score.is-mid {
+  color: var(--cc-fb-warn);
+}
+
+.cc-fb-score.is-low {
+  color: var(--cc-danger);
+}
+
+.cc-fb-score-num {
+  align-self: center;
+  font-size: 34px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cc-fb-score-max {
+  align-self: center;
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.cc-fb-overview-text {
+  flex: 1 1 260px;
+}
+
+.cc-fb-score-label {
+  margin: 0;
+  color: var(--cc-ink);
+  font-weight: 700;
+}
+
+.cc-fb-summary {
+  margin: 4px 0 0;
+  color: var(--cc-ink);
+  font-size: 15px;
+}
+
+.cc-fb-meta {
+  margin: 6px 0 0;
+  color: var(--cc-muted);
+  font-size: 12px;
+}
+
+.cc-fb-block {
+  margin-top: 22px;
+}
+
+.cc-fb-h3 {
+  margin: 0 0 10px;
+  color: var(--cc-ink);
+  font-size: 16px;
+}
+
+.cc-fb-strengths {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--cc-ink);
+  font-size: 14px;
+}
+
+.cc-fb-strengths li + li {
+  margin-top: 4px;
+}
+
+/* ---------- Suggestions ---------- */
+
+.cc-fb-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cc-fb-item {
+  padding: 14px 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 14px;
+  background: var(--cc-soft);
+}
+
+.cc-fb-item.is-accepted {
+  border-left: 4px solid var(--cc-fb-good);
+}
+
+.cc-fb-item.is-dismissed {
+  opacity: 0.6;
+}
+
+.cc-fb-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.cc-fb-tag {
+  padding: 1px 8px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: var(--cc-paper);
+  color: var(--cc-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cc-fb-tag.is-high {
+  border-color: var(--cc-accent);
+  color: var(--cc-accent);
+}
+
+.cc-fb-tag.is-decision {
+  border-color: var(--cc-fb-good);
+  color: var(--cc-fb-good);
+}
+
+.cc-fb-change {
+  display: grid;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.cc-fb-before,
+.cc-fb-after {
+  margin: 10px 0 0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: var(--cc-ink);
+}
+
+.cc-fb-change .cc-fb-before,
+.cc-fb-change .cc-fb-after {
+  margin: 0;
+}
+
+.cc-fb-before {
+  background: color-mix(in srgb, var(--cc-danger) 8%, var(--cc-bg));
+}
+
+.cc-fb-after {
+  background: color-mix(in srgb, var(--cc-fb-good) 10%, var(--cc-bg));
+}
+
+.cc-fb-change-label {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--cc-muted);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cc-fb-reason {
+  margin: 8px 0 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+.cc-fb-hint {
+  margin: 6px 0 0;
+  color: var(--cc-fb-warn);
+  font-size: 12px;
+}
+
+.cc-fb-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+/* ---------- Footer ---------- */
+
+.cc-fb-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-fb-disclaimer {
+  margin: 12px 0 0;
+  color: var(--cc-muted);
+  font-size: 12px;
+}
