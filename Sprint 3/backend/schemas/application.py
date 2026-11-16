@@ -77,3 +77,23 @@ class StatusChangeOut(BaseModel):
     new_status: str
     changed_by: int
     changed_at: datetime.datetime
+
+
+# ---------------------------------------------------------------------------
+# Dashboard statistics (US-08)
+# ---------------------------------------------------------------------------
+class PeriodCount(BaseModel):
+    """Applications submitted in one week (starting Monday) or one month (starting the 1st)."""
+
+    period_start: datetime.date
+    count: int
+
+
+class ApplicationStatsOut(BaseModel):
+    """Body of GET /api/applications/mine/stats."""
+
+    total: int  # all-time, not limited to the weekly/monthly windows
+    # Always has all five statuses, in pipeline order, zeros included
+    by_status: dict[ApplicationStatus, int]
+    weekly: list[PeriodCount]   # last 10 weeks, oldest first, current week last
+    monthly: list[PeriodCount]  # last 12 months, oldest first, current month last

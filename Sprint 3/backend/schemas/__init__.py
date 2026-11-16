@@ -17,6 +17,8 @@ from .application import (
     StatusUpdate,
     ApplicantOut,
     StatusChangeOut,
+    ApplicationStatsOut,
+    PeriodCount,
 )
 from .notification import (
     NotificationOut,
@@ -50,6 +52,8 @@ __all__ = [
     "StatusUpdate",
     "ApplicantOut",
     "StatusChangeOut",
+    "ApplicationStatsOut",
+    "PeriodCount",
     "NotificationOut",
     "UnreadCountOut",
     "AIFeedback",

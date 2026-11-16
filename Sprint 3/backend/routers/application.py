@@ -8,18 +8,24 @@ Routes:
   GET   /api/applications/{id}/history   - status timeline (applicant or recruiter)
 """
 
+import datetime
+
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import func, literal_column
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from database import get_db
 from models import Application, ApplicationStatusHistory, Job, Resume, User
+from models.application import APPLICATION_STATUSES
 from routers.auth import get_current_user
 from schemas import (
     ApplicantOut,
     ApplicationCreate,
     ApplicationOut,
+    ApplicationStatsOut,
     ApplicationSubmitResponse,
+    PeriodCount,
     StatusChangeOut,
     StatusUpdate,
 )
@@ -70,7 +76,7 @@ def _common_fields(application: Application) -> dict:
         job_title=application.job.title,
         company=application.job.company,
         location=application.job.location,
-        job_type=application.job_type,
+        job_type=application.job.job_type,
         work_from=application.job.work_from,
         resume_id=application.resume_id,
         resume_filename=application.resume.filename if application.resume else None,
@@ -271,3 +277,94 @@ def get_application_history(
         raise HTTPException(status_code=403, detail="You don't have permission to view this application.")
 
     return application.history
+
+
+# ---------------------------------------------------------------------------
+# Dashboard statistics (US-08)
+# ---------------------------------------------------------------------------
+WEEKS_SHOWN = 10
+MONTHS_SHOWN = 12
+
+
+def _week_starts(today: datetime.date) -> list[datetime.date]:
+    """Mondays of the last WEEKS_SHOWN weeks, oldest first, ending with this week's Monday."""
+    this_monday = today - datetime.timedelta(days=today.weekday())
+    return [this_monday - datetime.timedelta(weeks=i) for i in range(WEEKS_SHOWN - 1, -1, -1)]
+
+
+def _month_starts(today: datetime.date) -> list[datetime.date]:
+    """First day of each of the last MONTHS_SHOWN months, oldest first, ending with this month."""
+    starts = []
+    year, month = today.year, today.month
+    for _ in range(MONTHS_SHOWN):
+        starts.append(datetime.date(year, month, 1))
+        # Step back one month, wrapping January -> December of the previous year
+        month -= 1
+        if month == 0:
+            year, month = year - 1, 12
+    return starts[::-1]
+
+
+def _counts_by_period(
+    db: Session, applicant_id: int, unit: str, starts: list[datetime.date]
+) -> list[PeriodCount]:
+    """
+    Applications per week/month for one job seeker, one entry per period in
+    `starts`. GROUP BY only returns periods that have rows, so the empty
+    ones are filled with 0 afterwards.
+    """
+    # 'week' / 'month' is inlined as a SQL literal rather than sent as a bound
+    # parameter: with a parameter, the SELECT and the GROUP BY would each get
+    # their own placeholder, and Postgres would treat them as different
+    # expressions ("must appear in the GROUP BY clause"). `unit` only ever
+    # comes from this file, never from the request, so inlining is safe.
+    period = func.date_trunc(literal_column(f"'{unit}'"), Application.applied_at)
+    window_start = datetime.datetime.combine(starts[0], datetime.time.min)
+
+    rows = (
+        db.query(period, func.count(Application.id))
+        .filter(Application.applicant_id == applicant_id, Application.applied_at >= window_start)
+        .group_by(period)
+        .all()
+    )
+    # date_trunc returns a timestamp (midnight); key by its date to match `starts`
+    found = {period_start.date(): count for period_start, count in rows}
+    return [PeriodCount(period_start=s, count=found.get(s, 0)) for s in starts]
+
+
+@router.get("/applications/mine/stats", response_model=ApplicationStatsOut)
+def my_application_stats(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """
+    GET /api/applications/mine/stats — numbers for the application history
+    dashboard, computed from the existing columns (no stored counters):
+      - total and per-status counts over all of the job seeker's applications
+      - applications submitted per week (last 10) and per month (last 12)
+
+    Must stay above any future GET /applications/{id} route, or "mine"
+    would be parsed as an id.
+    """
+    _require_job_seeker(current_user)
+
+    rows = (
+        db.query(Application.status, func.count(Application.id))
+        .filter(Application.applicant_id == current_user.id)
+        .group_by(Application.status)
+        .all()
+    )
+    # Seed every status with 0 so the frontend always gets all five keys in pipeline order
+    by_status = {s: 0 for s in APPLICATION_STATUSES}
+    by_status.update(dict(rows))
+
+    # applied_at is stored as naive UTC (utcnow), so "today" is in UTC too,
+    # keeping the buckets and the window boundaries consistent
+    today = datetime.datetime.utcnow().date()
+
+    return ApplicationStatsOut(
+        total=sum(by_status.values()),
+        by_status=by_status,
+        weekly=_counts_by_period(db, current_user.id, "week", _week_starts(today)),
+        monthly=_counts_by_period(db, current_user.id, "month", _month_starts(today)),
+    )
