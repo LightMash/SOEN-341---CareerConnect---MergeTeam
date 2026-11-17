@@ -5,6 +5,7 @@ import ApplyControls from "../ApplyControls";
 import ListingMatchDetails from "../../features/matching/ListingMatchDetails";
 import QualifiedOnlyToggle from "../../features/matching/QualifiedOnlyToggle";
 import StudyPartnerPanel from "../StudyPartnerPanel";
+import { RefreshIcon } from "../icons";
 
 // CSS style
 import "../../styles/jobs.css";
@@ -62,6 +63,7 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
   const [qualifiedIds, setQualifiedIds] = useState<Set<number> | null>(null);
   const shownJobs = qualifiedIds ? jobs.filter((job) => qualifiedIds.has(job.id)) : jobs;
 
+  const [reloadKey, setReloadKey] = useState(0);
   // Debounce: each change restarts the timer, so only the last value
   // after the user stops typing makes it through.
   useEffect(() => {
@@ -91,7 +93,7 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
     return () => {
       cancelled = true;
     };
-  }, [debouncedFilters, token, isSeeker]);
+  }, [debouncedFilters, token, isSeeker, reloadKey]);
 
   // Load the user's applications ONCE for the whole listing (never once per
   // card) and keep just the job ids.
@@ -111,7 +113,7 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
     return () => {
       cancelled = true;
     };
-  }, [token, isSeeker]);
+  }, [token, isSeeker, reloadKey]);
 
   // One handler for every input/select, keyed by the filter name
   function updateFilter(key: keyof JobFilters, value: string) {
@@ -122,6 +124,11 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
   function clearFilters() {
     setFilters(EMPTY_FILTERS);
     setDebouncedFilters(EMPTY_FILTERS);
+  }
+
+  function reload() {
+    setDebouncedFilters(filters);
+    setReloadKey((n) => n + 1);
   }
 
   const hasFilters = Object.values(filters).some((v) => v && v.trim());
@@ -143,13 +150,32 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
       </header>
 
       {isSeeker ? (
-        <section className="cc-section">
-          <h2 className="cc-section-title">Job Listings</h2>
+        <section className="cc-section cc-jobs-section">
+          <div className="cc-section-head cc-jobs-head">
+            <div>
+              <h2 className="cc-section-title">Job Listings</h2>
+              {/* Result count gives the header something useful on the left */}
+              {!error && (
+                <p className="cc-subtitle">
+                  {jobs.length} {jobs.length === 1 ? "job" : "jobs"}
+                </p>
+              )}
+            </div>
+            <button
+              type="button"
+              className={`cc-job-button cc-refresh-btn${loading ? " is-loading" : ""}`}
+              onClick={reload}
+              disabled={loading}
+            >
+              <RefreshIcon size={16} />
+              Refresh
+            </button>
+          </div>
 
           {/* Search bar + filters */}
           <div className="cc-job-filters">
             <input
-              className="cc-input"
+              className="cc-input cc-job-search"
               type="search"
               placeholder="Search title, company, keywords…"
               aria-label="Search jobs"
@@ -195,18 +221,19 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
             </select>
             <button
               type="button"
-              className="cc-upload-btn cc-btn-secondary"
+              className="cc-link cc-job-clear"
               onClick={clearFilters}
               disabled={!hasFilters}
             >
-              Clear
+              Clear filters
             </button>
           </div>
 
           <QualifiedOnlyToggle jobIds={jobs.map((job) => job.id)} token={token} onChange={setQualifiedIds} />
 
           {/* Status: loading, error, or empty results */}
-          {loading && <p className="cc-muted">Loading jobs…</p>}
+          {/* Only show the text loader on the very first load */}
+          {loading && jobs.length === 0 && <p className="cc-muted">Loading jobs…</p>}
           {!loading && error && (
             <p className="cc-error" role="alert">
               {error}
@@ -233,8 +260,8 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
           )}
 
           {/* Listings: clicking "View details" expands the card in place */}
-          {!loading && !error && shownJobs.length > 0 && (
-            <ul className="cc-jobs-list">
+          {!error && shownJobs.length > 0 && (
+            <ul className={`cc-jobs-list${loading ? " is-stale" : ""}`} aria-busy={loading}>
               {shownJobs.map((job) => {
                 const isOpen = openId === job.id;
                 const salary = formatSalary(job.salary_min, job.salary_max);
