@@ -267,3 +267,15 @@
   font-size: 13px;
   font-weight: 600;
 }
+
+/* Task 4.5: align CV action with the filename, without changing card layout. */
+.cc-applicant-resume-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.cc-applicant-resume-row .cc-applicant-meta {
+  overflow-wrap: anywhere;
+}
