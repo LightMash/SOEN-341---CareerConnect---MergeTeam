@@ -19,6 +19,7 @@ from routers.profile import router as profile_router
 from routers.job import router as job_router
 from routers.application import router as application_router
 from routers.job_search import router as job_search_router
+from matching.router import router as matching_router
 from routers.notification import router as notification_router
 from routers.resume_feedback import router as resume_feedback_router
 from routers.study_partner import router as study_partner_router
@@ -46,6 +47,7 @@ app.include_router(profile_router, prefix="/api", tags=["profile"])  # Sprint 2:
 app.include_router(job_router, prefix="/api", tags=["jobs"])
 app.include_router(application_router, prefix="/api", tags=["applications"])
 app.include_router(job_search_router, prefix="/api", tags=["jobs"])
+app.include_router(matching_router, prefix="/api", tags=["matching"])
 app.include_router(notification_router, prefix="/api", tags=["notifications"])  # Sprint 3: US-09
 app.include_router(resume_feedback_router, prefix="/api", tags=["resume feedback"])  # Sprint 3: US-16
 app.include_router(study_partner_router, prefix="/api", tags=["study partner"])

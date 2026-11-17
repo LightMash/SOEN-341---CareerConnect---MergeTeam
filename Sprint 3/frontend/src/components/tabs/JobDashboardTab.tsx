@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import type { User, Job, JobFilters } from "../../api";
 import { listJobs, listMyApplications } from "../../api";
 import ApplyControls from "../ApplyControls";
+import ListingMatchDetails from "../../features/matching/ListingMatchDetails";
+import QualifiedOnlyToggle from "../../features/matching/QualifiedOnlyToggle";
 import StudyPartnerPanel from "../StudyPartnerPanel";
 import { RefreshIcon } from "../icons";
 
@@ -56,6 +58,11 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
   // the request fails: the backend rejects a duplicate with a 409 anyway, and
   // ApplyControls turns that into "Applied".
   const [applicationsLoaded, setApplicationsLoaded] = useState(false);
+
+  // "Only show jobs I qualify for": ids to keep, or null to show every loaded job.
+  const [qualifiedIds, setQualifiedIds] = useState<Set<number> | null>(null);
+  const shownJobs = qualifiedIds ? jobs.filter((job) => qualifiedIds.has(job.id)) : jobs;
+
   const [reloadKey, setReloadKey] = useState(0);
   // Debounce: each change restarts the timer, so only the last value
   // after the user stops typing makes it through.
@@ -222,6 +229,8 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
             </button>
           </div>
 
+          <QualifiedOnlyToggle jobIds={jobs.map((job) => job.id)} token={token} onChange={setQualifiedIds} />
+
           {/* Status: loading, error, or empty results */}
           {/* Only show the text loader on the very first load */}
           {loading && jobs.length === 0 && <p className="cc-muted">Loading jobs…</p>}
@@ -236,6 +245,10 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
             </p>
           )}
 
+          {!loading && !error && jobs.length > 0 && shownJobs.length === 0 && (
+            <p className="cc-muted">None of these jobs match your qualifications yet.</p>
+          )}
+
           {/* AI study partner for the chosen job (opened from its card) */}
           {studyJob && (
             <StudyPartnerPanel
@@ -247,9 +260,9 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
           )}
 
           {/* Listings: clicking "View details" expands the card in place */}
-          {!error && jobs.length > 0 && (
+          {!error && shownJobs.length > 0 && (
             <ul className={`cc-jobs-list${loading ? " is-stale" : ""}`} aria-busy={loading}>
-              {jobs.map((job) => {
+              {shownJobs.map((job) => {
                 const isOpen = openId === job.id;
                 const salary = formatSalary(job.salary_min, job.salary_max);
                 return (
@@ -270,6 +283,7 @@ export default function JobDashboardTab({ user, token }: { user: User; token: st
                         </p>
                         {/* cc-prewrap keeps the recruiter's line breaks */}
                         <p className="cc-prewrap">{job.description}</p>
+                        <ListingMatchDetails jobId={job.id} token={token} />
                       </div>
                     )}
 

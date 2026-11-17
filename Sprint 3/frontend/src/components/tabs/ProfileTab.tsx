@@ -4,6 +4,7 @@ import type { Profile, ProfileUpdate } from "../../api";
 import { getMyProfile, updateMyProfile } from "../../api";
 import ProfilePhoto from "../ProfilePhoto";
 import ResumeManager from "../ResumeManager";
+import QualificationsSection from "../../features/matching/QualificationsSection";
 
 // The Profile tab: a read-only view of the user's professional profile with
 // an "Edit profile" form, followed by the resume manager (upload / replace /
@@ -627,6 +628,8 @@ export default function ProfileTab({ token, fullName, photoUrl, onPhotoChange }:
       {/* Resume upload / replace / primary / delete. Its onChange refreshes
           the completeness bar above whenever the resume count changes. */}
       <ResumeManager token={token} onChange={refreshCompleteness} />
+
+      <QualificationsSection token={token} />
     </>
   );
 }
