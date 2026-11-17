@@ -67,6 +67,12 @@ body {
   box-sizing: border-box;
 }
 
+/* Dashboard uses the full window; auth pages keep the 1126px column above */
+#root:has(> .cc-dashboard) {
+  width: 100%;
+  border-inline: 0;
+}
+
 h1,
 h2 {
   font-family: var(--heading);
@@ -140,14 +146,17 @@ code {
   --cc-danger: #c62828;
   --cc-font: "Avenir Next", Avenir, "Segoe UI", system-ui, sans-serif;
 
-  flex: 1;
+  /* was: flex: 1; */
+  flex: none;
   display: grid;
-  /* Sidebar width is a variable so collapsing is one class toggle
-     (.is-collapsed, set in Dashboard.tsx) and the column animates smoothly. */
   --cc-side-w: 240px;
   grid-template-columns: var(--cc-side-w) minmax(0, 1fr);
+  /* one row that is exactly the shell height, so children can't grow it */
+  grid-template-rows: minmax(0, 1fr);
   transition: grid-template-columns 0.2s ease;
-  min-height: 100svh;
+  /* was: min-height: 100svh; */
+  height: 100dvh;
+  overflow: hidden;
   background: var(--cc-bg);
   color: var(--cc-ink);
   font: 15px/1.5 var(--cc-font);
@@ -293,11 +302,26 @@ code {
 /* ---------- Main area ---------- */
 
 .cc-main {
+  /* widest the tab content gets; beyond this the extra space stays empty */
+  --cc-content-max: 1200px;
+
   display: flex;
   flex-direction: column;
   gap: 22px;
   min-width: 0;
   padding: 44px 44px 56px;
+  /* right padding absorbs any width past the cap, so nothing overstretches */
+  padding-right: max(44px, calc(100% - var(--cc-content-max) - 44px));
+  overflow-y: auto;
+  /* reserve scrollbar space so tabs don't shift sideways when one is short */
+  scrollbar-gutter: stable;
+  padding-inline: max(44px, calc((100% - var(--cc-content-max)) / 2));
+}
+
+/* Fixed-height flex column: stop sections (esp. ones with overflow: hidden)
+   from being squashed instead of overflowing into the scroll area */
+.cc-main > * {
+  flex-shrink: 0;
 }
 
 .cc-main-head {
@@ -570,13 +594,23 @@ code {
 /* ---------- Mobile ---------- */
 
 @media (max-width: 760px) {
-  .cc-dashboard {
+
+    .cc-dashboard {
     grid-template-columns: 1fr;
+    grid-template-rows: none;
+    height: auto;
+    min-height: 100svh;
+    overflow: visible;
   }
 
-  .cc-sidebar {
-    padding: 20px 18px;
+  .cc-main {
+    padding: 28px 18px 40px; /* existing line; shorthand also resets the padding-right cap */
+    overflow-y: visible;
   }
+
+.cc-sidebar {
+  padding: 20px 18px;
+}
 
   .cc-brand {
     font-size: 22px;
@@ -627,7 +661,7 @@ code {
 
 .cc-sidebar {
   min-width: 0;
-  overflow: hidden; /* hide text that no longer fits while the column animates */
+  overflow: hidden auto;
 }
 
 .cc-sidebar-top {

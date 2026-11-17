@@ -235,7 +235,7 @@ export default function Dashboard({ user, token, onLogout }: DashboardProps) {
         }
       />
 
-      <main className="cc-main">{renderTab()}</main>
+      <main className="cc-main" key={activeTab}>{renderTab()}</main>
     </div>
   );
 }
