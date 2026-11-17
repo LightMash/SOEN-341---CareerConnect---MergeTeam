@@ -6,11 +6,14 @@ Routes:
   GET   /api/jobs/{job_id}/applications  - backend: a recruiter's applicants for one posting
   PATCH /api/applications/{id}/status    - the posting's recruiter changes the status
   GET   /api/applications/{id}/history   - status timeline (applicant or recruiter)
+  GET   /api/applications/{id}/resume    - recruiter downloads submitted resume
 """
  
 import datetime
+import os
  
 from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi.responses import FileResponse
 from sqlalchemy import func, literal_column
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -19,6 +22,7 @@ from database import get_db
 from models import Application, ApplicationStatusHistory, Job, Resume, User
 from models.application import APPLICATION_STATUSES
 from routers.auth import get_current_user
+from routers.resume import ALLOWED_CONTENT_TYPES
 from schemas.application import ApplicationStatus
 from schemas import (
     ApplicantOut,
@@ -292,6 +296,44 @@ def get_application_history(
     return application.history
  
  
+# ---------------------------------------------------------------------------
+# Recruiter access to an application's submitted resume (Task 4.5)
+# ---------------------------------------------------------------------------
+@router.get("/applications/{application_id}/resume")
+def download_application_resume(
+    application_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Download an application's resume only as the recruiter who owns its job."""
+    application = _get_application(application_id, db)
+    if not _is_posting_recruiter(application, current_user):
+        raise HTTPException(
+            status_code=403,
+            detail="Only the recruiter who posted this job can view this applicant's resume.",
+        )
+
+    # Do not call download_resume(): its owner-only check must remain intact.
+    resume = application.resume if application.resume_id is not None else None
+    if resume is None or not os.path.isfile(resume.filepath):
+        raise HTTPException(
+            status_code=404,
+            detail="This applicant’s resume is no longer available",
+        )
+
+    # Reuse the MIME mapping from routers/resume.py to match its FileResponse.
+    extension = os.path.splitext(resume.filepath)[1]
+    media_type = next(
+        (content_type for content_type, ext in ALLOWED_CONTENT_TYPES.items() if ext == extension),
+        "application/octet-stream",
+    )
+    return FileResponse(
+        path=resume.filepath,
+        filename=resume.filename,
+        media_type=media_type,
+    )
+
+
 # ---------------------------------------------------------------------------
 # Dashboard statistics (US-08)
 # ---------------------------------------------------------------------------
