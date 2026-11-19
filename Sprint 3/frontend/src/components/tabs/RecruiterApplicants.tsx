@@ -4,6 +4,7 @@ import {
   APPLICATION_STATUSES,
   getApplicants,
   getApplicationHistory,
+  getApplicationResume,
   updateApplicationStatus,
   type Applicant,
   type ApplicantFilters,
@@ -194,6 +195,10 @@ export default function RecruiterApplicants({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [retryKey, setRetryKey] = useState(0);
+
+  const [openingResumeIds, setOpeningResumeIds] = useState<number[]>([]);
+  const [resumeErrors, setResumeErrors] = useState<Record<number, string | null>>({});
+  const openingResumeRef = useRef<Set<number>>(new Set());
 
   const [statusFilter, setStatusFilter] = useState<ApplicationStatus | "">("");
   const [appliedFrom, setAppliedFrom] = useState("");
@@ -421,6 +426,55 @@ export default function RecruiterApplicants({
     }
   }
 
+  async function handleViewResume(applicant: Applicant) {
+    const id = applicant.id;
+    const filename = applicant.resume_filename;
+    if (!filename || openingResumeRef.current.has(id)) return;
+
+    // Safari requires window.open() to run directly inside the click handler.
+    const isPdf = filename.toLowerCase().endsWith(".pdf");
+    const previewTab = isPdf ? window.open("", "_blank") : null;
+    if (isPdf && !previewTab) {
+      setResumeErrors((prev) => ({ ...prev, [id]: "Please allow pop-ups to view this PDF." }));
+      return;
+    }
+    if (previewTab) previewTab.opener = null;
+
+    openingResumeRef.current.add(id);
+    setOpeningResumeIds((prev) => [...prev, id]);
+    setResumeErrors((prev) => ({ ...prev, [id]: null }));
+
+    try {
+      const blob = await getApplicationResume(id, token);
+      const url = URL.createObjectURL(blob);
+
+      if (isPdf) {
+        if (previewTab && !previewTab.closed) {
+          previewTab.location.href = url;
+        } else {
+          URL.revokeObjectURL(url);
+          throw new Error("The PDF tab was closed before the file loaded.");
+        }
+      } else {
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      }
+
+      // Give Safari/the browser time to consume the blob URL before releasing it.
+      window.setTimeout(() => URL.revokeObjectURL(url), 60_000);
+    } catch (err: unknown) {
+      if (previewTab && !previewTab.closed) previewTab.close();
+      setResumeErrors((prev) => ({ ...prev, [id]: getErrorMessage(err) }));
+    } finally {
+      openingResumeRef.current.delete(id);
+      setOpeningResumeIds((prev) => prev.filter((value) => value !== id));
+    }
+  }
+
   function toggleHistory(applicationId: number) {
     setExpandedHistoryId((current) =>
       current === applicationId ? null : applicationId
@@ -499,11 +553,27 @@ export default function RecruiterApplicants({
               </div>
 
               <div className="cc-applicant-details">
-                <p className="cc-applicant-meta">
-                  <strong>Resume:</strong>{" "}
-                  {applicant.resume_filename ??
-                    "No resume"}
-                </p>
+                <div className="cc-applicant-resume-row">
+                  <p className="cc-applicant-meta">
+                    <strong>Resume:</strong>{" "}
+                    {applicant.resume_filename ?? "No resume"}
+                  </p>
+                  {applicant.resume_filename && (
+                    <button
+                      type="button"
+                      className="cc-small-btn"
+                      disabled={openingResumeIds.includes(id)}
+                      onClick={() => handleViewResume(applicant)}
+                    >
+                      {openingResumeIds.includes(id) ? "Opening..." : "View CV"}
+                    </button>
+                  )}
+                </div>
+                {resumeErrors[id] && (
+                  <p className="cc-applicant-error" role="alert">
+                    {resumeErrors[id]}
+                  </p>
+                )}
 
                 <p className="cc-applicant-meta">
                   <strong>Applied:</strong>{" "}

@@ -1,0 +1,9 @@
+<h1 align="center">Individual Contribution</h1>
+
+Essam Amiri (40328443)
+
+## Sprint #3
+
+<p align="justify">
+For this sprint, I worked on two tasks under job posting management (US-04), both focused on helping recruiters review the people who applied to their postings. For Task 4.4, I added filtering to the applicants panel I built in Sprint 2. On the backend, the applicants route now accepts optional status and date filters (applied from and applied to), with validation for invalid statuses, invalid dates and a start date after the end date, while keeping the same behavior and ownership check when no filters are used. On the frontend, I added a filter bar with a status dropdown, two date fields and a Clear button, plus a separate message when no applicants match the filters. While testing it in the browser, I found that typing a date with the keyboard was losing focus, so I fixed the component so the filter bar stays in place while the list reloads, and added a check that stops a request when the start date is after the end date. For Task 4.5, I made it possible for recruiters to view the CV an applicant submitted. I added a new backend route tied to the application, so a recruiter can only open CVs of people who applied to their own postings, instead of opening up the existing resume download route to everyone. On the frontend, each applicant card now has a View CV button that opens PDFs in a new tab and downloads Word files with their original name, and shows a clear message if the resume was deleted. I wrote automated tests for both tasks (20 tests for the filters and 7 for the CV route), which run in CI with the rest of the backend tests, and I tested both features end to end in the browser before opening my pull requests. I also documented my AI usage in my Sprint 3 AI log.
+</p>

@@ -119,3 +119,25 @@ export function getApplicationHistory(
     token
   );
 }
+
+// 4. Fetch a CV attached to an application (recruiter owning the posting only).
+// This endpoint returns binary file data, not JSON.
+export async function getApplicationResume(
+  applicationId: number,
+  token: string
+): Promise<Blob> {
+  const response = await fetch(`${API_BASE}/applications/${applicationId}/resume`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    const message =
+      typeof data.detail === "string"
+        ? data.detail
+        : "Could not open this applicant's resume.";
+    throw new Error(message);
+  }
+
+  return response.blob();
+}
