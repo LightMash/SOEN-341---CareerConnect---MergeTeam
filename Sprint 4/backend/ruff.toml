@@ -1,0 +1,8 @@
+line-length = 120
+extend-exclude = ["venv", "__pycache__"]
+
+[lint]
+select = ["E", "F", "B", "S", "SIM", "C90", "UP"]
+
+[lint.per-file-ignores]
+"tests/*" = ["S101", "S105", "S106", "S108", "E501"]

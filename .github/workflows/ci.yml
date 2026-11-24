@@ -7,14 +7,15 @@
 # or red X) appears on the pull request, so a reviewer can see at a glance
 # whether a change broke something.
 #
-# There are two independent jobs that run in parallel:
-#   1. backend  -> runs the automated pytest suite in  Sprint 3/backend/tests/
-#   2. frontend -> lints and builds the React app in   Sprint 3/frontend/
+# There are three independent jobs that run in parallel:
+#   1. backend  -> runs the automated pytest suite in  Sprint 4/backend/tests/
+#   2. frontend -> lints and builds the React app in   Sprint 4/frontend/
+#   3. static-analysis -> ruff + bandit + ESLint, reports saved as artifact
 #
 # Adding more tests later does NOT require editing this file: drop a new
-# `test_*.py` file in Sprint 3/backend/tests/ and `pytest` picks it up.
-# The pipeline now targets the "Sprint 3" folder (see the 4 places
-# marked  <-- SPRINT FOLDER  below); update them when Sprint 4 starts.
+# `test_*.py` file in Sprint 4/backend/tests/ and `pytest` picks it up.
+# The pipeline now targets the "Sprint 4" folder (see the 4 places
+# marked  <-- SPRINT FOLDER  below); update them when the next sprint starts.
 # =============================================================================
 
 name: CI
@@ -134,3 +135,59 @@ jobs:
       # Production build: fails on broken imports or bundling errors.
       - name: Build
         run: npm run build
+
+  # ===========================================================================
+  # JOB 3: Static analysis (ruff, bandit, ESLint)
+  # ===========================================================================
+  static-analysis:
+    name: Static analysis (ruff, bandit, eslint)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install Python analysis tools
+        run: pip install ruff bandit
+
+      # Remove `continue-on-error` from the three analysis steps once the
+      # baseline issues are fixed, so new issues fail the build.
+      - name: Ruff (bugs, smells, style)
+        working-directory: Sprint 4/backend
+        run: ruff check . --output-format=full | tee "$GITHUB_WORKSPACE/ruff-report.txt"
+        continue-on-error: true
+
+      - name: Bandit (security)
+        working-directory: Sprint 4/backend
+        run: bandit -r . -c .bandit -ll -f txt -o "$GITHUB_WORKSPACE/bandit-report.txt"
+        continue-on-error: true
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: Sprint 4/frontend/package-lock.json
+
+      - name: Install frontend dependencies
+        working-directory: Sprint 4/frontend
+        run: npm ci
+
+      - name: ESLint (frontend)
+        working-directory: Sprint 4/frontend
+        run: npx eslint . -f json -o "$GITHUB_WORKSPACE/eslint-report.json"
+        continue-on-error: true
+
+      - name: Upload reports
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: static-analysis-reports
+          path: |
+            ruff-report.txt
+            bandit-report.txt
+            eslint-report.json
