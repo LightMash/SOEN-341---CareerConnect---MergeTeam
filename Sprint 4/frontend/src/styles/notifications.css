@@ -1,0 +1,81 @@
+/* =========================================================================
+   "Notifications" tab (src/components/tabs/NotificationsTab.tsx).
+   Uses the dashboard's theme variables, so it works in light and dark mode.
+   ========================================================================= */
+
+.cc-notif-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-notif-head .cc-section-title {
+  margin: 0;
+}
+
+.cc-notif-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cc-notif {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 14px;
+  background: var(--cc-soft);
+}
+
+/* Unread: a thicker accent edge. The "(unread)" text for screen readers and
+   the bold title carry the meaning too, so color is never the only signal. */
+.cc-notif.is-unread {
+  border-left: 4px solid var(--cc-accent);
+}
+
+.cc-notif.is-unread .cc-notif-title {
+  font-weight: 700;
+}
+
+.cc-notif-title {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.cc-notif-type {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 1px 8px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: var(--cc-paper);
+  color: var(--cc-muted);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.cc-notif-message {
+  margin: 4px 0 0;
+}
+
+.cc-notif-time {
+  margin: 4px 0 0;
+  color: var(--cc-muted);
+  font-size: 12px;
+}
+
+.cc-notif-actions {
+  display: flex;
+  gap: 8px;
+}

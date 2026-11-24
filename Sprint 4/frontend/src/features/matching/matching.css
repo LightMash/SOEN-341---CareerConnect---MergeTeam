@@ -1,0 +1,440 @@
+/* Qualification matching + standing. Uses the dashboard's --cc-* tokens and
+   adds four status colours. Each one is at least 4.5:1 against the card
+   background (--cc-paper) in both themes. */
+
+.cc-dashboard {
+  --cc-status-met: #1b6e2a;
+  --cc-status-missing: #b3261e;
+  --cc-status-bonus: #1f55b8;
+  --cc-status-possible: #8a5300;
+}
+
+:root[data-theme="dark"] .cc-dashboard {
+  --cc-status-met: #74d68b;
+  --cc-status-missing: #ff8a80;
+  --cc-status-bonus: #8ab4ff;
+  --cc-status-possible: #f5c062;
+}
+
+/* ---- Picker ------------------------------------------------------------ */
+.cc-qpicker {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cc-qpicker-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.cc-qpicker-row .cc-input {
+  flex: 1 1 220px;
+}
+
+.cc-qpicker-row .cc-qpicker-category {
+  flex: 0 1 180px;
+}
+
+.cc-qchips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-qchip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px 4px 12px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  font-size: 13px;
+}
+
+.cc-qchip-tag {
+  color: var(--cc-muted);
+}
+
+.cc-qchip-remove {
+  width: 24px;
+  height: 24px;
+  padding: 0;
+  background: none;
+  color: var(--cc-muted);
+  border: 0;
+  border-radius: 50%;
+  font: inherit;
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.cc-qchip-remove:hover,
+.cc-qchip-remove:focus-visible {
+  background: var(--cc-line);
+  color: var(--cc-ink);
+}
+
+.cc-qresults,
+.cc-qconfirm {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+}
+
+.cc-qconfirm-title {
+  margin: 0;
+  font-weight: 700;
+}
+
+.cc-qresult-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-qresult {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  padding: 8px 10px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 8px;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cc-qresult:hover,
+.cc-qresult:focus-visible {
+  border-color: var(--cc-accent);
+}
+
+.cc-qadd-new {
+  align-self: flex-start;
+  padding: 6px 0;
+  background: none;
+  color: var(--cc-accent);
+  border: 0;
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* ---- Recruiter requirements editor ------------------------------------- */
+.cc-req-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.cc-req-controls {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.cc-req-toggle {
+  padding: 2px 10px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  background: var(--cc-paper);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.cc-req-toggle.is-required {
+  color: var(--cc-status-missing);
+}
+
+.cc-req-toggle.is-bonus {
+  color: var(--cc-status-bonus);
+}
+
+.cc-req-weight {
+  padding: 2px 4px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  border: 1px solid var(--cc-line);
+  border-radius: 6px;
+  font: inherit;
+  font-size: 12px;
+}
+
+/* ---- Listing details: requirement list --------------------------------- */
+.cc-match {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.cc-match-badge {
+  margin-left: 6px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cc-match-badge.is-qualified {
+  color: var(--cc-status-met);
+}
+
+.cc-match-badge.is-not-qualified {
+  color: var(--cc-status-missing);
+}
+
+.cc-reqs {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-req {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 10px;
+  border: 1px solid var(--cc-line);
+  border-left-width: 4px;
+  border-radius: 8px;
+  background: var(--cc-paper);
+}
+
+.cc-req--met { border-left-color: var(--cc-status-met); }
+.cc-req--missing { border-left-color: var(--cc-status-missing); }
+.cc-req--bonus_missing { border-left-color: var(--cc-status-bonus); }
+.cc-req--possible { border-left-color: var(--cc-status-possible); }
+
+.cc-req-icon {
+  width: 20px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.cc-req--met .cc-req-icon,
+.cc-req--met .cc-req-status { color: var(--cc-status-met); }
+.cc-req--missing .cc-req-icon,
+.cc-req--missing .cc-req-status { color: var(--cc-status-missing); }
+.cc-req--bonus_missing .cc-req-icon,
+.cc-req--bonus_missing .cc-req-status { color: var(--cc-status-bonus); }
+.cc-req--possible .cc-req-icon,
+.cc-req--possible .cc-req-status { color: var(--cc-status-possible); }
+
+.cc-req-body {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 2px 10px;
+  align-items: baseline;
+}
+
+.cc-req-name {
+  font-weight: 600;
+}
+
+.cc-req-kind,
+.cc-req-note {
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+.cc-req-note {
+  flex-basis: 100%;
+}
+
+.cc-req-status {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.cc-req-claim {
+  padding: 6px 12px;
+  font-size: 13px;
+}
+
+/* ---- Standing ---------------------------------------------------------- */
+.cc-standing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+}
+
+.cc-standing-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.cc-standing-headline {
+  margin: 0;
+  font-size: 15px;
+}
+
+.cc-standing-label {
+  font-weight: 800;
+}
+
+.cc-standing-subtitle {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+
+.cc-standing-list {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.cc-standing-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.cc-standing-table th,
+.cc-standing-table td {
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--cc-line);
+  text-align: left;
+  vertical-align: top;
+}
+
+.cc-standing-table tbody th {
+  font-weight: 600;
+}
+
+.cc-standing-highlight {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 8px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  color: var(--cc-ink);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.cc-standing-nudge {
+  margin: 0;
+  font-size: 14px;
+}
+
+.cc-standing-note {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 12px;
+  font-style: italic;
+}
+
+/* ---- Feed toggle ------------------------------------------------------- */
+.cc-qualified-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+/* ---- Profile: qualifications + resume import --------------------------- */
+.cc-quals-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+}
+
+.cc-import {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  background: var(--cc-soft);
+  border: 1px solid var(--cc-line);
+  border-radius: 12px;
+}
+
+.cc-import-form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cc-import-notice {
+  margin: 0;
+  padding: 8px 10px;
+  border-left: 4px solid var(--cc-status-possible);
+  background: var(--cc-paper);
+  font-size: 14px;
+}
+
+.cc-import-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cc-import-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 10px;
+  background: var(--cc-paper);
+  border: 1px solid var(--cc-line);
+  border-radius: 8px;
+}
+
+.cc-import-note {
+  color: var(--cc-status-possible);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.cc-import-snippet {
+  color: var(--cc-muted);
+  font-size: 12px;
+}
+
+@media (max-width: 760px) {
+  .cc-req {
+    flex-wrap: wrap;
+  }
+
+  .cc-standing-table {
+    display: block;
+    overflow-x: auto;
+  }
+}
