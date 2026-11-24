@@ -1,0 +1,1364 @@
+E402 Module level import not at top of file
+  --> app.py:12:1
+   |
+11 | #Standart imports for FAST API
+12 | from fastapi import FastAPI
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+13 | from fastapi.middleware.cors import CORSMiddleware
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:13:1
+   |
+11 | #Standart imports for FAST API
+12 | from fastapi import FastAPI
+13 | from fastapi.middleware.cors import CORSMiddleware
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+14 |
+15 | from database import Base, engine
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:15:1
+   |
+13 | from fastapi.middleware.cors import CORSMiddleware
+14 |
+15 | from database import Base, engine
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+16 | from routers.auth import router as auth_router
+17 | from routers.resume import router as resume_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:16:1
+   |
+15 | from database import Base, engine
+16 | from routers.auth import router as auth_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+17 | from routers.resume import router as resume_router
+18 | from routers.profile import router as profile_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:17:1
+   |
+15 | from database import Base, engine
+16 | from routers.auth import router as auth_router
+17 | from routers.resume import router as resume_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+18 | from routers.profile import router as profile_router
+19 | from routers.job import router as job_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:18:1
+   |
+16 | from routers.auth import router as auth_router
+17 | from routers.resume import router as resume_router
+18 | from routers.profile import router as profile_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+19 | from routers.job import router as job_router
+20 | from routers.application import router as application_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:19:1
+   |
+17 | from routers.resume import router as resume_router
+18 | from routers.profile import router as profile_router
+19 | from routers.job import router as job_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+20 | from routers.application import router as application_router
+21 | from routers.job_search import router as job_search_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:20:1
+   |
+18 | from routers.profile import router as profile_router
+19 | from routers.job import router as job_router
+20 | from routers.application import router as application_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+21 | from routers.job_search import router as job_search_router
+22 | from matching.router import router as matching_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:21:1
+   |
+19 | from routers.job import router as job_router
+20 | from routers.application import router as application_router
+21 | from routers.job_search import router as job_search_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+22 | from matching.router import router as matching_router
+23 | from routers.notification import router as notification_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:22:1
+   |
+20 | from routers.application import router as application_router
+21 | from routers.job_search import router as job_search_router
+22 | from matching.router import router as matching_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+23 | from routers.notification import router as notification_router
+24 | from routers.resume_feedback import router as resume_feedback_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:23:1
+   |
+21 | from routers.job_search import router as job_search_router
+22 | from matching.router import router as matching_router
+23 | from routers.notification import router as notification_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+24 | from routers.resume_feedback import router as resume_feedback_router
+25 | from routers.study_partner import router as study_partner_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:24:1
+   |
+22 | from matching.router import router as matching_router
+23 | from routers.notification import router as notification_router
+24 | from routers.resume_feedback import router as resume_feedback_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+25 | from routers.study_partner import router as study_partner_router
+   |
+help: Move module level imports to top of file
+
+E402 Module level import not at top of file
+  --> app.py:25:1
+   |
+23 | from routers.notification import router as notification_router
+24 | from routers.resume_feedback import router as resume_feedback_router
+25 | from routers.study_partner import router as study_partner_router
+   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+26 |
+27 | # Create all the tables from the database on startup
+   |
+help: Move module level imports to top of file
+
+E501 Line too long (126 > 120)
+ --> matching/demo_data.py:6:121
+  |
+5 | Run from Sprint 3/backend (PowerShell):
+6 |     $env:DATABASE_URL='postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_local'; python -m matching.demo_data
+  |                                                                                                                         ^^^^^^
+7 |     $env:DATABASE_URL='postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_local'; python -m matching.demo_data --reset
+  |
+
+E501 Line too long (134 > 120)
+ --> matching/demo_data.py:7:121
+  |
+5 | Run from Sprint 3/backend (PowerShell):
+6 |     $env:DATABASE_URL='postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_local'; python -m matching.demo_data
+7 |     $env:DATABASE_URL='postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_local'; python -m matching.demo_data --reset
+  |                                                                                                                         ^^^^^^^^^^^^^^
+8 |
+9 | Everything it creates is obviously fake: "Demo ..." names and *.demo@example.com
+  |
+
+S105 Possible hardcoded password assigned to: "DEMO_PASSWORD"
+  --> matching/demo_data.py:24:17
+   |
+22 | from .local_only import require_local_database_url
+23 |
+24 | DEMO_PASSWORD = "DemoPass123"
+   |                 ^^^^^^^^^^^^^
+25 | DEMO_EMAIL_SUFFIX = ".demo@example.com"
+26 | DEMO_NAME_PREFIX = "Demo "
+   |
+
+S101 Use of `assert` detected
+   --> matching/demo_data.py:168:13
+    |
+166 |     for _, _, reqs, applicants, _ in LISTINGS:
+167 |         for key in [r[0] for r in reqs] + [k for a in applicants for k in a]:
+168 |             assert catalog.get(key), f"unknown key in demo data: {key}"
+    |             ^^^^^^
+169 |
+170 |     recruiter = _get_or_create_user(db, RECRUITER_EMAIL, "Demo Recruiter", "recruiter")
+    |
+
+E501 Line too long (124 > 120)
+ --> matching/migrate.py:5:121
+  |
+4 | Run from Sprint 3/backend:
+5 |     $env:DATABASE_URL='postgresql+pg8000://postgres:postgres@localhost:5432/careerconnect_local'; python -m matching.migrate
+  |                                                                                                                         ^^^^
+6 |
+7 | The SQL only creates the three new tables (IF NOT EXISTS), so it is safe to
+  |
+
+C901 `scan` is too complex (14 > 10)
+   --> matching/resume_scan.py:252:5
+    |
+252 | def scan(text: str, catalog: Catalog, current_year: int | None = None) -> list[Candidate]:
+    |     ^^^^
+253 |     """Keyword scan of resume text against the catalog. Deterministic."""
+254 |     if current_year is None:
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:185:26
+    |
+183 |     q: str = "",
+184 |     category: str | None = None,
+185 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+186 |     db: Session = Depends(get_db),
+187 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:186:19
+    |
+184 |     category: str | None = None,
+185 |     current_user: User = Depends(get_current_user),
+186 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+187 | ):
+188 |     hits = search(get_catalog(), q, category=category or None, custom=_all_custom(db))
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:195:26
+    |
+193 | def create_custom_qualification(
+194 |     payload: CustomQualificationIn,
+195 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+196 |     db: Session = Depends(get_db),
+197 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:196:19
+    |
+194 |     payload: CustomQualificationIn,
+195 |     current_user: User = Depends(get_current_user),
+196 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+197 | ):
+198 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:251:48
+    |
+249 | # ---------------------------------------------------------------------------
+250 | @router.get("/me/qualifications", response_model=list[SeekerQualificationOut])
+251 | def get_my_qualifications(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^
+252 |     _require_job_seeker(current_user)
+253 |     return _seeker_out(current_user.id, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:251:89
+    |
+249 | # ---------------------------------------------------------------------------
+250 | @router.get("/me/qualifications", response_model=list[SeekerQualificationOut])
+251 | def get_my_qualifications(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                         ^^^^^^^^^^^^^^^
+252 |     _require_job_seeker(current_user)
+253 |     return _seeker_out(current_user.id, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:259:26
+    |
+257 | def replace_my_qualifications(
+258 |     payload: SeekerQualificationsUpdate,
+259 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+260 |     db: Session = Depends(get_db),
+261 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:260:19
+    |
+258 |     payload: SeekerQualificationsUpdate,
+259 |     current_user: User = Depends(get_current_user),
+260 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+261 | ):
+262 |     """Replaces the whole list. Items that were already there keep their original source and date."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:283:26
+    |
+281 | def claim_qualification(
+282 |     key: str,
+283 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+284 |     db: Session = Depends(get_db),
+285 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:284:19
+    |
+282 |     key: str,
+283 |     current_user: User = Depends(get_current_user),
+284 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+285 | ):
+286 |     """'I have this': adds one qualification (used for possible matches)."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:307:42
+    |
+305 | # ---------------------------------------------------------------------------
+306 | @router.get("/reviewer", response_model=ReviewerStatusOut)
+307 | def reviewer_status(current_user: User = Depends(get_current_user)):
+    |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+308 |     """Lets the UI warn that resume text would be sent to an external reviewer."""
+309 |     return ReviewerStatusOut(enabled=get_reviewer().enabled)
+    |
+
+B008 Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:328:31
+    |
+326 | @router.post("/me/qualifications/extract", response_model=ExtractOut)
+327 | async def extract_from_resume(
+328 |     file: UploadFile | None = File(None),
+    |                               ^^^^^^^^^^
+329 |     resume_id: int | None = Form(None),
+330 |     current_user: User = Depends(get_current_user),
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:330:26
+    |
+328 |     file: UploadFile | None = File(None),
+329 |     resume_id: int | None = Form(None),
+330 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+331 |     db: Session = Depends(get_db),
+332 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:331:19
+    |
+329 |     resume_id: int | None = Form(None),
+330 |     current_user: User = Depends(get_current_user),
+331 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+332 | ):
+333 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:384:26
+    |
+382 | def get_listing_requirements(
+383 |     job_id: int,
+384 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+385 |     db: Session = Depends(get_db),
+386 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:385:19
+    |
+383 |     job_id: int,
+384 |     current_user: User = Depends(get_current_user),
+385 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+386 | ):
+387 |     _visible_job(job_id, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:395:26
+    |
+393 |     job_id: int,
+394 |     payload: RequirementsUpdate,
+395 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+396 |     db: Session = Depends(get_db),
+397 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:396:19
+    |
+394 |     payload: RequirementsUpdate,
+395 |     current_user: User = Depends(get_current_user),
+396 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+397 | ):
+398 |     job = db.query(Job).filter(Job.id == job_id).first()
+    |
+
+B008 Do not perform function call `Body` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:426:30
+    |
+424 | @router.post("/match", response_model=list[MatchOut])
+425 | def match_listings(
+426 |     listing_ids: list[int] = Body(..., max_length=MAX_MATCH_LISTINGS),
+    |                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+427 |     current_user: User = Depends(get_current_user),
+428 |     db: Session = Depends(get_db),
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:427:26
+    |
+425 | def match_listings(
+426 |     listing_ids: list[int] = Body(..., max_length=MAX_MATCH_LISTINGS),
+427 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+428 |     db: Session = Depends(get_db),
+429 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:428:19
+    |
+426 |     listing_ids: list[int] = Body(..., max_length=MAX_MATCH_LISTINGS),
+427 |     current_user: User = Depends(get_current_user),
+428 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+429 | ):
+430 |     """Body: a JSON list of listing ids. Listings the seeker can't see are left out."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:461:26
+    |
+459 | def get_standing(
+460 |     job_id: int,
+461 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+462 |     db: Session = Depends(get_db),
+463 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> matching/router.py:462:19
+    |
+460 |     job_id: int,
+461 |     current_user: User = Depends(get_current_user),
+462 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+463 | ):
+464 |     _require_job_seeker(current_user)
+    |
+
+SIM103 Return the condition directly
+  --> matching/rules.py:73:5
+   |
+71 |       if (have.key, need.key) in implies:
+72 |           return True
+73 | /     if (
+74 | |         have.category == need.category
+75 | |         and have.rank is not None
+76 | |         and need.rank is not None
+77 | |         and have.rank >= need.rank
+78 | |         and (need.field is None or have.field == need.field)
+79 | |     ):
+80 | |         return True
+81 | |     return False
+   | |________________^
+help: Inline condition
+   |
+72 |         return True
+   -     if (
+   -         have.category == need.category
+   -         and have.rank is not None
+   -         and need.rank is not None
+   -         and have.rank >= need.rank
+   -         and (need.field is None or have.field == need.field)
+   -     ):
+   -         return True
+   -     return False
+73 +     return bool(have.category == need.category and have.rank is not None and need.rank is not None and have.rank >= need.rank and (need.field is None or have.field == need.field))
+74 |
+   |
+note: This is an unsafe fix and may change runtime behavior
+
+C901 `compute_standing` is too complex (12 > 10)
+  --> matching/standing.py:84:5
+   |
+84 | def compute_standing(
+   |     ^^^^^^^^^^^^^^^^
+85 |     requirements: list[Requirement],
+86 |     seeker_quals: list[Qual],
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:128:26
+    |
+126 | def submit_application(
+127 |     payload: ApplicationCreate,
+128 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+129 |     db: Session = Depends(get_db),
+130 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:129:19
+    |
+127 |     payload: ApplicationCreate,
+128 |     current_user: User = Depends(get_current_user),
+129 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+130 | ):
+131 |     """
+    |
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+   --> routers/application.py:173:9
+    |
+171 |         # Two requests at the same moment (like a double-click) can both pass the check above
+172 |         db.rollback()
+173 |         raise HTTPException(status_code=409, detail=DUPLICATE_MESSAGE)
+    |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+174 |     db.refresh(application)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:184:26
+    |
+182 | @router.get("/applications/mine", response_model=list[ApplicationOut])
+183 | def list_my_applications(
+184 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+185 |     db: Session = Depends(get_db),
+186 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:185:19
+    |
+183 | def list_my_applications(
+184 |     current_user: User = Depends(get_current_user),
+185 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+186 | ):
+187 |     """GET /api/applications/mine — every application the job seeker submitted, newest first."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:207:26
+    |
+205 |     applied_from: datetime.date | None = None,
+206 |     applied_to: datetime.date | None = None,
+207 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+208 |     db: Session = Depends(get_db),
+209 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:208:19
+    |
+206 |     applied_to: datetime.date | None = None,
+207 |     current_user: User = Depends(get_current_user),
+208 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+209 | ):
+210 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:242:26
+    |
+240 |     application_id: int,
+241 |     payload: StatusUpdate,
+242 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+243 |     db: Session = Depends(get_db),
+244 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:243:19
+    |
+241 |     payload: StatusUpdate,
+242 |     current_user: User = Depends(get_current_user),
+243 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+244 | ):
+245 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:283:26
+    |
+281 | def get_application_history(
+282 |     application_id: int,
+283 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+284 |     db: Session = Depends(get_db),
+285 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:284:19
+    |
+282 |     application_id: int,
+283 |     current_user: User = Depends(get_current_user),
+284 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+285 | ):
+286 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:305:26
+    |
+303 | def download_application_resume(
+304 |     application_id: int,
+305 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+306 |     db: Session = Depends(get_db),
+307 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:306:19
+    |
+304 |     application_id: int,
+305 |     current_user: User = Depends(get_current_user),
+306 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+307 | ):
+308 |     """Download an application's resume only as the recruiter who owns its job."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:392:26
+    |
+390 | @router.get("/applications/mine/stats", response_model=ApplicationStatsOut)
+391 | def my_application_stats(
+392 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+393 |     db: Session = Depends(get_db),
+394 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/application.py:393:19
+    |
+391 | def my_application_stats(
+392 |     current_user: User = Depends(get_current_user),
+393 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+394 | ):
+395 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/auth.py:18:73
+   |
+18 | def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(get_db)) -> User:
+   |                                                                         ^^^^^^^^^^^^^^^
+19 |     """Shared dependency other features (resume, jobs, applications) import
+20 |     to protect their own routes — see routers/resume.py for an example."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/auth.py:31:49
+   |
+30 | @router.post("/register", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
+31 | def register(payload: UserCreate, db: Session = Depends(get_db)):
+   |                                                 ^^^^^^^^^^^^^^^
+32 |     email = payload.email.lower()
+33 |     if db.query(User).filter(User.email == email).first():
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/auth.py:51:45
+   |
+50 | @router.post("/login", response_model=TokenResponse)
+51 | def login(payload: UserLogin, db: Session = Depends(get_db)):
+   |                                             ^^^^^^^^^^^^^^^
+52 |     user = db.query(User).filter(User.email == payload.email.lower()).first()
+53 |     if not user or not verify_password(payload.password, user.password_hash):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/auth.py:61:34
+   |
+60 | @router.get("/profile", response_model=UserOut)
+61 | def profile(current_user: User = Depends(get_current_user)):
+   |                                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+62 |     return current_user
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:47:26
+   |
+45 | def create_job(
+46 |     payload: JobIn,
+47 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+48 |     db: Session = Depends(get_db),
+49 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:48:19
+   |
+46 |     payload: JobIn,
+47 |     current_user: User = Depends(get_current_user),
+48 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+49 | ):
+50 |     """POST /api/jobs — create a posting owned by the logged-in recruiter. Starts open."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:63:39
+   |
+61 | # "/jobs/mine" must not be read as a job id.
+62 | @router.get("/jobs/mine", response_model=list[JobOut])
+63 | def list_my_jobs(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+64 |     """GET /api/jobs/mine — every posting the recruiter created, newest first (Task 4.3's list)."""
+65 |     _require_recruiter(current_user)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:63:80
+   |
+61 | # "/jobs/mine" must not be read as a job id.
+62 | @router.get("/jobs/mine", response_model=list[JobOut])
+63 | def list_my_jobs(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                                                                ^^^^^^^^^^^^^^^
+64 |     """GET /api/jobs/mine — every posting the recruiter created, newest first (Task 4.3's list)."""
+65 |     _require_recruiter(current_user)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:75:47
+   |
+74 | @router.get("/jobs/{job_id}", response_model=JobOut)
+75 | def get_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^
+76 |     """
+77 |     GET /api/jobs/{id} : one posting (job details page, or the edit form).
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:75:88
+   |
+74 | @router.get("/jobs/{job_id}", response_model=JobOut)
+75 | def get_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                                                                        ^^^^^^^^^^^^^^^
+76 |     """
+77 |     GET /api/jobs/{id} : one posting (job details page, or the edit form).
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:91:26
+   |
+89 |     job_id: int,
+90 |     payload: JobIn,
+91 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+92 |     db: Session = Depends(get_db),
+93 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job.py:92:19
+   |
+90 |     payload: JobIn,
+91 |     current_user: User = Depends(get_current_user),
+92 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+93 | ):
+94 |     """PUT /api/jobs/{id} — replace the editable fields. Open/closed is changed with close/reopen."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:115:49
+    |
+114 | @router.post("/jobs/{job_id}/close", response_model=JobOut)
+115 | def close_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+116 |     """POST /api/jobs/{id}/close — hide from search and stop new applications; nothing is deleted."""
+117 |     return _set_open(job_id, False, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:115:90
+    |
+114 | @router.post("/jobs/{job_id}/close", response_model=JobOut)
+115 | def close_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                          ^^^^^^^^^^^^^^^
+116 |     """POST /api/jobs/{id}/close — hide from search and stop new applications; nothing is deleted."""
+117 |     return _set_open(job_id, False, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:121:50
+    |
+120 | @router.post("/jobs/{job_id}/reopen", response_model=JobOut)
+121 | def reopen_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+122 |     """POST /api/jobs/{id}/reopen — undo a close."""
+123 |     return _set_open(job_id, True, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:121:91
+    |
+120 | @router.post("/jobs/{job_id}/reopen", response_model=JobOut)
+121 | def reopen_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                           ^^^^^^^^^^^^^^^
+122 |     """POST /api/jobs/{id}/reopen — undo a close."""
+123 |     return _set_open(job_id, True, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:127:50
+    |
+126 | @router.delete("/jobs/{job_id}")
+127 | def delete_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^
+128 |     """DELETE /api/jobs/{id} — permanently remove a posting."""
+129 |     job = _get_owned_job(job_id, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/job.py:127:91
+    |
+126 | @router.delete("/jobs/{job_id}")
+127 | def delete_job(job_id: int, current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                           ^^^^^^^^^^^^^^^
+128 |     """DELETE /api/jobs/{id} — permanently remove a posting."""
+129 |     job = _get_owned_job(job_id, current_user, db)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job_search.py:28:26
+   |
+26 |     job_type: JobType | None = None,
+27 |     work_from: WorkFrom | None = None,
+28 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+29 |     db: Session = Depends(get_db),
+30 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/job_search.py:29:19
+   |
+27 |     work_from: WorkFrom | None = None,
+28 |     current_user: User = Depends(get_current_user),
+29 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+30 | ):
+31 |     """
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:41:26
+   |
+39 |     unread_only: bool = False,
+40 |     limit: int = Query(default=50, ge=1, le=100),
+41 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+42 |     db: Session = Depends(get_db),
+43 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:42:19
+   |
+40 |     limit: int = Query(default=50, ge=1, le=100),
+41 |     current_user: User = Depends(get_current_user),
+42 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+43 | ):
+44 |     query = db.query(Notification).filter(Notification.user_id == current_user.id)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:51:39
+   |
+50 | @router.get("/notifications/unread-count", response_model=UnreadCountOut)
+51 | def unread_count(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+52 |     count = (
+53 |         db.query(Notification)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:51:80
+   |
+50 | @router.get("/notifications/unread-count", response_model=UnreadCountOut)
+51 | def unread_count(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                                                                ^^^^^^^^^^^^^^^
+52 |     count = (
+53 |         db.query(Notification)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:61:40
+   |
+60 | @router.post("/notifications/read-all")
+61 | def mark_all_read(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                        ^^^^^^^^^^^^^^^^^^^^^^^^^
+62 |     updated = (
+63 |         db.query(Notification)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:61:81
+   |
+60 | @router.post("/notifications/read-all")
+61 | def mark_all_read(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+   |                                                                                 ^^^^^^^^^^^^^^^
+62 |     updated = (
+63 |         db.query(Notification)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:74:26
+   |
+72 | def mark_read(
+73 |     notification_id: int,
+74 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+75 |     db: Session = Depends(get_db),
+76 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:75:19
+   |
+73 |     notification_id: int,
+74 |     current_user: User = Depends(get_current_user),
+75 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+76 | ):
+77 |     notification = _get_own_notification(notification_id, current_user, db)
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:87:26
+   |
+85 | def delete_notification(
+86 |     notification_id: int,
+87 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+88 |     db: Session = Depends(get_db),
+89 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/notification.py:88:19
+   |
+86 |     notification_id: int,
+87 |     current_user: User = Depends(get_current_user),
+88 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+89 | ):
+90 |     db.delete(_get_own_notification(notification_id, current_user, db))
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:113:41
+    |
+112 | @router.get("/profile/me", response_model=ProfileOut)
+113 | def get_my_profile(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^
+114 |     """GET /api/profile/me — the logged-in job seeker's profile (created empty on first call)."""
+115 |     _require_job_seeker(current_user)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:113:82
+    |
+112 | @router.get("/profile/me", response_model=ProfileOut)
+113 | def get_my_profile(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                  ^^^^^^^^^^^^^^^
+114 |     """GET /api/profile/me — the logged-in job seeker's profile (created empty on first call)."""
+115 |     _require_job_seeker(current_user)
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:123:26
+    |
+121 | def update_my_profile(
+122 |     payload: ProfileUpdate,
+123 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+124 |     db: Session = Depends(get_db),
+125 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:124:19
+    |
+122 |     payload: ProfileUpdate,
+123 |     current_user: User = Depends(get_current_user),
+124 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+125 | ):
+126 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:195:39
+    |
+194 | @router.get("/profile/photo")
+195 | def get_my_photo(current_user: User = Depends(get_current_user)):
+    |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^
+196 |     """
+197 |     GET /api/profile/photo — the logged-in user's photo bytes.
+    |
+
+B008 Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:218:24
+    |
+216 | @router.put("/profile/photo")
+217 | async def upload_my_photo(
+218 |     file: UploadFile = File(...),
+    |                        ^^^^^^^^^
+219 |     current_user: User = Depends(get_current_user),
+220 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:219:26
+    |
+217 | async def upload_my_photo(
+218 |     file: UploadFile = File(...),
+219 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+220 | ):
+221 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/profile.py:253:42
+    |
+252 | @router.delete("/profile/photo")
+253 | def delete_my_photo(current_user: User = Depends(get_current_user)):
+    |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+254 |     """DELETE /api/profile/photo — remove the photo (the UI falls back to initials)."""
+255 |     path = _find_photo(current_user.id)
+    |
+
+B008 Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/resume.py:80:24
+   |
+78 | @router.post("/resume/upload", response_model=ResumeUploadResponse)
+79 | async def upload_resume(
+80 |     file: UploadFile = File(...),
+   |                        ^^^^^^^^^
+81 |     current_user: User = Depends(get_current_user),
+82 |     db: Session = Depends(get_db),
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/resume.py:81:26
+   |
+79 | async def upload_resume(
+80 |     file: UploadFile = File(...),
+81 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+82 |     db: Session = Depends(get_db),
+83 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/resume.py:82:19
+   |
+80 |     file: UploadFile = File(...),
+81 |     current_user: User = Depends(get_current_user),
+82 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+83 | ):
+84 |     """
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:111:42
+    |
+110 | @router.get("/resume/mine", response_model=list[ResumeOut])
+111 | def list_my_resumes(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+112 |     """
+113 |     Task 3.2 — GET /api/resume/mine: list every resume the logged-in user has uploaded.
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:111:83
+    |
+110 | @router.get("/resume/mine", response_model=list[ResumeOut])
+111 | def list_my_resumes(current_user: User = Depends(get_current_user), db: Session = Depends(get_db)):
+    |                                                                                   ^^^^^^^^^^^^^^^
+112 |     """
+113 |     Task 3.2 — GET /api/resume/mine: list every resume the logged-in user has uploaded.
+    |
+
+B008 Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:146:24
+    |
+144 | async def replace_resume(
+145 |     resume_id: int,
+146 |     file: UploadFile = File(...),
+    |                        ^^^^^^^^^
+147 |     current_user: User = Depends(get_current_user),
+148 |     db: Session = Depends(get_db),
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:147:26
+    |
+145 |     resume_id: int,
+146 |     file: UploadFile = File(...),
+147 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+148 |     db: Session = Depends(get_db),
+149 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:148:19
+    |
+146 |     file: UploadFile = File(...),
+147 |     current_user: User = Depends(get_current_user),
+148 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+149 | ):
+150 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:183:26
+    |
+181 | def set_primary_resume(
+182 |     resume_id: int,
+183 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+184 |     db: Session = Depends(get_db),
+185 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:184:19
+    |
+182 |     resume_id: int,
+183 |     current_user: User = Depends(get_current_user),
+184 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+185 | ):
+186 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:207:26
+    |
+205 | def download_resume(
+206 |     resume_id: int,
+207 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+208 |     db: Session = Depends(get_db),
+209 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:208:19
+    |
+206 |     resume_id: int,
+207 |     current_user: User = Depends(get_current_user),
+208 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+209 | ):
+210 |     """
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:242:26
+    |
+240 | def delete_resume(
+241 |     resume_id: int,
+242 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+243 |     db: Session = Depends(get_db),
+244 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume.py:243:19
+    |
+241 |     resume_id: int,
+242 |     current_user: User = Depends(get_current_user),
+243 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+244 | ):
+245 |     """Task 3.2 — DELETE /api/resume/{id}: remove one of the logged-in user's resumes."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/resume_feedback.py:60:26
+   |
+58 |     resume_id: int,
+59 |     body: FeedbackRequest | None = None,
+60 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+61 |     db: Session = Depends(get_db),
+62 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/resume_feedback.py:61:19
+   |
+59 |     body: FeedbackRequest | None = None,
+60 |     current_user: User = Depends(get_current_user),
+61 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+62 | ):
+63 |     """
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume_feedback.py:115:26
+    |
+113 | def get_latest_feedback(
+114 |     resume_id: int,
+115 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+116 |     db: Session = Depends(get_db),
+117 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/resume_feedback.py:116:19
+    |
+114 |     resume_id: int,
+115 |     current_user: User = Depends(get_current_user),
+116 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+117 | ):
+118 |     """The most recent saved feedback for this resume. Never calls the AI."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/study_partner.py:59:26
+   |
+57 | def get_chat(
+58 |     job_id: int,
+59 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+60 |     db: Session = Depends(get_db),
+61 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/study_partner.py:60:19
+   |
+58 |     job_id: int,
+59 |     current_user: User = Depends(get_current_user),
+60 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+61 | ):
+62 |     """The conversation so far. A chat that hasn't started returns no messages."""
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/study_partner.py:79:26
+   |
+77 |     job_id: int,
+78 |     body: StudyMessageIn,
+79 |     current_user: User = Depends(get_current_user),
+   |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+80 |     db: Session = Depends(get_db),
+81 | ):
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+  --> routers/study_partner.py:80:19
+   |
+78 |     body: StudyMessageIn,
+79 |     current_user: User = Depends(get_current_user),
+80 |     db: Session = Depends(get_db),
+   |                   ^^^^^^^^^^^^^^^
+81 | ):
+82 |     """
+   |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/study_partner.py:122:26
+    |
+120 | def delete_chat(
+121 |     job_id: int,
+122 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+123 |     db: Session = Depends(get_db),
+124 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/study_partner.py:123:19
+    |
+121 |     job_id: int,
+122 |     current_user: User = Depends(get_current_user),
+123 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+124 | ):
+125 |     """Deletes the conversation so the user can start over. Fine if there was none."""
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/study_partner.py:138:26
+    |
+136 | def get_certifications(
+137 |     job_id: int,
+138 |     current_user: User = Depends(get_current_user),
+    |                          ^^^^^^^^^^^^^^^^^^^^^^^^^
+139 |     db: Session = Depends(get_db),
+140 | ):
+    |
+
+B008 Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable
+   --> routers/study_partner.py:139:19
+    |
+137 |     job_id: int,
+138 |     current_user: User = Depends(get_current_user),
+139 |     db: Session = Depends(get_db),
+    |                   ^^^^^^^^^^^^^^^
+140 | ):
+141 |     """
+    |
+
+B904 Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling
+  --> scripts/compare_feedback.py:68:13
+   |
+66 |             resume_text = extract_text(resume.filepath)
+67 |         except (ResumeParseError, FileNotFoundError) as exc:
+68 |             raise SystemExit(f"Can't read resume {resume.id}: {exc}")
+   |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+69 |
+70 |         print(f"Resume {resume.id} ({resume.filename}): {len(resume_text)} characters of text")
+   |
+
+Found 124 errors.
+1 unsafe fix available with `--fix --unsafe-fixes`.
