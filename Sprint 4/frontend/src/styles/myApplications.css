@@ -1,0 +1,310 @@
+/* =========================================================================
+   "My Applications" tab (src/components/tabs/MyApplicationsTab.tsx).
+   Uses the dashboard's theme variables, so it works in light and dark mode.
+   ========================================================================= */
+
+.cc-app-section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-app-section-head .cc-section-title {
+  margin: 0;
+}
+
+.cc-apps-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Same card look as the job listings, so the two tabs feel related. */
+.cc-app-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  background: var(--cc-soft);
+}
+
+.cc-app-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.cc-app-title {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.cc-app-meta {
+  margin: 0;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+/* Status badge: neutral pill + a colored dot. The text carries the meaning;
+   the dot only adds a quick visual cue. */
+.cc-app-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: var(--cc-paper);
+  color: var(--cc-ink);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.cc-app-status::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cc-status-dot, var(--cc-muted));
+}
+
+.cc-app-toggle {
+  align-self: flex-start;
+  margin-top: 4px;
+  padding: 6px 12px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cc-accent);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cc-app-toggle:hover {
+  border-color: var(--cc-accent);
+}
+
+.cc-app-toggle:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+/* Timeline of status changes */
+.cc-app-history {
+  margin-top: 8px;
+  padding-top: 12px;
+  border-top: 1px solid var(--cc-line);
+}
+
+.cc-app-history-title {
+  margin: 0 0 8px;
+  font-size: 14px;
+}
+
+.cc-app-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.cc-app-history-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--cc-line);
+  font-size: 13px;
+}
+
+.cc-app-history-item:last-child {
+  border-bottom: none;
+}
+
+/* Status colours as a custom property, so the badge dot and the summary
+   tiles share one source. Replaces the five .cc-app-status.is-* rules. */
+:is(.cc-app-status, .cc-app-summary-tile).is-applied { --cc-status-dot: #3d49cc; }
+:is(.cc-app-status, .cc-app-summary-tile).is-under-review { --cc-status-dot: #d08a12; }
+:is(.cc-app-status, .cc-app-summary-tile).is-interview { --cc-status-dot: #7b4fd0; }
+:is(.cc-app-status, .cc-app-summary-tile).is-offered { --cc-status-dot: #23834e; }
+:is(.cc-app-status, .cc-app-summary-tile).is-rejected { --cc-status-dot: #c43d3d; }
+
+/* ---- Status summary tiles ---- */
+.cc-app-summary {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* As many 120px+ columns as fit; wraps on narrow screens. */
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 12px;
+}
+
+.cc-app-summary-tile {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 12px 14px;
+  border: 1px solid var(--cc-line);
+  border-radius: 16px;
+  background: var(--cc-soft);
+  color: var(--cc-ink);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cc-app-summary-tile:hover {
+  border-color: var(--cc-accent);
+}
+
+/* Active filter: thicker accent border (box-shadow avoids a layout shift). */
+.cc-app-summary-tile[aria-pressed="true"] {
+  border-color: var(--cc-accent);
+  box-shadow: inset 0 0 0 1px var(--cc-accent);
+}
+
+.cc-app-summary-tile:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-app-summary-count {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.cc-app-summary-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+.cc-app-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cc-status-dot, var(--cc-muted));
+}
+
+/* ---- Weekly / monthly activity ---- */
+.cc-app-range {
+  display: inline-flex;
+  padding: 2px;
+  border: 1px solid var(--cc-line);
+  border-radius: 999px;
+}
+
+.cc-app-range-btn {
+  padding: 4px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--cc-muted);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.cc-app-range-btn[aria-pressed="true"] {
+  background: var(--cc-accent);
+  color: var(--cc-accent-ink);
+}
+
+.cc-app-range-btn:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 2px;
+}
+
+.cc-app-chart {
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+}
+
+/* Equal-width columns: value on top, bar in the middle, label below. */
+.cc-app-chart-col {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cc-app-chart-value {
+  min-height: 1.2em;
+  line-height: 1.2em;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Fixed-height track so the bar's % height has something to be a % of. */
+.cc-app-chart-track {
+  width: 100%;
+  height: 120px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  border-bottom: 1px solid var(--cc-line);
+}
+
+.cc-app-chart-bar {
+  width: min(100%, 28px);
+  min-height: 2px;
+  border-radius: 6px 6px 0 0;
+  background: var(--cc-accent);
+}
+
+.cc-app-chart-bar.is-empty {
+  background: var(--cc-line);
+}
+
+.cc-app-chart-label {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--cc-muted);
+  font-size: 11px;
+}
+
+/* ---- Filter / sort toolbar ---- */
+.cc-app-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.cc-app-control {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 180px;
+  color: var(--cc-muted);
+  font-size: 13px;
+}
+
+.cc-app-empty {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

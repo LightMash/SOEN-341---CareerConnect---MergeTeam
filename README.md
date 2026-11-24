@@ -33,13 +33,13 @@ CareerConnect is a full-stack web application that brings a job seeker's entire 
 
 2. Run the setup script (one-time, or after pulling changes to requirements.txt/package.json):
 ```bash
-   cd "Sprint 3"
+   cd "Sprint 4"
    ./setup.sh
 ```
 3. Fill in `backend/.env` with the shared Supabase `DATABASE_URL` if setup.sh flagged it as missing.
 4. Run both servers:
 ```bash
-    cd "Sprint 3"
+    cd "Sprint 4"
    ./run.sh
 ```
 4. Once both servers are running, open the URL Vite prints in the terminal (usually `http://localhost:5173`).
