@@ -1,0 +1,24 @@
+line-length = 120
+extend-exclude = ["venv", "__pycache__"]
+
+[lint]
+# E/F errors+pyflakes, B likely bugs, S security, SIM simplifications,
+# C90 complexity, UP outdated syntax
+select = ["E", "F", "B", "S", "SIM", "C90", "UP"]
+
+# FastAPI's dependency-injection idiom puts Depends()/Query()/... in argument
+# defaults, which flake8-bugbear (B008) otherwise reports as a bug.
+[lint.flake8-bugbear]
+extend-immutable-calls = [
+    "fastapi.Depends", "fastapi.Query", "fastapi.Path", "fastapi.Body",
+    "fastapi.Header", "fastapi.Cookie", "fastapi.File", "fastapi.Form",
+]
+
+[lint.per-file-ignores]
+# load_dotenv() must run before the imports below it so database.py can read .env.
+"app.py" = ["E402"]
+# Local demo-data seeding script: fixed demo password and a sanity-check assert.
+"matching/demo_data.py" = ["S101", "S105"]
+# Tests: assert, fixed test passwords and fake temp paths are expected, and long
+# lines in test data/requests are more readable unwrapped.
+"tests/*" = ["S101", "S105", "S106", "S108", "E501"]

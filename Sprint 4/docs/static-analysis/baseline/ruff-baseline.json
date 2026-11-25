@@ -1,0 +1,2374 @@
+[
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 28,
+      "row": 12
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 12
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 12,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 51,
+      "row": 13
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 13
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 13,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 34,
+      "row": 15
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 15
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 15,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 47,
+      "row": 16
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 16
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 16,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 51,
+      "row": 17
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 17
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 53,
+      "row": 18
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 18
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 18,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 45,
+      "row": 19
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 19
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 19,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 61,
+      "row": 20
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 20
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 20,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 59,
+      "row": 21
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 21
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 21,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 54,
+      "row": 22
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 22
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 22,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 63,
+      "row": 23
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 23
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 23,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 69,
+      "row": 24
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 24
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 24,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E402",
+    "end_location": {
+      "column": 65,
+      "row": 25
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/app.py",
+    "fix": null,
+    "location": {
+      "column": 1,
+      "row": 25
+    },
+    "message": "Module level import not at top of file",
+    "name": "module-import-not-at-top-of-file",
+    "noqa_row": 25,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/module-import-not-at-top-of-file"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 127,
+      "row": 6
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/demo_data.py",
+    "fix": null,
+    "location": {
+      "column": 121,
+      "row": 6
+    },
+    "message": "Line too long (126 > 120)",
+    "name": "line-too-long",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 135,
+      "row": 7
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/demo_data.py",
+    "fix": null,
+    "location": {
+      "column": 121,
+      "row": 7
+    },
+    "message": "Line too long (134 > 120)",
+    "name": "line-too-long",
+    "noqa_row": 17,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "S105",
+    "end_location": {
+      "column": 30,
+      "row": 24
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/demo_data.py",
+    "fix": null,
+    "location": {
+      "column": 17,
+      "row": 24
+    },
+    "message": "Possible hardcoded password assigned to: \"DEMO_PASSWORD\"",
+    "name": "hardcoded-password-string",
+    "noqa_row": 24,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/hardcoded-password-string"
+  },
+  {
+    "cell": null,
+    "code": "S101",
+    "end_location": {
+      "column": 19,
+      "row": 168
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/demo_data.py",
+    "fix": null,
+    "location": {
+      "column": 13,
+      "row": 168
+    },
+    "message": "Use of `assert` detected",
+    "name": "assert",
+    "noqa_row": 168,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/assert"
+  },
+  {
+    "cell": null,
+    "code": "E501",
+    "end_location": {
+      "column": 125,
+      "row": 5
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/migrate.py",
+    "fix": null,
+    "location": {
+      "column": 121,
+      "row": 5
+    },
+    "message": "Line too long (124 > 120)",
+    "name": "line-too-long",
+    "noqa_row": 13,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/line-too-long"
+  },
+  {
+    "cell": null,
+    "code": "C901",
+    "end_location": {
+      "column": 9,
+      "row": 252
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/resume_scan.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 252
+    },
+    "message": "`scan` is too complex (14 > 10)",
+    "name": "complex-structure",
+    "noqa_row": 252,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/complex-structure"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 185
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 185
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 185,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 186
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 186
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 186,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 195
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 195
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 195,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 196
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 196
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 196,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 73,
+      "row": 251
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 48,
+      "row": 251
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 251,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 104,
+      "row": 251
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 89,
+      "row": 251
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 251,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 259
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 259
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 259,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 260
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 260
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 260,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 283
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 283
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 283,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 284
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 284
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 284,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 67,
+      "row": 307
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 42,
+      "row": 307
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 307,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 41,
+      "row": 328
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 31,
+      "row": 328
+    },
+    "message": "Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 328,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 330
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 330
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 330,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 331
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 331
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 331,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 384
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 384
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 384,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 385
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 385
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 385,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 395
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 395
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 395,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 396
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 396
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 396,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 70,
+      "row": 426
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 30,
+      "row": 426
+    },
+    "message": "Do not perform function call `Body` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 426,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 427
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 427
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 427,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 428
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 428
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 428,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 461
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 461
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 461,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 462
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/router.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 462
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 462,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "SIM103",
+    "end_location": {
+      "column": 17,
+      "row": 81
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/rules.py",
+    "fix": {
+      "applicability": "unsafe",
+      "edits": [
+        {
+          "content": "return bool(have.category == need.category and have.rank is not None and need.rank is not None and have.rank >= need.rank and (need.field is None or have.field == need.field))",
+          "end_location": {
+            "column": 17,
+            "row": 81
+          },
+          "location": {
+            "column": 5,
+            "row": 73
+          }
+        }
+      ],
+      "message": "Inline condition"
+    },
+    "location": {
+      "column": 5,
+      "row": 73
+    },
+    "message": "Return the condition directly",
+    "name": "needless-bool",
+    "noqa_row": 73,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/needless-bool"
+  },
+  {
+    "cell": null,
+    "code": "C901",
+    "end_location": {
+      "column": 21,
+      "row": 84
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/matching/standing.py",
+    "fix": null,
+    "location": {
+      "column": 5,
+      "row": 84
+    },
+    "message": "`compute_standing` is too complex (12 > 10)",
+    "name": "complex-structure",
+    "noqa_row": 84,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/complex-structure"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 128
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 128
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 128,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 129
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 129
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 129,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B904",
+    "end_location": {
+      "column": 71,
+      "row": 173
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 9,
+      "row": 173
+    },
+    "message": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+    "name": "raise-without-from-inside-except",
+    "noqa_row": 173,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/raise-without-from-inside-except"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 184
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 184
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 184,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 185
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 185
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 185,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 207
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 207
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 207,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 208
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 208
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 208,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 242
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 242
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 242,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 243
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 243
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 243,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 283
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 283
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 283,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 284
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 284
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 284,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 305
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 305
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 305,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 306
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 306
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 306,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 392
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 392
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 392,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 393
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/application.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 393
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 393,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 88,
+      "row": 18
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/auth.py",
+    "fix": null,
+    "location": {
+      "column": 73,
+      "row": 18
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 18,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 64,
+      "row": 31
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/auth.py",
+    "fix": null,
+    "location": {
+      "column": 49,
+      "row": 31
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 31,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 60,
+      "row": 51
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/auth.py",
+    "fix": null,
+    "location": {
+      "column": 45,
+      "row": 51
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 51,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 59,
+      "row": 61
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/auth.py",
+    "fix": null,
+    "location": {
+      "column": 34,
+      "row": 61
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 47
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 47
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 47,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 48
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 48
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 48,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 64,
+      "row": 63
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 39,
+      "row": 63
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 63,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 95,
+      "row": 63
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 80,
+      "row": 63
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 63,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 72,
+      "row": 75
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 47,
+      "row": 75
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 75,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 103,
+      "row": 75
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 88,
+      "row": 75
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 75,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 91
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 91
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 91,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 92
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 92
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 92,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 74,
+      "row": 115
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 49,
+      "row": 115
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 115,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 105,
+      "row": 115
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 90,
+      "row": 115
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 115,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 75,
+      "row": 121
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 50,
+      "row": 121
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 121,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 106,
+      "row": 121
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 91,
+      "row": 121
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 121,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 75,
+      "row": 127
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 50,
+      "row": 127
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 127,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 106,
+      "row": 127
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job.py",
+    "fix": null,
+    "location": {
+      "column": 91,
+      "row": 127
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 127,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 28
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job_search.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 28
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 28,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 29
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/job_search.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 29
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 29,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 41
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 41
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 41,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 42
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 42
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 42,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 64,
+      "row": 51
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 39,
+      "row": 51
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 51,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 95,
+      "row": 51
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 80,
+      "row": 51
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 51,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 65,
+      "row": 61
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 40,
+      "row": 61
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 96,
+      "row": 61
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 81,
+      "row": 61
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 74
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 74
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 74,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 75
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 75
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 75,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 87
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 87
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 87,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 88
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/notification.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 88
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 88,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 66,
+      "row": 113
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 41,
+      "row": 113
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 113,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 97,
+      "row": 113
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 82,
+      "row": 113
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 113,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 123
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 123
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 123,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 124
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 124
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 124,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 64,
+      "row": 195
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 39,
+      "row": 195
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 195,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 33,
+      "row": 218
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 24,
+      "row": 218
+    },
+    "message": "Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 218,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 219
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 219
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 219,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 67,
+      "row": 253
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/profile.py",
+    "fix": null,
+    "location": {
+      "column": 42,
+      "row": 253
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 253,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 33,
+      "row": 80
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 24,
+      "row": 80
+    },
+    "message": "Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 80,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 81
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 81
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 81,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 82
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 82
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 82,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 67,
+      "row": 111
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 42,
+      "row": 111
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 111,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 98,
+      "row": 111
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 83,
+      "row": 111
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 111,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 33,
+      "row": 146
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 24,
+      "row": 146
+    },
+    "message": "Do not perform function call `File` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 146,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 147
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 147
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 147,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 148
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 148
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 148,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 183
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 183
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 183,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 184
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 184
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 184,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 207
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 207
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 207,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 208
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 208
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 208,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 242
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 242
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 242,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 243
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 243
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 243,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 60
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume_feedback.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 60
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 60,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 61
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume_feedback.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 61
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 61,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 115
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume_feedback.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 115
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 115,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 116
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/resume_feedback.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 116
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 116,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 59
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 59
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 59,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 60
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 60
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 60,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 79
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 79
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 79,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 80
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 80
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 80,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 122
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 122
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 122,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 123
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 123
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 123,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 51,
+      "row": 138
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 26,
+      "row": 138
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 138,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B008",
+    "end_location": {
+      "column": 34,
+      "row": 139
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/routers/study_partner.py",
+    "fix": null,
+    "location": {
+      "column": 19,
+      "row": 139
+    },
+    "message": "Do not perform function call `Depends` in argument defaults; instead, perform the call within the function, or read the default from a module-level singleton variable",
+    "name": "function-call-in-default-argument",
+    "noqa_row": 139,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/function-call-in-default-argument"
+  },
+  {
+    "cell": null,
+    "code": "B904",
+    "end_location": {
+      "column": 70,
+      "row": 68
+    },
+    "filename": "/Users/mamadoucamara/SOEN-341---CareerConnect---MergeTeam/Sprint 4/backend/scripts/compare_feedback.py",
+    "fix": null,
+    "location": {
+      "column": 13,
+      "row": 68
+    },
+    "message": "Within an `except` clause, raise exceptions with `raise ... from err` or `raise ... from None` to distinguish them from errors in exception handling",
+    "name": "raise-without-from-inside-except",
+    "noqa_row": 68,
+    "severity": "error",
+    "url": "https://docs.astral.sh/ruff/rules/raise-without-from-inside-except"
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "B008": "False positive: Depends() in argument defaults is the standard FastAPI pattern. Silenced in ruff.toml (extend-immutable-calls).",
+  "E402@backend/app.py": "Intentional: load_dotenv() must run before the imports so database.py can read .env. Ignored for app.py in ruff.toml.",
+  "S105@backend/matching/demo_data.py": "Not a real secret: fixed password for local demo seed data. Ignored for this file in ruff.toml.",
+  "S101@backend/matching/demo_data.py": "Sanity-check assert in a local demo seeding script, not production request handling. Ignored for this file in ruff.toml."
+}
