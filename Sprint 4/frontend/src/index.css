@@ -51,8 +51,11 @@
   filter: invert(1) brightness(2);
 }
 
+html,
 body {
   margin: 0;
+  overscroll-behavior: none;   /* stop the bounce past the top/bottom */
+  background-color: var(--bg); /* match the theme if any edge still shows */
 }
 
 #root {
